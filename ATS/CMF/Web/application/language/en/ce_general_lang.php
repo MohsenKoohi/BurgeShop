@@ -24,6 +24,7 @@ $lang['total_results']="Total";
 $lang['to']="to";
 $lang['not_found']="Not found";
 $lang['language']="Language";
-$lang['']="";
-$lang['']="";
-$lang['']="";
+
+//BurgeShop
+$lang['price']="Price";
+$lang['currency']="Rial";
