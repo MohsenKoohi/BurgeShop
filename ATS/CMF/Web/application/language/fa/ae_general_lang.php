@@ -1,7 +1,7 @@
 <?php 
 
-$lang['main_name']="سیستم پیگیری امور برگه";
-$lang['slogan']="سیستم پیگیری امور برگه";
+$lang['main_name']="فروشگاه برگه";
+$lang['slogan']="فروشگاه برگه";
 
 $lang['header_separator']=" | ";
 $lang['comma']="،";

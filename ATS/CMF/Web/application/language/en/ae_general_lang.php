@@ -1,7 +1,7 @@
 <?php 
 
-$lang['main_name']="BurgeATS";
-$lang['slogan']="BurgeATS";
+$lang['main_name']="BurgeShop";
+$lang['slogan']="BurgeShop";
 
 $lang['header_separator']=" | ";
 $lang['comma']=",";
