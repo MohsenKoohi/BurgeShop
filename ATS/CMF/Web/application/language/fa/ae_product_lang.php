@@ -41,4 +41,4 @@ $lang['start_date']="زمان شروع";
 $lang['end_date']="زمان پایان";
 
 $lang['customer_link']="صفحه مشتری";
-$lang['']="";
+$lang['price']="قیمت";

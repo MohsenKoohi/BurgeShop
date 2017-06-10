@@ -119,18 +119,25 @@ class AE_Product extends Burge_CMF_Controller {
 		$this->data['langs']=$this->language->get_languages();
 
 		$this->data['product_contents']=array();
+		$product_title="";
 		foreach($this->data['langs'] as $lang => $val)
 			foreach($product_info as $pi)
+			{
+				if($pi['pc_lang_id'] === $this->selected_lang)
+					$product_title=$pi['pc_title'];
+
 				if($pi['pc_lang_id'] === $lang)
 				{
 					$this->data['product_contents'][$lang]=$pi;
 					break;
 				}
+			}
 
 		if($product_info)
 		{
 			$this->data['product_info']=array(
 				"product_date"=>str_replace("-","/",$product_info[0]['product_date'])
+				,"product_price"=>$product_info[0]['product_price']
 				,"product_allow_comment"=>$product_info[0]['product_allow_comment']
 				,"product_active"=>$product_info[0]['product_active']
 				,"user_name"=>$product_info[0]['user_name']
@@ -138,7 +145,7 @@ class AE_Product extends Burge_CMF_Controller {
 				,"categories"=>$product_info[0]['categories']
 				,"product_title"=>$this->data['product_contents'][$this->selected_lang]['pc_title']
 			);
-			$this->data['customer_link']=get_customer_product_details_link($product_id,"",$product_info[0]['product_date']);
+			$this->data['customer_link']=get_customer_product_details_link($product_id,$product_title);
 		}
 		else
 		{
@@ -186,6 +193,7 @@ class AE_Product extends Burge_CMF_Controller {
 		if( DATE_FUNCTION === 'jdate')
 			validate_persian_date_time($product_props['product_date']);
 		
+		$product_props['product_price']=(double)$this->input->post('product_price');
 		$product_props['product_active']=(int)($this->input->post('product_active') === "on");
 		$product_props['product_allow_comment']=(int)($this->input->post('product_allow_comment') === "on");
 		

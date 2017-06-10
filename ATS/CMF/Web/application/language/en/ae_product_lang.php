@@ -42,4 +42,4 @@ $lang['start_date']="Start Time";
 $lang['end_date']="End Time";
 
 $lang['customer_link']="Customer Link";
-$lang['']="";
+$lang['price']="Price";

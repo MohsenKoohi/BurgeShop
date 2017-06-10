@@ -48,6 +48,14 @@
 					</div>
 					<div class="row even-odd-bg" >
 						<div class="three columns">
+							<span>{price_text} ({currency_text})</span>
+						</div>
+						<div class="six columns">
+							<input type="text" class="full-width ltr" name="product_price" value="<?php echo $product_info['product_price'];?>" />
+						</div>
+					</div>
+					<div class="row even-odd-bg" >
+						<div class="three columns">
 							<span>{creator_user_text}</span>
 						</div>
 						<div class="six columns">
