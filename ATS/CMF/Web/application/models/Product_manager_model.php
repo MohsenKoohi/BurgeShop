@@ -112,7 +112,7 @@ class Product_manager_model extends CI_Model
 		$new_product_id=$this->db->insert_id();
 		$props['product_id']=$new_product_id;
 
-		$this->log_manager_model->info("product_ADD",$props);	
+		$this->log_manager_model->info("PRODUCT_ADD",$props);	
 
 		$product_contents=array();
 		foreach($this->language->get_languages() as $index=>$lang)
@@ -176,12 +176,6 @@ class Product_manager_model extends CI_Model
 				"product_active"=>$filter['active']
 				,"pc_active"=>$filter['active']
 			));
-
-		if(isset($filter['product_date_le']))
-			$this->db->where("product_date <=",str_replace("/","-",$filter['product_date_le']));
-
-		if(isset($filter['product_date_ge']))
-			$this->db->where("product_date >=",str_replace("/","-",$filter['product_date_ge']));
 
 		if(isset($filter['order_by']))
 		{
@@ -303,7 +297,7 @@ class Product_manager_model extends CI_Model
 				->update($this->product_content_table_name);
 		}
 		
-		$this->log_manager_model->info("product_CHANGE",$props);	
+		$this->log_manager_model->info("PRODUCT_CHANGE",$props);	
 
 		return;
 	}
@@ -354,7 +348,7 @@ class Product_manager_model extends CI_Model
 			->where("pcat_product_id",$product_id)
 			->delete($this->product_category_table_name);
 		
-		$this->log_manager_model->info("product_DELETE",$props);	
+		$this->log_manager_model->info("PRODUCT_DELETE",$props);	
 
 		return;
 

@@ -96,6 +96,9 @@ class Log_manager_model extends CI_Model
 		,"MESSAGE_SET_PROPS"				=>1135
 		,"MESSAGE_SET_PARTICIPANTS"	=>1136
 
+		,"PRODUCT_ADD"					=>161
+		,"PRODUCT_CHANGE"				=>162
+		,"PRODUCT_DELETE"				=>163
 	);
 
 	public function __construct()

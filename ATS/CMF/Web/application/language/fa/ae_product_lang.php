@@ -1,10 +1,10 @@
 <?php 
 
-$lang['posts']="محصولات";
-$lang['add_post']="محصول جدید";
+$lang['products']="محصولات";
+$lang['add_product']="محصول جدید";
 $lang['no_title']="بدون عنوان";
 
-$lang['post_details']="مشخصات محصول";
+$lang['product_details']="مشخصات محصول";
 $lang['not_found']="محصول موردنظر پیدا نشد.";
 $lang['allow_comment']="امکان ثبت دیدگاه";
 $lang['active']="فعال";
@@ -20,9 +20,9 @@ $lang['root']="ریشه";
 $lang['image']="تصویر";
 $lang['delete_image']="حذف تصویر";
 
-$lang['delete_post']="حذف";
-$lang['are_you_sure_to_delete_this_post']="آیا از حذف این محصول مطمئن هستید؟";
-$lang['post_deleted_successfully']="محصول موردنظر حذف شد.";
+$lang['delete_product']="حذف";
+$lang['are_you_sure_to_delete_this_product']="آیا از حذف این محصول مطمئن هستید؟";
+$lang['product_deleted_successfully']="محصول موردنظر حذف شد.";
 
 $lang['gallery']="گالری";
 $lang['add_image']="افزودن تصویر";

@@ -123,7 +123,7 @@ function get_product_gallery_image_path($img)
 
 function get_product_gallery_image_url($img)
 {
-	return PRODUCT_GALLERY_DIR."/".$img;
+	return PRODUCT_GALLERY_URL."/".$img;
 }
 
 function get_message_thread_attachment_url($message_id,$thread_id,$filename)
