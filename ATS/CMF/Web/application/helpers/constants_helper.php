@@ -97,3 +97,7 @@ define ('MESSAGE_ATTACHMENT_URL', UPLOAD_URL."/message");
 
 //settings for BurgeATS
 define ('CUSTOMER_SESSION_EXPIRATION',60*60*3);
+
+//settings for BurgeShop
+define ('PRODUCT_GALLERY_DIR', IMAGES_DIR."/product");
+define ('PRODUCT_GALLERY_URL', IMAGES_URL."/product");

@@ -18,7 +18,15 @@ class AE_Setup extends CI_Controller {
 	{
 		file_put_contents(IMAGES_DIR."/.htaccess", " Options -Indexes ");
 		
-		$dirs=array(LOG_DIR, CAPTCHA_DIR, POST_GALLERY_DIR, UPLOAD_DIR,CATEGORY_CACHE_DIR,MESSAGE_ATTACHMENT_DIR);
+		$dirs=array(
+			LOG_DIR
+			, CAPTCHA_DIR
+			, POST_GALLERY_DIR
+			, UPLOAD_DIR
+			, CATEGORY_CACHE_DIR
+			, MESSAGE_ATTACHMENT_DIR
+			, PRODUCT_GALLERY_DIR
+		);
 		$result=TRUE;
 
 		foreach($dirs as $dir)
@@ -104,6 +112,8 @@ class AE_Setup extends CI_Controller {
 		$this->module_manager_model->install_module("task_exec_manager");
 
 		$this->module_manager_model->install_module("message_manager");
+
+		$this->module_manager_model->install_module("product_manager");
 
 		$default_lang=array_keys(LANGUAGES())[0];
 		$modules_info=$this->module_manager_model->get_all_modules_info($default_lang);

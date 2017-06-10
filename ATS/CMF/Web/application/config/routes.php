@@ -114,6 +114,12 @@ $route['message']																= "CE_Message/message";
 $route['message/(\d+)']														= "CE_Message/details/$1";
 $route['message/send/(\d+)']												= "CE_Message/c2c/$1";
 
+$route[ADMIN_URL_FOLDER."/product"]					="AE_Product";
+$route[ADMIN_URL_FOLDER."/product/(\d+)"]			="AE_Product/details/$1";
+$route["product-(\d+)/?"]								="CE_Product/index/$1";
+$route["product-(\d+)/([^\/]*)/?"]					="CE_Product/index/$1/$2";
+
+
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
 /* End of file routes.php */
