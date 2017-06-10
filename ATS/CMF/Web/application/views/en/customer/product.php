@@ -19,7 +19,7 @@
 		<h1><?php echo $product_info['pc_title'];?></h1>			
 		<div class="post-date"><?php echo str_replace("-","/",$product_info['product_date']);?></div>
 
-		<h2>{price_text}: <?php echo $product_info['product_price'];?> {currency_text}</h2>
+		<h4>{price_text}: <?php echo $product_info['product_price'];?> {currency_text}</h4>
 		<br>
 		<div class="row">
 			<?php if($product_info['pc_image']) { ?>
