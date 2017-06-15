@@ -92,8 +92,8 @@ function &get_links($just_common=FALSE)
 			,'admin_product_details_format'				=> ADMIN_SURL_LANG."/product/product_id"
 			,'customer_product_details_format'			=> HOME_URL_LANG."/product-product_id/product_name"
 
-			,'admin_product_category'								=> ADMIN_SURL_LANG."/pcategory"
-			,'admin_product_category_details_format'			=> ADMIN_SURL_LANG."/pcategory/category_id"
+			,'admin_product_category'								=> ADMIN_SURL_LANG."/product_category"
+			,'admin_product_category_details_format'			=> ADMIN_SURL_LANG."/product_category/category_id"
 			,'customer_product_category_details_format'		=> HOME_URL_LANG."/pcategory-category_id/category_hash/category_name/category_page"
 
 		));
