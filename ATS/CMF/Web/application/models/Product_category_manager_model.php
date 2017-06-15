@@ -362,18 +362,18 @@ class Product_category_manager_model extends CI_Model
 		$this->db
 			->set("pc_parent_id",$parent_id)
 			->where("pc_parent_id",$category_id)
-			->update($this->category_table_name);
+			->update($this->product_category_table_name);
 
 		$this->db
 			->where("pc_id",$category_id)
-			->delete($this->category_table_name);
+			->delete($this->product_category_table_name);
 
 		$this->db
 			->where("pcd_category_id",$category_id)
-			->delete($this->category_description_table_name);
+			->delete($this->product_category_description_table_name);
 
 		$this->load->model("product_manager_model");
-		$this->post_manager_model->change_category($category_id,$parent_id);
+		$this->product_manager_model->change_category($category_id,$parent_id);
 
 		$this->log_manager_model->info("PROUCT_CATEGORY_DELETE",array("pc_id"=>$category_id));	
 

@@ -309,7 +309,7 @@
 				</form>
 
 				<div style="display:none">
-					<?php echo form_open(get_admin_category_details_link($category_id),array("id"=>"delete")); ?>
+					<?php echo form_open(get_admin_product_category_details_link($category_id),array("id"=>"delete")); ?>
 						<input type="hidden" name="post_type" value="delete_category"/>
 						<input type="hidden" name="post_id" value="{category_id}"/>
 					</form>
