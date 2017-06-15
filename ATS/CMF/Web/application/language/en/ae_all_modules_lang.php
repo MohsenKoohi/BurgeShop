@@ -22,3 +22,4 @@ $lang['message']="Messages";
 $lang['message_access']="Access Levels of Messages";
 
 $lang['product']='Products';
+$lang['product_category']='Products Category';

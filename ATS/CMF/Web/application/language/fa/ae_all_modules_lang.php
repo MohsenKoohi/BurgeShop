@@ -22,3 +22,4 @@ $lang['message']="پیام‌ها";
 $lang['message_access']="سطح دسترسی پیام‌ها";
 
 $lang['product']='محصولات';
+$lang['product_category']='دسته‌های محصولات';

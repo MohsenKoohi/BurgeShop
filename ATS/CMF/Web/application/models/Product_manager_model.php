@@ -3,7 +3,7 @@ class Product_manager_model extends CI_Model
 {
 	private $product_table_name="product";
 	private $product_content_table_name="product_content";
-	private $product_category_table_name="product_category";
+	private $product_to_category_table_name="product_to_category";
 	private $product_writable_props=array(
 		"product_price","product_date","product_active","product_allow_comment"
 	);
@@ -50,7 +50,7 @@ class Product_manager_model extends CI_Model
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 
-		$product_category_table=$this->db->dbprefix($this->product_category_table_name); 
+		$product_category_table=$this->db->dbprefix($this->product_to_category_table_name); 
 		$this->db->query(
 			"CREATE TABLE IF NOT EXISTS $product_category_table (
 				`pcat_product_id` INT  NOT NULL
@@ -129,7 +129,7 @@ class Product_manager_model extends CI_Model
 	{
 		$this->db->from($this->product_table_name);
 		$this->db->join($this->product_content_table_name,"product_id = pc_product_id","left");
-		$this->db->join($this->product_category_table_name,"product_id = pcat_product_id","left");
+		$this->db->join($this->product_to_category_table_name,"product_id = pcat_product_id","left");
 		
 		$this->set_product_query_filter($filter);
 
@@ -147,7 +147,7 @@ class Product_manager_model extends CI_Model
 		$this->db->select("COUNT( DISTINCT product_id ) as count");
 		$this->db->from($this->product_table_name);
 		$this->db->join($this->product_content_table_name,"product_id = pc_product_id","left");
-		$this->db->join($this->product_category_table_name,"product_id = pcat_product_id","left");
+		$this->db->join($this->product_to_category_table_name,"product_id = pcat_product_id","left");
 		
 		$this->set_product_query_filter($filter);
 		
@@ -200,7 +200,7 @@ class Product_manager_model extends CI_Model
 	{
 		$cat_query=$this->db
 			->select("GROUP_CONCAT(pcat_category_id)")
-			->from($this->product_category_table_name)
+			->from($this->product_to_category_table_name)
 			->where("pcat_product_id",$product_id)
 			->get_compiled_select();
 
@@ -245,7 +245,7 @@ class Product_manager_model extends CI_Model
 	{	
 		$this->db
 			->where("pcat_product_id",$product_id)
-			->delete($this->product_category_table_name);
+			->delete($this->product_to_category_table_name);
 		
 		$props_categories=$props['categories'];
 		
@@ -257,7 +257,7 @@ class Product_manager_model extends CI_Model
 				$ins[]=array("pcat_product_id"=>$product_id,"pcat_category_id"=>(int)$category_id);
 
 			if($ins)
-				$this->db->insert_batch($this->product_category_table_name,$ins);
+				$this->db->insert_batch($this->product_to_category_table_name,$ins);
 		}
 
 		unset($props['categories']);
@@ -308,7 +308,7 @@ class Product_manager_model extends CI_Model
 			->where("pcat_category_id",$old_category_id)
 			->or_where("pcat_category_id",$new_category_id)
 			->group_by("pcat_product_id")
-			->get($this->product_category_table_name)
+			->get($this->product_to_category_table_name)
 			->result_array();
 
 		$product_ids=array();
@@ -321,13 +321,13 @@ class Product_manager_model extends CI_Model
 		$this->db
 			->where("pcat_category_id",$old_category_id)
 			->or_where("pcat_category_id",$new_category_id)
-			->delete($this->product_category_table_name);
+			->delete($this->product_to_category_table_name);
 
 		$ins=array();
 		foreach($product_ids as $product_id)
 			$ins[]=array("pcat_category_id"=>$new_category_id,"pcat_product_id"=>$product_id);
 
-		$this->db->insert_batch($this->product_category_table_name,$ins);
+		$this->db->insert_batch($this->product_to_category_table_name,$ins);
 
 		return;
 	}
@@ -346,7 +346,7 @@ class Product_manager_model extends CI_Model
 
 		$this->db
 			->where("pcat_product_id",$product_id)
-			->delete($this->product_category_table_name);
+			->delete($this->product_to_category_table_name);
 		
 		$this->log_manager_model->info("PRODUCT_DELETE",$props);	
 

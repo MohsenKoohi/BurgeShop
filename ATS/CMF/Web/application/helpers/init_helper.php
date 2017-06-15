@@ -91,6 +91,11 @@ function &get_links($just_common=FALSE)
 			,'admin_product'									=> ADMIN_SURL_LANG."/product"
 			,'admin_product_details_format'				=> ADMIN_SURL_LANG."/product/product_id"
 			,'customer_product_details_format'			=> HOME_URL_LANG."/product-product_id/product_name"
+
+			,'admin_product_category'								=> ADMIN_SURL_LANG."/pcategory"
+			,'admin_product_category_details_format'			=> ADMIN_SURL_LANG."/pcategory/category_id"
+			,'customer_product_category_details_format'		=> HOME_URL_LANG."/pcategory-category_id/category_hash/category_name/category_page"
+
 		));
 	}
 
@@ -100,6 +105,33 @@ function &get_links($just_common=FALSE)
 	return $LINKS;
 }
 
+
+function get_admin_product_category_details_link($category_id,$do_not_set_lang=FALSE)
+{
+	return str_replace("category_id",$category_id,get_link("admin_product_category_details_format",$do_not_set_lang));	
+}
+
+function get_customer_product_category_details_link($category_id,$category_hash,$category_name,$page=1,$do_not_set_lang=FALSE)
+{
+	$category_name=linkenize($category_name);
+
+	$search=array("category_id","category_name","category_hash");
+	$replace=array($category_id,$category_name,$category_hash);
+	if($page==1)
+	{
+		$search[]="/category_page";
+		$replace[]="";
+	}
+	else
+	{
+		$search[]="category_page";
+		$replace[]=$page;	
+	}
+
+	$ret=str_replace($search,$replace,get_link("customer_product_category_details_format",$do_not_set_lang));	
+
+	return $ret;
+}
 
 function get_admin_product_details_link($product_id,$do_not_set_lang=FALSE)
 {

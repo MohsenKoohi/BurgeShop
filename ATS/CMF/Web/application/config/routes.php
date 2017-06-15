@@ -119,6 +119,13 @@ $route[ADMIN_URL_FOLDER."/product/(\d+)"]			="AE_Product/details/$1";
 $route["product-(\d+)/?"]								="CE_Product/index/$1";
 $route["product-(\d+)/([^\/]*)/?"]					="CE_Product/index/$1/$2";
 
+$route[ADMIN_URL_FOLDER."/pcategory"]						="AE_Product_Category";
+$route[ADMIN_URL_FOLDER."/pcategory/organize"]			="AE_Product_Category/organize";
+$route[ADMIN_URL_FOLDER."/pcategory/(\d+)"]				="AE_Product_Category/details/$1";
+$route["pcategory-(\d+)/([^\/]+)/?"]						="CE_Product_Category/index/$1/$2";
+$route["pcategory-(\d+)/([^\/]+)/([^\/]*)/?"]			="CE_Product_Category/index/$1/$2/$3";
+$route["pcategory-(\d+)/([^\/]+)/([^\/]*)/(\d+)"]		="CE_Product_Category/index/$1/$2/$3/$4";
+
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
