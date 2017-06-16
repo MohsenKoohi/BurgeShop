@@ -21,8 +21,8 @@ class AE_Product extends Burge_CMF_Controller {
 		//we may have some messages that our product has been deleted successfully.
 		$this->data['message']=get_message();
 
-		$this->load->model("category_manager_model");
-		$this->data['categories']=$this->category_manager_model->get_all();
+		$this->load->model("product_category_manager_model");
+		$this->data['categories']=$this->product_category_manager_model->get_all();
 
 		$this->data['raw_page_url']=get_link("admin_product");
 		$this->data['lang_pages']=get_lang_pages(get_link("admin_product",TRUE));
@@ -154,8 +154,8 @@ class AE_Product extends Burge_CMF_Controller {
 		}
 		
 		$this->data['current_time']=get_current_time();
-		$this->load->model("category_manager_model");
-		$this->data['categories']=$this->category_manager_model->get_hierarchy("checkbox",$this->selected_lang);
+		$this->load->model("product_category_manager_model");
+		$this->data['categories']=$this->product_category_manager_model->get_hierarchy("checkbox",$this->selected_lang);
 
 		$this->data['message']=get_message();
 		$this->data['lang_pages']=get_lang_pages(get_admin_product_details_link($product_id,TRUE));
