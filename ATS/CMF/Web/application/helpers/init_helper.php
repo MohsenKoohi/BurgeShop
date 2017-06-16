@@ -463,6 +463,10 @@ function get_message()
 
 function price_separator($val)
 {
+	$fl="";
+	if(strpos($val,"."))
+		list($val,$fl)=explode(".", $val);
+
 	$val="".$val;
 	$newVal="";
 	$j=0;
@@ -472,6 +476,9 @@ function price_separator($val)
 		if($j%3==2 && $j!=(strlen($val)-1))
 			$newVal=",".$newVal;
 	}
+
+	if($fl)
+		$newVal.=".".$fl;
 
 	return $newVal;
 }

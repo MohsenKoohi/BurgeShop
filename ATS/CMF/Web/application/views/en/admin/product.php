@@ -139,6 +139,10 @@
 												echo $product['pc_title'];
 											else
 												echo $no_title_text;
+
+											if($product['product_price'])
+												echo $comma_text." ".$price_text.": ".price_separator($product['product_price'])." ".$currency_text;
+
 										?>
 									</span>
 								</div>

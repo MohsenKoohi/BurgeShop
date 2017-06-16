@@ -193,7 +193,7 @@ class AE_Product extends Burge_CMF_Controller {
 		if( DATE_FUNCTION === 'jdate')
 			validate_persian_date_time($product_props['product_date']);
 		
-		$product_props['product_price']=(double)$this->input->post('product_price');
+		$product_props['product_price']=(double)persian_normalize($this->input->post('product_price'));
 		$product_props['product_active']=(int)($this->input->post('product_active') === "on");
 		$product_props['product_allow_comment']=(int)($this->input->post('product_allow_comment') === "on");
 		
