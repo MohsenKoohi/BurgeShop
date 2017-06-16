@@ -23,14 +23,15 @@
 		<br>
 		<div class='row'>
 			<?php echo form_open($page_link,array());?>
+				<input type="hidden" name="post_type" value="add_to_cart"/>
 				<div class='row'>
 					<div class='three columns'>{quantity_text}:</div>
 					<div class='two columns'>
 						<input type='number' name='quantity' class='full-width' value='1'/>
 					</div>
 					<div class="three columns anti-float">
-						<input type="hidden" name="post_type" value="add_to_cart"/>
-						<input type="submit" class="button button-primary full-width" value="{add_to_cart_text}"/>
+						
+						<input type="submit" class="button sub-primary button-type1 " value="{add_to_cart_text}"/>
 					</div>
 				</div>
 			<?php echo form_close();?>
