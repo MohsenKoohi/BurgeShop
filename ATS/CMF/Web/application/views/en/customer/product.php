@@ -4,7 +4,7 @@
 <div class="main">
 	<div class="container">
 		<div class="row post-cats">
-			<?php foreach($product_categories as $cat) { 
+			<?php foreach($pcategories as $cat) { 
 				if($cat['is_hidden'])
 					continue;
 			?>
@@ -20,6 +20,21 @@
 		<div class="post-date"><?php echo str_replace("-","/",$product_info['product_date']);?></div>
 
 		<h4>{price_text}: <?php echo price_separator($product_info['product_price']);?> {currency_text}</h4>
+		<br>
+		<div class='row'>
+			<?php echo form_open($page_link,array());?>
+				<div class='row'>
+					<div class='three columns'>{quantity_text}:</div>
+					<div class='two columns'>
+						<input type='number' name='quantity' class='full-width' value='1'/>
+					</div>
+					<div class="three columns anti-float">
+						<input type="hidden" name="post_type" value="add_to_cart"/>
+						<input type="submit" class="button button-primary full-width" value="{add_to_cart_text}"/>
+					</div>
+				</div>
+			<?php echo form_close();?>
+		</div>
 		<br>
 		<div class="row">
 			<?php if($product_info['pc_image']) { ?>

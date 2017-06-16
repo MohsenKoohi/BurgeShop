@@ -120,7 +120,7 @@
           </div>
            <ul class="side-menu-ul">
             <?php 
-              foreach($product_categories as $cat)
+              foreach($sidebar_product_categories as $cat)
               {
                 if(!$cat['show_in_list'])
                   continue;
@@ -150,7 +150,7 @@
             ?>
             <li class="separator">&nbsp;</li>
             <?php 
-              foreach($categories as $cat)
+              foreach($sidebar_categories as $cat)
               {
                 if(!$cat['show_in_list'])
                   continue;
