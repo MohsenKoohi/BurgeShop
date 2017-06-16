@@ -193,6 +193,10 @@ class Burge_CMF_Controller extends CI_Controller{
 		$categories=$this->category_manager_model->get_all();
 		$this->data['categories']=$categories[0]['children'];
 
+		$this->load->model("product_category_manager_model");
+		$product_categories=$this->product_category_manager_model->get_all();
+		$this->data['product_categories']=$product_categories[0]['children'];
+
 		$this->load->library('parser');
 		$this->parser->parse($this->get_customer_view_file("header"),$this->data);
 		$this->parser->parse($this->get_customer_view_file($view_file),$this->data);

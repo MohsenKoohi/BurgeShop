@@ -28,3 +28,5 @@ $lang['language']="Language";
 //BurgeShop
 $lang['price']="Price";
 $lang['currency']="Rial";
+$lang['posts']="posts";
+$lang['products']="products";

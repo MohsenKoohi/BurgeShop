@@ -120,6 +120,36 @@
           </div>
            <ul class="side-menu-ul">
             <?php 
+              foreach($product_categories as $cat)
+              {
+                if(!$cat['show_in_list'])
+                  continue;
+
+                $id=$cat['id'];
+                $name=$cat['names'][$selected_lang];
+                $link=get_customer_category_details_link($id,$cat['hash'],$cat['urls'][$selected_lang]);
+                echo "<li><a href='$link'>$name</a>\n";
+
+                if($cat['children'])
+                {
+                  echo "<ul>\n";
+                  foreach($cat['children'] as $child)
+                  {
+                    if(!$child['show_in_list'])
+                      continue;
+                    
+                    $id=$child['id'];
+                    $name=$child['names'][$selected_lang];
+                    $link=get_customer_category_details_link($id,$child['hash'],$child['urls'][$selected_lang]);
+                    echo "<li><a href='$link'>$name</a>\n";
+                  }
+                  echo "</ul>\n";
+                }
+                echo "</li>\n";
+              }
+            ?>
+            <li class="separator">&nbsp;</li>
+            <?php 
               foreach($categories as $cat)
               {
                 if(!$cat['show_in_list'])

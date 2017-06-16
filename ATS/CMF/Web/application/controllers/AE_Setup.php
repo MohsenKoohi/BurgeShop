@@ -66,7 +66,7 @@ class AE_Setup extends CI_Controller {
 	{	
 		$user_pass="badmin";
 
-		echo "<h1>Installing Burge CMF</h1>";
+		echo "<h1>Installing BurgeShop</h1>";
 
 		$this->log_manager_model->info("CMF_INSTALL");
 

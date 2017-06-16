@@ -36,6 +36,28 @@ class CE_Home extends Burge_CMF_Controller {
 				}
 		}
 
+		$this->load->model("product_manager_model");
+		$this->data['products']=$this->product_manager_model->get_products(array(
+			"lang"=>$this->selected_lang
+			,"category_id"=>0
+			,"product_date_le"=>get_current_time()
+			,"active"=>1
+			,"start"=>0
+			,"count"=>20
+			,"order_by"=>"product_date DESC"
+		));
+
+		foreach($this->data['products'] as &$product_info)
+		{
+			if(!$product_info['pc_image'])
+				if($product_info['pc_gallery'])
+				{
+					foreach($product_info['pc_gallery']['images'] as $img)
+						break;
+					$product_info['pc_image']=get_link("post_gallery_url").'/'.$img['image'];
+				}
+		}
+
 		$this->data['lang_pages']=get_lang_pages(get_link("home_url",TRUE));
 		
 		$this->data['header_title']=$this->lang->line("header_title").$this->lang->line("header_separator").$this->data['header_title'];
