@@ -33,6 +33,9 @@
 						<a href="<?php echo get_customer_product_details_link($product['product_id'],$product['pc_title']);?>" >
 							<h2><?php echo $product['pc_title'];?></h2>
 							<div class="post-date"><?php echo str_replace("-","/",$product['product_date']);?></div>
+							<div class='row'>
+								<h5>{price_text}: <?php echo price_separator($product['product_price']);?> {currency_text}</h5>
+							</div>
 							<?php if($product['pc_image']) { ?>
 								<div class="post-img">
 									<img class="lazy-load" data-ll-type="src"

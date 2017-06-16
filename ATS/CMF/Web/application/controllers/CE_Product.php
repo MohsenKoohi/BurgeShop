@@ -8,7 +8,7 @@ class CE_Product extends Burge_CMF_Controller {
 		parent::__construct();
 		$this->load->model(array(
 			"product_manager_model"
-			,"category_manager_model"
+			,"product_category_manager_model"
 		));
 	}
 
@@ -27,7 +27,7 @@ class CE_Product extends Burge_CMF_Controller {
 		$this->data['product_gallery']=$product_info['pc_gallery']['images'];
 
 		$cat_ids=explode(',',$product_info['categories']);
-		$this->data['product_categories']=$this->category_manager_model->get_categories_short_desc($cat_ids,$this->selected_lang);
+		$this->data['product_categories']=$this->product_category_manager_model->get_categories_short_desc($cat_ids,$this->selected_lang);
 
 		$product_link=get_customer_product_details_link($product_id,$product_info['pc_title'],$product_info['product_date']);
 		if($product_info['pc_title'] && $product_name)
