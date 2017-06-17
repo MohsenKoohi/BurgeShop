@@ -34,6 +34,12 @@ class CE_Product extends Burge_CMF_Controller {
 				redirect($product_link,"location",301);
 
 		$this->data['product_info']=$product_info;
+		$this->data['product_id']=$product_id;
+		$this->data['page_link']=$product_link;
+
+		if($this->input->post("post_type")==="add_to_cart")
+			return $this->add_to_cart();
+
 		if($product_info['pc_image'])
 			$this->data['page_main_image']=$product_info['pc_image'];
 		else
@@ -54,10 +60,31 @@ class CE_Product extends Burge_CMF_Controller {
 		$this->data['header_meta_keywords'].=",".$product_info['pc_keywords'];
 
 		$this->data['header_canonical_url']=$product_link;
-		$this->data['page_link']=$product_link;
 
 		$this->send_customer_output("product");
 
 		return;
+	}
+
+	private function add_to_cart()
+	{
+		$product_info=$this->data['product_info'];
+		$product_id=$this->data['product_id'];
+		$options=$this->input->post("options");
+		$quantity=$this->input->post("quantity");
+
+		$price=$this->product_manager_model->get_product_price($product_id, $options);
+
+		if($price<0)
+		{
+			set_message($this->lang->line("options_has_not_been_selected_properly"));
+			return redirect($this->data['page_link']);
+		}
+			
+		$this->load->model("cart_manager_model");
+		$this->cart_manager_model->add_product($product_id,$options,$quantity,$price);
+
+		set_message($this->lang->line("product_added_successfully_to_your_cart"));
+		return redirect($this->data['page_link']);
 	}
 }

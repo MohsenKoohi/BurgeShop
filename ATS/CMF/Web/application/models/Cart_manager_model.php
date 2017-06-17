@@ -71,5 +71,32 @@ class Cart_manager_model extends CI_Model
 		return $ret;		
 	}
 
+	public function add_product($product_id,$options,$quantity,$price)
+	{
+		if(!$this->session->userdata("cart"))
+			$this->session->set_userdata("cart",array("last_id"=>0,"products"=>array()));
+
+		$cart=$this->session->userdata("cart");
+		$last_id=$cart['last_id'];
+		$products=$cart['products'];
+
+		$products[$last_id]=array(
+			'cart_index'	=> $last_id
+			,'product_id'	=> $product_id
+			,'options'		=> $options
+			,'quantity'		=> $quantity
+			,'price'			=> $price
+		);
+
+		$last_id++;
+
+		$this->session->set_userdata("cart",array(
+			"last_id"	=> $last_id
+			,"products"	=> $products
+		));
+
+		return;
+	}
+
 	
 }

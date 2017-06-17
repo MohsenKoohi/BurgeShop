@@ -235,10 +235,8 @@ class Product_category_manager_model extends CI_Model
 					,"is_hidden"=>$all_cats[$cid]['is_hidden']
 				);
 
-
 		return $ret;
 	}
-
 
 	//creates the hierarchy of categories
 	//uses get_all

@@ -196,6 +196,22 @@ class Product_manager_model extends CI_Model
 		return;
 	}
 
+	public function get_product_price($product_id,$options)
+	{
+		$price=$this->db->get_where($this->product_table_name,array("product_id"=>$product_id))->row_array()['product_price'];
+		$product_options=$this->get_product_options($product_id);
+
+		//calculating product price using current options
+
+
+		return $price;
+	}
+
+	public function get_product_options($product_id)
+	{
+		return array();
+	}
+
 	public function get_product($product_id,$filter=array())
 	{
 		$cat_query=$this->db
