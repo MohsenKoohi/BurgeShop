@@ -179,6 +179,7 @@
               }
             ?>
             <li class="separator">&nbsp;</li>
+            <li><a href="<?php echo get_link("customer_cart");?>">{cart_text}</a></li>
             <li><a href="<?php echo get_link("customer_dashboard");?>">{dashboard_text}</a></li>
             <li><a href='<?php echo get_link("customer_contact_us");?>'>{contact_us_text}</a></li>
           </ul>

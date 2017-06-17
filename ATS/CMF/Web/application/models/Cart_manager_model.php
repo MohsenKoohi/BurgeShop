@@ -95,7 +95,49 @@ class Cart_manager_model extends CI_Model
 			,"products"	=> $products
 		));
 
+		$this->update_cart();
+
 		return;
+	}
+
+	//if customer has been logged in, 
+	//it stores cart's products in database for future use  
+	private function update_cart()
+	{
+
+	}
+
+	public function get_cart($lang_id)
+	{
+		$cart=$this->session->userdata("cart");
+		$pids=array();
+		foreach($cart['products'] as $product)
+			if(!in_array( $product['product_id'], $pids))
+				$pids[]=$product['product_id'];
+
+		$this->load->model("product_manager_model");
+		$products=$this->product_manager_model->get_products(array(
+			"lang"				=> $lang_id
+			,"product_ids"		=> $pids
+			,"post_date_le"	=> get_current_time()
+			,"active"			=> 1
+			,"group_by"			=> "product_id"
+
+		));
+
+		$aproducts=array();
+		foreach($products as $product)
+			$aproducts[$product['product_id']]=$product;
+
+		$ret=array();
+		foreach($cart['products'] as $product)
+		{
+			$p=$product;
+			$p['product_name']=$aproducts[$p['product_id']]['pc_title'];
+			$ret[]=$p;
+		}
+
+		return $ret;
 	}
 
 	

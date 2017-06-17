@@ -96,6 +96,9 @@ function &get_links($just_common=FALSE)
 			,'admin_product_category_details_format'			=> ADMIN_SURL_LANG."/product_category/category_id"
 			,'customer_product_category_details_format'		=> HOME_URL_LANG."/pcategory-category_id/category_hash/category_name/category_page"
 
+			,'admin_cart'									=> ADMIN_SURL_LANG."/cart"
+			,'customer_cart'								=> HOME_SURL_LANG."/cart"
+
 		));
 	}
 

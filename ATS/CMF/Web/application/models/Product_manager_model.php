@@ -170,6 +170,9 @@ class Product_manager_model extends CI_Model
 			$title="%".str_replace(" ","%",$title)."%";
 			$this->db->where("( `pc_title` LIKE '$title')");
 		}
+		
+		if(isset($filter['product_ids']))
+			$this->db->where("product_id IN (".implode(',', $filter['product_ids'] ).")");
 
 		if(isset($filter['active']))
 			$this->db->where(array(

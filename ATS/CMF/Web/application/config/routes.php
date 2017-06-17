@@ -126,6 +126,9 @@ $route["pcategory-(\d+)/([^\/]+)/?"]						="CE_Product_Category/index/$1/$2";
 $route["pcategory-(\d+)/([^\/]+)/([^\/]*)/?"]			="CE_Product_Category/index/$1/$2/$3";
 $route["pcategory-(\d+)/([^\/]+)/([^\/]*)/(\d+)"]		="CE_Product_Category/index/$1/$2/$3/$4";
 
+$route[ADMIN_URL_FOLDER."/cart"]		="AE_Cart";
+$route["cart"]								="CE_Cart";
+
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
