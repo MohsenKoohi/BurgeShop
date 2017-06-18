@@ -930,3 +930,6 @@ div.link-pagination {
     transition: background 0.3s; }
   div.link-pagination .ctag a {
     cursor: default; }
+
+img.remove-product {
+  max-width: 30px; }

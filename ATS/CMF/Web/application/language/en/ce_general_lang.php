@@ -35,6 +35,9 @@ $lang['quantity']='Quantity';
 $lang['options_has_not_been_selected_properly']='The product options has not been seleceted properly .';
 $lang['product_added_successfully_to_your_cart']='The product added to your cart successfully.';
 $lang['cart']='Cart';
+$lang['product']='Product';
+$lang['total_price']='Total Price';
+
 $lang['']='';
 $lang['']='';
 $lang['']='';
