@@ -75,7 +75,10 @@ class Cart_manager_model extends CI_Model
 	public function add_product($product_id,$options,$quantity,$price)
 	{
 		if(!$this->session->userdata("cart"))
-			$this->session->set_userdata("cart",array("last_id"=>0,"products"=>array()));
+			$this->session->set_userdata("cart",array(
+				"last_id"		=> 0
+				,"products"		=> array()
+			));
 
 		$cart=$this->session->userdata("cart");
 		$last_id=$cart['last_id'];
@@ -96,14 +99,14 @@ class Cart_manager_model extends CI_Model
 			,"products"	=> $products
 		));
 
-		$this->update_cart();
+		$this->save();
 
 		return;
 	}
 
 	//if customer has been logged in, 
 	//it stores cart's products in database for future use  
-	public function update_cart()
+	private function save()
 	{
 		$this->load->model("customer_manager_model");
 		if(!$this->customer_manager_model->has_customer_logged_in())
