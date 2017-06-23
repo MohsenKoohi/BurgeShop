@@ -22,6 +22,7 @@ class Cart_manager_model extends CI_Model
 				,`cp_order_id` INT DEFAULT 0
 				,`cp_product_id` INT NOT NULL
 				,`cp_quantity`	INT DEFAULT 1
+				,`cp_price` DOUBLE NOT NULL
 				,PRIMARY KEY (cp_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -102,14 +103,80 @@ class Cart_manager_model extends CI_Model
 
 	//if customer has been logged in, 
 	//it stores cart's products in database for future use  
-	private function update_cart()
+	public function update_cart()
 	{
+		$this->load->model("customer_manager_model");
+		if(!$this->customer_manager_model->has_customer_logged_in())
+			return;
 
+		$customer_id=$this->customer_manager_model->get_logged_customer_id();
+
+		$this->delete_cart_products($customer_id,0);
+
+		$cart=$this->session->userdata("cart");
+
+		foreach($cart['products'] as $product)
+		{
+			$this->db->insert($this->cart_product_table_name,array(
+				'cp_customer_id' 		=> $customer_id
+				,'cp_order_id' 		=> 0
+				,'cp_product_id' 		=> $product['product_id']
+				,'cp_quantity'			=> $product['quantity']
+				,'cp_price' 			=> $product['price']
+
+			));
+
+			$cp_id=$this->db->insert_id();
+
+			if(!$product['options'])
+				continue;
+
+			$op_ins=array();
+			foreach($product['options'] as $type => $value)
+				$op_ins[]=array(
+					'cpo_cp_id' 	=> $cp_id 
+					,'cpo_type'		=> $type
+					,'cpo_value'	=> $value
+				);
+
+			$this->db->insert_batch($this->cart_product_option_table_name,$op_ins);
+
+		}
+
+		return;
+	}
+
+	private function delete_cart_products($customer_id, $order_id)
+	{
+		$cp_ids=$this->db
+			->select("GROUP_CONCAT(cp_id) AS cp_ids")
+			->from($this->cart_product_table_name)
+			->where("cp_customer_id",$customer_id)
+			->where("cp_order_id",$order_id)
+			->get()
+			->row_array()['cp_ids'];
+
+		if(!$cp_ids)
+			return;
+
+		$this->db
+			->where("cpo_cp_id IN ($cp_ids)")
+			->delete($this->cart_product_option_table_name);
+
+		$this->db
+			->where("cp_customer_id",$customer_id)
+			->where("cp_order_id",$order_id)
+			->delete($this->cart_product_table_name);
+
+		return;
 	}
 
 	public function get_cart($lang_id)
 	{
 		$cart=$this->session->userdata("cart");
+		if($cart === false || !$cart['products'])
+			return array();
+
 		$pids=array();
 		foreach($cart['products'] as $product)
 			if(!in_array( $product['product_id'], $pids))

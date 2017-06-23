@@ -84,7 +84,7 @@ class CE_Product extends Burge_CMF_Controller {
 		$this->load->model("cart_manager_model");
 		$this->cart_manager_model->add_product($product_id,$options,$quantity,$price);
 
-		set_message($this->lang->line("product_added_successfully_to_your_cart"));
+		set_message("<a href='".get_link("customer_cart")."'>".$this->lang->line("product_added_successfully_to_your_cart")."</a>");
 		return redirect($this->data['page_link']);
 	}
 }

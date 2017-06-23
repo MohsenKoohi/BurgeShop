@@ -37,7 +37,10 @@ $lang['product_added_successfully_to_your_cart']='The product added to your cart
 $lang['cart']='Cart';
 $lang['product']='Product';
 $lang['total_price']='Total Price';
-
+$lang['remove']='Remove';
+$lang['pay']='Pay';
+$lang['your_cart_is_empty']='Your cart is empty.';
+$lang['']='';
 $lang['']='';
 $lang['']='';
 $lang['']='';
