@@ -99,22 +99,26 @@ class Cart_manager_model extends CI_Model
 			,"products"	=> $products
 		));
 
-		$this->save();
+		$this->save(0);
 
 		return;
 	}
 
 	//if customer has been logged in, 
 	//it stores cart's products in database for future use  
-	private function save()
+	//in this version we don't save cart before submitting order
+	private function save($order_id)
 	{
+		if(!$order_id)
+			return;
+
 		$this->load->model("customer_manager_model");
 		if(!$this->customer_manager_model->has_customer_logged_in())
 			return;
 
 		$customer_id=$this->customer_manager_model->get_logged_customer_id();
 
-		$this->delete_cart_products($customer_id,0);
+		$this->delete_cart_products($customer_id,$order_id);
 
 		$cart=$this->session->userdata("cart");
 
@@ -122,7 +126,7 @@ class Cart_manager_model extends CI_Model
 		{
 			$this->db->insert($this->cart_product_table_name,array(
 				'cp_customer_id' 		=> $customer_id
-				,'cp_order_id' 		=> 0
+				,'cp_order_id' 		=> $order_id
 				,'cp_product_id' 		=> $product['product_id']
 				,'cp_quantity'			=> $product['quantity']
 				,'cp_price' 			=> $product['price']
