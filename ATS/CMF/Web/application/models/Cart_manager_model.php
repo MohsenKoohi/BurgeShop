@@ -50,28 +50,7 @@ class Cart_manager_model extends CI_Model
 	{
 		return;
 	}
-
-	public function get_dashboard_info()
-	{
-		return "";
-		$CI=& get_instance();
-		//$lang=$CI->language->get();
-		//$CI->lang->load('ae_log',$lang);		
-		
-		$data=array();
-		$row=$this->db
-			->select("COUNT(*) as count")
-			->from($this->cart_product_table_name)
-			->get()
-			->row_array();
-		$data['total']=$row['count'];
-		
-		$CI->load->library('parser');
-		$ret=$CI->parser->parse($CI->get_admin_view_file("cart_dashboard"),$data,TRUE);
-		
-		return $ret;		
-	}
-
+	
 	public function add_product($product_id,$options,$quantity,$price)
 	{
 		if(!$this->session->userdata("cart"))
