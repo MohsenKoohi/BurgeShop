@@ -24,8 +24,8 @@
 		<div class='row'>
 			<?php echo form_open($page_link,array());?>
 				<input type="hidden" name="post_type" value="add_to_cart"/>
-				<input type="hidden" name="options[op1]" value="value1"/>
-				<input type="hidden" name="options[op2]" value="value2"/>
+				<input type="hidden" name="options[op1]" value="<?php echo explode(" ",get_current_time())[0];?>"/>
+				<input type="hidden" name="options[op2]" value="<?php echo explode(" ",get_current_time())[1];?>"/>
 
 				<div class='row'>
 					<div class='three columns'>{quantity_text}:</div>

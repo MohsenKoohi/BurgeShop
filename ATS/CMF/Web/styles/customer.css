@@ -932,4 +932,5 @@ div.link-pagination {
     cursor: default; }
 
 img.remove-product {
-  max-width: 30px; }
+  max-width: 30px;
+  cursor: pointer; }

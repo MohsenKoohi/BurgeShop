@@ -41,7 +41,9 @@
 						</div>
 
 						<div class='two columns align-center'>
-							<img src='{images_url}/remove.png' title='{remove_text}' class='remove-product'/>
+							<img src='{images_url}/remove.png' title='{remove_text}' class='remove-product' 
+								onclick='removeItem(<?php echo $product['cart_index'];?>);'
+							/>
 						</div>
 						
 					</div>
@@ -52,6 +54,22 @@
 			<div class='row'>
 				<a href='' class='three columns anti-float button button-primary'>{pay_text}</a>
 			</div>
+
+			<?php echo form_open(get_link("customer_cart"),array("id"=>"remove-item")); ?>
+				<input type='hidden' name='post_type' value='remove_item'/>
+				<input type='hidden' name='item_index' value=''/>
+			<?php echo form_close();?>
+
+			<script type="text/javascript">
+				function removeItem(cartIndex)
+				{
+					$("form#remove-item input[name=item_index]").val(cartIndex);
+					$("form#remove-item").submit();
+
+					return;
+				}
+			</script>
+
 		<?php }  else { ?>
 			<h2>{your_cart_is_empty_text}</h2>
 		<?php } ?>

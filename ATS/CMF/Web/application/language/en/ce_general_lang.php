@@ -40,6 +40,7 @@ $lang['total_price']='Total Price';
 $lang['remove']='Remove';
 $lang['pay']='Pay';
 $lang['your_cart_is_empty']='Your cart is empty.';
+$lang['item_removed_successfully']='The specified item removed successfully.';
 $lang['']='';
 $lang['']='';
 $lang['']='';

@@ -104,6 +104,30 @@ class Cart_manager_model extends CI_Model
 		return;
 	}
 
+	public function remove_item($item_index)
+	{
+		if(!$this->session->userdata("cart"))
+			$this->session->set_userdata("cart",array(
+				"last_id"		=> 0
+				,"products"		=> array()
+			));
+
+		$cart=$this->session->userdata("cart");
+		$last_id=$cart['last_id'];
+		$products=$cart['products'];
+
+		unset($products[$item_index]);
+
+		$this->session->set_userdata("cart",array(
+			"last_id"	=> $last_id
+			,"products"	=> $products
+		));
+
+		$this->save(0);
+
+		return;
+	}
+
 	//if customer has been logged in, 
 	//it stores cart's products in database for future use  
 	//in this version we don't save cart before submitting order
