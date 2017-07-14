@@ -1,7 +1,7 @@
 <div class="main">
 
 	<div class="container cart">
-		<h1>{payment_text}</h1>
+		<h1>{payment_of_order_text} {order_id} </h1>
 		<br>
 					<div class='row'>
 				<a href='<?php echo get_link('customer_order_submit');?>' class='three columns anti-float button button-primary'>{submit_order_text}</a>
