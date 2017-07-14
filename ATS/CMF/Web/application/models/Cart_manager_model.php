@@ -56,11 +56,18 @@ class Cart_manager_model extends CI_Model
 	private function initialize_cart()
 	{
 		if(!$this->session->userdata("cart"))
-			$this->session->set_userdata("cart",array(
-				"last_id"		=> 0
-				,"products"		=> array()
-				,"total_price"	=> 0
-			));
+			$this->empty_cart();
+
+		return;
+	}
+
+	private function empty_cart()
+	{
+		$this->session->set_userdata("cart",array(
+			"last_id"		=> 0
+			,"products"		=> array()
+			,"total_price"	=> 0
+		));
 
 		return;
 	}
@@ -128,9 +135,11 @@ class Cart_manager_model extends CI_Model
 		return;
 	}
 
-	public function save_cart($order_id)
+	public function save_order_cart($order_id)
 	{
 		$this->save($order_id);
+
+		$this->empty_cart();
 
 		return;
 	}
@@ -149,9 +158,14 @@ class Cart_manager_model extends CI_Model
 
 		$customer_id=$this->customer_manager_model->get_logged_customer_id();
 
-		$this->delete_cart_products($customer_id,$order_id);
+		//$this->delete_cart_products($customer_id,$order_id);
 
 		$cart=$this->session->userdata("cart");
+
+		$log=array(
+			"customer_id"	=> $customer_id
+			,"order_id"		=> $order_id
+		);
 
 		foreach($cart['products'] as $product)
 		{
@@ -166,19 +180,32 @@ class Cart_manager_model extends CI_Model
 
 			$cp_id=$this->db->insert_id();
 
+			$log['cp_id_'.$cp_id."_product_id"]=$product['product_id'];
+			$log['cp_id_'.$cp_id."_quantity"]=$product['quantity'];
+			$log['cp_id_'.$cp_id."_price"]=$product['price'];
+
 			if(!$product['options'])
 				continue;
 
+			$options_log='';
 			$op_ins=array();
 			foreach($product['options'] as $type => $value)
+			{
 				$op_ins[]=array(
 					'cpo_cp_id' 	=> $cp_id 
 					,'cpo_type'		=> $type
 					,'cpo_value'	=> $value
 				);
 
+				$options_log.="$type: $value;";
+			}
+
 			$this->db->insert_batch($this->cart_product_option_table_name,$op_ins);
+
+			$log['cp_id_'.$cp_id."_options"]=$options_log;
 		}
+
+		$this->log_manager_model->info("CART_SAVE_ORDER",$log);	
 
 		return;
 	}

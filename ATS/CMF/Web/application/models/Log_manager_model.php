@@ -109,6 +109,7 @@ class Log_manager_model extends CI_Model
 
 		,"CART_ADD_ITEM"		=> 2061
 		,"CART_REMOVE_ITEM"	=> 2062
+		,"CART_SAVE_ORDER"	=> 2063
 
 		,"ORDER_SUBMIT"			=> 2081
 		,"ORDER_ADD_HISTORY"		=> 2082

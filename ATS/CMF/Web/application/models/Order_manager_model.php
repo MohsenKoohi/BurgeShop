@@ -70,6 +70,8 @@ class Order_manager_model extends CI_Model
 		$props['order_id']=$order_id;
 		$this->log_manager_model->info("ORDER_SUBMIT",$props);	
 
+		$this->cart_manager_model->save_order_cart($order_id);
+
 		$this->add_history($order_id,"submitted");
 
 		return $order_id;
