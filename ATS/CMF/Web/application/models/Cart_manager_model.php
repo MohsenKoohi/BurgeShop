@@ -65,7 +65,7 @@ class Cart_manager_model extends CI_Model
 		return;
 	}
 	
-	public function add_product($product_id,$options,$quantity,$price)
+	public function add_item($product_id,$options,$quantity,$price)
 	{
 		$cart=$this->session->userdata("cart");
 
@@ -84,6 +84,19 @@ class Cart_manager_model extends CI_Model
 
 		$this->save(0);
 
+		$options_log="";
+		foreach($options as $oi => $ov)
+			$options_log.= $oi." : ".$ov."; ";
+
+		$this->log_manager_model->info("CART_ADD_ITEM",array(
+			"product_id"			=> $product_id
+			,"options"				=> $options_log
+			,"quantity"				=> $quantity
+			,"price"					=> $price
+			,"cart_last_id"		=> $cart['last_id']
+			,"cart_total_price"	=> $cart['total_price']
+		));	
+
 		return;
 	}
 
@@ -95,12 +108,22 @@ class Cart_manager_model extends CI_Model
 
 		$price=$cart['products'][$item_index]['price'];
 		$quantity=$cart['products'][$item_index]['quantity'];
+		$product_id=$cart['products'][$item_index]['product_id'];
+
 		$cart['total_price']-=$price*$quantity;
 		unset($cart['products'][$item_index]);
 
 		$this->session->set_userdata("cart",$cart);
 
 		$this->save(0);
+
+		$this->log_manager_model->info("CART_REMOVE_ITEM",array(
+			"product_id"			=> $product_id
+			,"quantity"				=> $quantity
+			,"price"					=> $price
+			,"item_index"			=> $item_index
+			,"cart_total_price"	=> $cart['total_price']
+		));	
 
 		return;
 	}
