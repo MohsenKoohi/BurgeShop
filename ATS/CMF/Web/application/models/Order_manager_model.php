@@ -1,5 +1,10 @@
 <?php
 
+// Order manager is responsible for shipping and billing addresses, 
+// coupons, and shipping method
+// In this version, we don't have any of these and thus we just submit order
+// and transfer to payment manger
+
 class Order_manager_model extends CI_Model
 {
 	private $order_table_name="order";

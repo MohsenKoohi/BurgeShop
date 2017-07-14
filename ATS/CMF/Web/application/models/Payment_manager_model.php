@@ -19,6 +19,7 @@ class Payment_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $tbl_name (
 				`payment_id` INT AUTO_INCREMENT
 				,`payment_order_id` INT NOT NULL
+				,`payment_method` VARCHAR(63)
 				,`payment_date`	CHAR(19)
 				,`payment_status` VARCHAR(63)
 				,`payment_reference` VARCHAR(63)
@@ -34,7 +35,7 @@ class Payment_manager_model extends CI_Model
 				,`ph_date`	CHAR(19)
 				,`ph_status` VARCHAR(63)
 				,`ph_comment` VARCHAR(511) NOT NULL
-				,PRIMARY KEY (oh_id)	
+				,PRIMARY KEY (ph_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 

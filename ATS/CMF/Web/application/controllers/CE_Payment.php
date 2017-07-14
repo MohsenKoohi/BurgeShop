@@ -33,26 +33,12 @@ class CE_Payment extends Burge_CMF_Controller {
 			return redirect(get_link("home_url"));
 		
 		$order=$orders[0];
-		
-		bprint_r($order);
-		exit();
-		$cart=$this->cart_manager_model->get_cart($this->selected_lang);
-		if(!$cart['products'])
-			return redirect(get_link("home_url"));
 
-		if(!$this->customer_manager_model->has_customer_logged_in())
-		{
-			$this->session->set_userdata("backurl",get_link("customer_order_submit"));
-			set_message($this->lang->line("please_login_before_checkout"));
-			redirect(get_link("customer_login"));
-			return;
-		}
-
-		$order_id=$this->order_manager_model->submit_order();
-
-		set_message($this->lang->line("your_order_submitted_successfully"));
-
-		redirect(get_customer_payment_order_link($order_id));
+		$this->data['message']=get_message();
+		$this->data['total']=$order['order_total'];
+		$this->data['lang_pages']=get_lang_pages(get_customer_payment_order_link($order_id,TRUE));
+		$this->data['header_title']=$this->lang->line("payment");
+		$this->send_customer_output("payment_pay");
 		
 		return;
 	}
