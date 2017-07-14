@@ -17,7 +17,9 @@ class CE_Cart extends Burge_CMF_Controller {
 
 		$this->data['message']=get_message();
 		
-		$this->data['products']=$this->cart_manager_model->get_cart($this->selected_lang);
+		$cart=$this->cart_manager_model->get_cart($this->selected_lang);
+		$this->data['products']=$cart['products'];
+		$this->data['total_price']=$cart['total_price'];
 
 		$this->data['lang_pages']=get_lang_pages(get_link("customer_cart",TRUE));
 		

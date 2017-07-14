@@ -9,6 +9,8 @@ class Cart_manager_model extends CI_Model
 	{
 		parent::__construct();
 
+		$this->initialize_cart();
+
       return;
    }
 
@@ -50,33 +52,35 @@ class Cart_manager_model extends CI_Model
 	{
 		return;
 	}
-	
-	public function add_product($product_id,$options,$quantity,$price)
+
+	private function initialize_cart()
 	{
 		if(!$this->session->userdata("cart"))
 			$this->session->set_userdata("cart",array(
 				"last_id"		=> 0
 				,"products"		=> array()
+				,"total_price"	=> 0
 			));
 
+		return;
+	}
+	
+	public function add_product($product_id,$options,$quantity,$price)
+	{
 		$cart=$this->session->userdata("cart");
-		$last_id=$cart['last_id'];
-		$products=$cart['products'];
 
-		$products[$last_id]=array(
-			'cart_index'	=> $last_id
+		$cart['products'][$cart['last_id']]=array(
+			'cart_index'	=> $cart['last_id']
 			,'product_id'	=> $product_id
 			,'options'		=> $options
 			,'quantity'		=> $quantity
 			,'price'			=> $price
 		);
 
-		$last_id++;
+		$cart['last_id']++;
+		$cart['total_price']+=$price*$quantity;
 
-		$this->session->set_userdata("cart",array(
-			"last_id"	=> $last_id
-			,"products"	=> $products
-		));
+		$this->session->set_userdata("cart",$cart);
 
 		$this->save(0);
 
@@ -85,22 +89,16 @@ class Cart_manager_model extends CI_Model
 
 	public function remove_item($item_index)
 	{
-		if(!$this->session->userdata("cart"))
-			$this->session->set_userdata("cart",array(
-				"last_id"		=> 0
-				,"products"		=> array()
-			));
-
 		$cart=$this->session->userdata("cart");
-		$last_id=$cart['last_id'];
-		$products=$cart['products'];
+		if(!isset($cart['products'][$item_index]))
+			return;
 
-		unset($products[$item_index]);
+		$price=$cart['products'][$item_index]['price'];
+		$quantity=$cart['products'][$item_index]['quantity'];
+		$cart['total_price']-=$price*$quantity;
+		unset($cart['products'][$item_index]);
 
-		$this->session->set_userdata("cart",array(
-			"last_id"	=> $last_id
-			,"products"	=> $products
-		));
+		$this->session->set_userdata("cart",$cart);
 
 		$this->save(0);
 
@@ -150,7 +148,6 @@ class Cart_manager_model extends CI_Model
 				);
 
 			$this->db->insert_batch($this->cart_product_option_table_name,$op_ins);
-
 		}
 
 		return;
@@ -184,8 +181,8 @@ class Cart_manager_model extends CI_Model
 	public function get_cart($lang_id)
 	{
 		$cart=$this->session->userdata("cart");
-		if($cart === false || !$cart['products'])
-			return array();
+		if(!$cart['products'])
+			return $cart;
 
 		$pids=array();
 		foreach($cart['products'] as $product)
@@ -206,15 +203,13 @@ class Cart_manager_model extends CI_Model
 		foreach($products as $product)
 			$aproducts[$product['product_id']]=$product;
 
-		$ret=array();
-		foreach($cart['products'] as $product)
+		foreach($cart['products'] as &$product)
 		{
-			$p=$product;
-			$p['product_name']=$aproducts[$p['product_id']]['pc_title'];
-			$ret[]=$p;
+			$product_id=$product['product_id'];
+			$product['product_name']=$aproducts[$product_id]['pc_title'];
 		}
 
-		return $ret;
+		return $cart;
 	}
 
 	

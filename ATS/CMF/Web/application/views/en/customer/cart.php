@@ -50,6 +50,10 @@
 			<?php
 				}
 			?>
+				<div class="row even-odd-bg">
+					<div class='eight columns'><b>{total_text}</b></div>
+					<div class='two columns align-center'><?php echo price_separator($total_price); ?></div>
+				</div>
 			<br>
 			<div class='row'>
 				<a href='' class='three columns anti-float button button-primary'>{submit_order_text}</a>
