@@ -99,6 +99,8 @@ function &get_links($just_common=FALSE)
 			,'admin_cart'									=> ADMIN_SURL_LANG."/cart"
 			,'customer_cart'								=> HOME_SURL_LANG."/cart"
 
+			,'customer_order_submit'					=> HOME_SURL_LANG."/order/submit"
+
 		));
 	}
 

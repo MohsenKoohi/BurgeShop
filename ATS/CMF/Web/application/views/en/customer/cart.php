@@ -56,7 +56,7 @@
 				</div>
 			<br>
 			<div class='row'>
-				<a href='' class='three columns anti-float button button-primary'>{submit_order_text}</a>
+				<a href='<?php echo get_link('customer_order_submit');?>' class='three columns anti-float button button-primary'>{submit_order_text}</a>
 			</div>
 
 			<?php echo form_open(get_link("customer_cart"),array("id"=>"remove-item")); ?>

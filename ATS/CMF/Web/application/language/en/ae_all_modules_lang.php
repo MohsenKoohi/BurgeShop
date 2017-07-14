@@ -21,6 +21,8 @@ $lang['task_exec']="Tasks Execution";
 $lang['message']="Messages";
 $lang['message_access']="Access Levels of Messages";
 
+//BurgeShop
 $lang['product']='Products';
 $lang['product_category']='Products Category';
 $lang['cart']="Cart";
+$lang['order']="Orders";

@@ -128,6 +128,13 @@ class Cart_manager_model extends CI_Model
 		return;
 	}
 
+	public function save_cart($order_id)
+	{
+		$this->save($order_id);
+
+		return;
+	}
+
 	//if customer has been logged in, 
 	//it stores cart's products in database for future use  
 	//in this version we don't save cart before submitting order
@@ -234,6 +241,5 @@ class Cart_manager_model extends CI_Model
 
 		return $cart;
 	}
-
 	
 }

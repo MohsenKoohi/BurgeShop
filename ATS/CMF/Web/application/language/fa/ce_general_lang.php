@@ -43,5 +43,5 @@ $lang['your_cart_is_empty']='سبد خرید شما خالی است.';
 $lang['item_removed_successfully']='آیتم موردنظر با موفقیت حذف شد.';
 $lang['submit_order']='ثبت سفارش';
 $lang['total']='جمع';
-$lang['']='';
+$lang['please_login_before_checkout']='لطفا پیش از ثبت سفارش، به حساب کاربری خود وارد شوید.';
 $lang['']='';

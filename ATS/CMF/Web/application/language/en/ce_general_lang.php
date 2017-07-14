@@ -43,6 +43,7 @@ $lang['your_cart_is_empty']='Your cart is empty.';
 $lang['item_removed_successfully']='The specified item removed successfully.';
 $lang['submit_order']='Submit Order';
 $lang['total']='Total';
+$lang['please_login_before_checkout']='Please login before checkout.';
 $lang['']='';
 $lang['']='';
 $lang['']='';

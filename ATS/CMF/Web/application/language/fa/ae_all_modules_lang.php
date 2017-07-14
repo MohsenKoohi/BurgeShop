@@ -21,6 +21,8 @@ $lang['task_exec']="اجرای وظایف";
 $lang['message']="پیام‌ها";
 $lang['message_access']="سطح دسترسی پیام‌ها";
 
+//BurgeShop
 $lang['product']='محصولات';
 $lang['product_category']='دسته‌های محصولات';
 $lang['cart']="سبد خرید";
+$lang['order']="سفارش‌ها";

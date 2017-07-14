@@ -129,6 +129,9 @@ $route["pcategory-(\d+)/([^\/]+)/([^\/]*)/(\d+)"]		="CE_Product_Category/index/$
 $route[ADMIN_URL_FOLDER."/cart"]		="AE_Cart";
 $route["cart"]								="CE_Cart";
 
+$route[ADMIN_URL_FOLDER."/order"]	="AE_Order";
+$route["order/submit"]					="CE_Order/submit";
+
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
