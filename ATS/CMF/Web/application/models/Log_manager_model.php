@@ -113,6 +113,9 @@ class Log_manager_model extends CI_Model
 
 		,"ORDER_SUBMIT"			=> 2081
 		,"ORDER_ADD_HISTORY"		=> 2082
+
+		,"PAYMENT_ADD_HISTORY"	=>2101
+		,"PAYMENT_ADD_HISTORY"	=>2102
 	);
 
 	public function __construct()

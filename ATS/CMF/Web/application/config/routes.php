@@ -126,11 +126,12 @@ $route["pcategory-(\d+)/([^\/]+)/?"]						="CE_Product_Category/index/$1/$2";
 $route["pcategory-(\d+)/([^\/]+)/([^\/]*)/?"]			="CE_Product_Category/index/$1/$2/$3";
 $route["pcategory-(\d+)/([^\/]+)/([^\/]*)/(\d+)"]		="CE_Product_Category/index/$1/$2/$3/$4";
 
-$route[ADMIN_URL_FOLDER."/cart"]		="AE_Cart";
 $route["cart"]								="CE_Cart";
 
 $route[ADMIN_URL_FOLDER."/order"]	="AE_Order";
 $route["order/submit"]					="CE_Order/submit";
+
+$route["payment/pay/(\d+)"]			="CE_Payment/pay/$1";
 
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";

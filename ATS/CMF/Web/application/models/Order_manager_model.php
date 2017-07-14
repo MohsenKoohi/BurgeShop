@@ -99,8 +99,31 @@ class Order_manager_model extends CI_Model
 		return;
 	}
 
+	public function get_orders($filter)
+	{
+		$this->db
+			->select("*")
+			->from($this->order_table_name);
 
+		$this->set_query_filters($filter);
+			
+		return $this->db
+			->get()
+			->result_array();
+	}
 
+	private function set_query_filters($filter)
+	{
+		if(isset($filter['order_id']))
+			$this->db->where("order_id",(int)$filter['order_id']);
 
+		if(isset($filter['customer_id']))
+			$this->db->where("order_customer_id",(int)$filter['customer_id']);
+
+		if(isset($filter['status']))
+			$this->db->where("order_status",$filter['status']);
+
+		return;
+	}
 	
 }
