@@ -99,7 +99,9 @@ function &get_links($just_common=FALSE)
 			,'admin_cart'									=> ADMIN_SURL_LANG."/cart"
 			,'customer_cart'								=> HOME_SURL_LANG."/cart"
 
-			,'customer_order_submit'					=> HOME_SURL_LANG."/order/submit"
+			,'customer_order_submit'				=> HOME_SURL_LANG."/order/submit"
+			
+			,'customer_payment_order_format'		=> HOME_URL_LANG."/payment/order_id"
 
 		));
 	}
@@ -110,6 +112,10 @@ function &get_links($just_common=FALSE)
 	return $LINKS;
 }
 
+function get_customer_payment_order_link($order_id,$do_not_set_lang=FALSE)
+{
+	return str_replace("order_id", $order_id, get_link("customer_payment_order_format",$do_not_set_lang));
+}
 
 function get_admin_product_category_details_link($category_id,$do_not_set_lang=FALSE)
 {

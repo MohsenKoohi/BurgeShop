@@ -139,7 +139,7 @@ class Cart_manager_model extends CI_Model
 	{
 		$this->save($order_id);
 
-		$this->empty_cart();
+		//$this->empty_cart();
 
 		return;
 	}

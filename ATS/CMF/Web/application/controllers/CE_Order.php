@@ -28,32 +28,18 @@ class CE_Order extends Burge_CMF_Controller {
 			return;
 		}
 
-		$this->order_manager_model->submit_order();
+		$order_id=$this->order_manager_model->submit_order();
 
-		exit();
+		set_message($this->lang->line("your_order_submitted_successfully"));
 
-
-		$cart=$this->cart_manager_model->get_cart($this->selected_lang);
-		$this->data['products']=$cart['products'];
-		$this->data['total_price']=$cart['total_price'];
-
-		$this->data['lang_pages']=get_lang_pages(get_link("customer_cart",TRUE));
+		redirect(get_customer_payment_order_link($order_id));
 		
-		$this->data['header_title']=$this->lang->line("cart").$this->lang->line("header_separator").$this->data['header_title'];
-		
-		$this->send_customer_output("cart");
-
 		return;
 	}
 
-	private function remove_item()
+	public function orders()
 	{
-		$index=(int)$this->input->post("item_index");
-
-		$this->cart_manager_model->remove_item($index);
-
-		set_message($this->lang->line("item_removed_successfully"));
-
-		return redirect(get_link('customer_cart'));
+		
+	
 	}
 }
