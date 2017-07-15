@@ -925,3 +925,17 @@ div.link-pagination {
     transition: background 0.3s; }
   div.link-pagination .ctag a {
     cursor: default; }
+
+img.remove-product {
+  max-width: 30px;
+  cursor: pointer; }
+
+.container.payment-methods img {
+  width: 32px;
+  vertical-align: middle;
+  margin: 0 20px; }
+.container.payment-methods .payment-method-name {
+  font-size: 1.2em; }
+
+.row.title-row {
+  font-size: 1.3em; }

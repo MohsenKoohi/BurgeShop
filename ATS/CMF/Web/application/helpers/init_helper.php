@@ -99,8 +99,10 @@ function &get_links($just_common=FALSE)
 			,'admin_cart'									=> ADMIN_SURL_LANG."/cart"
 			,'customer_cart'								=> HOME_SURL_LANG."/cart"
 
+			,'admin_order'								=> ADMIN_SURL_LANG."/order"
+			,'admin_order_details_format'			=> ADMIN_SURL_LANG."/order/details/order_id"
 			,'customer_order_submit'				=> HOME_SURL_LANG."/order/submit"
-			,'customer_orders'						=> HOME_SURL_LANG."/orders"
+			,'customer_order'							=> HOME_SURL_LANG."/order"
 			
 			,'customer_payment_order_format'		=> HOME_URL_LANG."/payment/pay/order_id"
 			,'customer_payment_method_format'	=> HOME_URL_LANG."/payment/pay/order_id/payment_method"
@@ -112,6 +114,12 @@ function &get_links($just_common=FALSE)
 		return $LINKS_COMMON;
 	
 	return $LINKS;
+}
+
+function get_admin_order_details_link($order_id, $do_not_set_lang=FALSE)
+{
+	$format_link=get_link("admin_order_details_format",$do_not_set_lang);
+	return str_replace("order_id", $order_id, $format_link);
 }
 
 function get_customer_payment_method_link($order_id,$payment_method,$do_not_set_lang=FALSE)

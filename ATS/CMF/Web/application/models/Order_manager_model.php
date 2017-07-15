@@ -107,28 +107,80 @@ class Order_manager_model extends CI_Model
 	public function get_orders($filter)
 	{
 		$this->db
-			->select("*")
-			->from($this->order_table_name);
+			->select("o.*,  customer_name, customer_email")
+			->from($this->order_table_name." o")
+			->join("customer","order_customer_id = customer_id","left");
 
 		$this->set_query_filters($filter);
 			
 		return $this->db
 			->get()
 			->result_array();
+
+	}
+
+	public function get_total_orders($filter)
+	{
+		$this->db
+			->select("COUNT(*) as count")
+			->from($this->order_table_name)
+			->join("customer","order_customer_id = customer_id","left");
+		
+		$this->set_query_filters($filter);
+
+		$row=$this->db
+			->get()
+			->row_array();
+
+		return $row['count'];
 	}
 
 	private function set_query_filters($filter)
 	{
 		if(isset($filter['order_id']))
-			$this->db->where("order_id",(int)$filter['order_id']);
-
-		if(isset($filter['customer_id']))
-			$this->db->where("order_customer_id",(int)$filter['customer_id']);
+		{
+			$ids=explode(" ",preg_replace("/\s+/"," ", $filter['order_id']));
+			if(sizeof($ids)>1)
+				$this->db->where_in("order_id",$ids);
+			else
+				$this->db->where("order_id",$filter['order_id']);
+		}
 
 		if(isset($filter['status']))
 			$this->db->where("order_status",$filter['status']);
 
+		if(isset($filter['start_date']))
+			$this->db->where("order_date >=",$filter['start_date']." 00:00:00");
+
+		if(isset($filter['end_date']))
+			$this->db->where("order_date <=",$filter['end_date']." 23:59:59");
+
+		if(isset($filter['customer_id']))
+			$this->db->where("order_customer_id",(int)$filter['customer_id']);
+
+		if(isset($filter['name']))
+			$this->db->where("customer_name LIKE '%".str_replace(' ', '%', $filter['name'])."%'");
+
+		if(isset($filter['email']))
+			$this->db->where("LOWER(customer_email) LIKE '%".str_replace(' ', '%', strtolower($filter['email']))."%'");
+
+		if(isset($filter['order_by']))
+			$this->db->order_by($filter['order_by']);
+
+		if(isset($filter['start']) && isset($filter['length']))
+			$this->db->limit((int)$filter['length'],(int)$filter['start']);
+
 		return;
+	}
+
+	private function get_orders_count()
+	{
+		$this->db->select("COUNT(*) as count");
+		$this->db->from($this->order_table_name);
+		$result=$this->db->get();
+
+		$row=$result->row_array();
+		return $row['count'];
 	}
 	
 }

@@ -24,4 +24,11 @@ $lang['customer_event_has_news']="اخبار جدید";
 $lang['customer_event_verification']="تایید";
 $lang['customer_event_has_message']="پیام";
 
+//BurgeShop
 $lang['currency']="ریال";
+$lang['order_status_submitted']='ثبت شده';
+$lang['order_status_payed']='پرداخت شده';
+$lang['order_status_verified']='تایید شده';
+$lang['order_status_processing']='در حال آماده سازی';
+$lang['order_status_completed']='کامل';
+$lang['order_status_canceled']='لغو';
