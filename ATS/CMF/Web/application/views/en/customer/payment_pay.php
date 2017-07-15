@@ -1,27 +1,23 @@
 <div class="main">
 
-	<div class="container cart">
+	<div class="container payment-methods">
 		<h1>{payment_of_order_text} {order_id} </h1>
 		<br>
-					<div class='row'>
-				<a href='<?php echo get_link('customer_order_submit');?>' class='three columns anti-float button button-primary'>{submit_order_text}</a>
+			
+		<h2>{total_text}: {order_total} {currency_text}</h2>
+		<br>
+
+		<?php foreach($payment_methods as $p){ ?>
+			<div class='row bg-even-odd '>
+				<div class='nine columns'>
+					<a href="<?php echo $p['link'];?>">
+						<img src="<?php echo $p['image'];?>"/>
+						<b class='payment-method-name'><?php echo $p['name'];?></b>
+					</a>
+				</div>
+
 			</div>
 
-			<?php echo form_open(get_link("customer_cart"),array("id"=>"remove-item")); ?>
-				<input type='hidden' name='post_type' value='remove_item'/>
-				<input type='hidden' name='item_index' value=''/>
-			<?php echo form_close();?>
-
-			<script type="text/javascript">
-				function removeItem(cartIndex)
-				{
-					$("form#remove-item input[name=item_index]").val(cartIndex);
-					$("form#remove-item").submit();
-
-					return;
-				}
-			</script>
-
-		
+		<?php } ?>
 	</div>
 </div>

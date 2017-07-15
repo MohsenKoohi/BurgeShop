@@ -4,6 +4,9 @@ class Payment_manager_model extends CI_Model
 {
 	private $payment_table_name="payment";
 	private $payment_history_table_name="payment_history";
+	private $payment_methods=array(
+		"bank_transfer"
+	);
 	
 	public function __construct()
 	{
@@ -100,8 +103,8 @@ class Payment_manager_model extends CI_Model
 		return;
 	}
 
-
-
-
-	
+	public function get_payment_methods()
+	{
+		return $this->payment_methods;
+	}	
 }

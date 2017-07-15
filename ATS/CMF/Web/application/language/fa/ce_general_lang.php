@@ -48,7 +48,9 @@ $lang['your_order_submitted_successfully']='سفارش شما با موفقیت 
 $lang['payment']='پرداخت';
 $lang['order']='سفارش';
 $lang['payment_of_order']='پرداخت سفارش';
-$lang['']='';
+
+$lang['payment_method_bank_transfer']='انتقال وجه بانکی';
+
 $lang['']='';
 $lang['']='';
 $lang['']='';

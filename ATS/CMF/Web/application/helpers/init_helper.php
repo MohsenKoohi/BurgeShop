@@ -102,6 +102,7 @@ function &get_links($just_common=FALSE)
 			,'customer_order_submit'				=> HOME_SURL_LANG."/order/submit"
 			
 			,'customer_payment_order_format'		=> HOME_URL_LANG."/payment/pay/order_id"
+			,'customer_payment_method_format'	=> HOME_URL_LANG."/payment/pay/order_id/payment_method"
 
 		));
 	}
@@ -110,6 +111,15 @@ function &get_links($just_common=FALSE)
 		return $LINKS_COMMON;
 	
 	return $LINKS;
+}
+
+function get_customer_payment_method_link($order_id,$payment_method,$do_not_set_lang=FALSE)
+{
+	return str_replace(
+		array("order_id","payment_method")
+		,array($order_id, $payment_method)
+		,get_link("customer_payment_method_format",$do_not_set_lang)
+	);
 }
 
 function get_customer_payment_order_link($order_id,$do_not_set_lang=FALSE)

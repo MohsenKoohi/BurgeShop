@@ -36,12 +36,34 @@ class CE_Payment extends Burge_CMF_Controller {
 		$this->data['order_id']=$order_id;
 
 		$this->data['message']=get_message();
-		$this->data['total']=$order['order_total'];
+		$this->data['order_total']=$order['order_total'];
+
+		$payment_methods=$this->payment_manager_model->get_payment_methods();
+		$payments=array();
+		foreach($payment_methods as $p)
+		{
+			$link=get_customer_payment_method_link($order_id, $p);
+			$name=$this->lang->line("payment_method_".$p);
+			$image_link="/payment/".$p.".png";
+			if(file_exists(IMAGES_DIR.$image_link))
+				$image=get_link("images_url").$image_link;
+			else
+				$image=get_link("images_url")."/null.png";
+
+			$payments[]=array(
+				"link"	=> $link
+				,"name"	=> $name
+				,"image"	=> $image
+			);
+		}
+		$this->data['payment_methods']=$payments;
+
 		$this->data['lang_pages']=get_lang_pages(get_customer_payment_order_link($order_id,TRUE));
 		$this->data['header_title']=
 			$this->lang->line("payment").$this->lang->line("header_separator")
 			.$this->lang->line("order")." ".$order_id.$this->lang->line("header_separator")
 			.$this->data['header_title'];
+
 		$this->send_customer_output("payment_pay");
 		
 		return;

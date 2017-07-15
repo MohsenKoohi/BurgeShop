@@ -48,6 +48,9 @@ $lang['your_order_submitted_successfully']='Your order submitted successfully.';
 $lang['payment']='Payment';
 $lang['order']='Order';
 $lang['payment_of_order']='Payment of Order';
+
+$lang['payment_method_bank_transfer']='Bank Transfer';
+
 $lang['']='';
 $lang['']='';
 $lang['']='';
