@@ -131,7 +131,8 @@ $route["cart"]								="CE_Cart";
 $route[ADMIN_URL_FOLDER."/order"]	="AE_Order";
 $route["order/submit"]					="CE_Order/submit";
 
-$route["payment/pay/(\d+)"]			="CE_Payment/pay/$1";
+$route["payment/pay/(\d+)"]							="CE_Payment/pay/$1";
+$route["payment/pay/(\d+)/bank_transfer"]			="payment/CE_Bank_Transfer/index/$1";
 
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";

@@ -7,17 +7,19 @@
 		<h2>{total_text}: {order_total} {currency_text}</h2>
 		<br>
 
-		<?php foreach($payment_methods as $p){ ?>
-			<div class='row bg-even-odd '>
-				<div class='nine columns'>
-					<a href="<?php echo $p['link'];?>">
-						<img src="<?php echo $p['image'];?>"/>
-						<b class='payment-method-name'><?php echo $p['name'];?></b>
-					</a>
+		<b>{please_select_the_payment_method_text}</b>
+		<br><br>
+		<div class='row'>
+			<?php foreach($payment_methods as $p){ ?>
+				<div class='row even-odd-bg '>
+					<div class='nine columns'>
+						<a href="<?php echo $p['link'];?>">
+							<img src="<?php echo $p['image'];?>"/>
+							<b class='payment-method-name'><?php echo $p['name'];?></b>
+						</a>
+					</div>
 				</div>
-
-			</div>
-
-		<?php } ?>
+			<?php } ?>
+		</div>
 	</div>
 </div>

@@ -26,6 +26,8 @@ $lang['not_found']="Not found";
 $lang['language']="Language";
 
 //BurgeShop
+$lang['payment_method_bank_transfer']='Bank Transfer';
+
 $lang['price']="Price";
 $lang['currency']="Rial";
 $lang['posts']="posts";
@@ -48,10 +50,18 @@ $lang['your_order_submitted_successfully']='Your order submitted successfully.';
 $lang['payment']='Payment';
 $lang['order']='Order';
 $lang['payment_of_order']='Payment of Order';
-
-$lang['payment_method_bank_transfer']='Bank Transfer';
-
-$lang['']='';
+$lang['please_select_the_payment_method']='Please select the payment method:';
+$lang['after_transferring_money_through_the_bank_submit_this_form']='After transferring money through the bank, please send us its info';
+$lang['bank_cart_number']='Cart number';
+$lang['bank_account_number']='Account number';
+$lang['bank_name']='Bank name';
+$lang['new_bank']='NWEBank';
+$lang['payer_name']='Payer name';
+$lang['payment_date']='Payment date';
+$lang['payment_bank']='Source bank name';
+$lang['reference_code']='Reference code';
+$lang['submit']='Submit';
+$lang['your_payment_info_saved_successfully_and_will_be_verified_soon']='Your payment info saved successfully and will be verified soon.';
 $lang['']='';
 $lang['']='';
 $lang['']='';

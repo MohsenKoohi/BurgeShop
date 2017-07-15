@@ -26,6 +26,9 @@ $lang['not_found']="پیدا نشد";
 $lang['language']="زبان";
 
 //BurgeShop
+
+$lang['payment_method_bank_transfer']='انتقال وجه بانکی';
+
 $lang['price']="قیمت";
 $lang['currency']="ریال";
 $lang['posts']="پست‌ها";
@@ -48,9 +51,26 @@ $lang['your_order_submitted_successfully']='سفارش شما با موفقیت 
 $lang['payment']='پرداخت';
 $lang['order']='سفارش';
 $lang['payment_of_order']='پرداخت سفارش';
-
-$lang['payment_method_bank_transfer']='انتقال وجه بانکی';
-
+$lang['please_select_the_payment_method']='لطفا روش پرداخت را انتخاب نمایید:';
+$lang['after_transferring_money_through_the_bank_submit_this_form']='بعد از انتقال وجه از طریق بانک، اطلاعات آن را برای ما بفرستید';
+$lang['bank_cart_number']='شماره کارت';
+$lang['bank_account_number']='شماره حساب';
+$lang['bank_name']='نام بانک';
+$lang['new_bank']='بانک سرزمین';
+$lang['payer_name']='نام پرداخت کننده';
+$lang['payment_date']='تاریخ پرداخت';
+$lang['payment_bank']='بانک مبدا';
+$lang['reference_code']='کد رهگیری';
+$lang['submit']='ثبت';
+$lang['your_payment_info_saved_successfully_and_will_be_verified_soon']='اطلاعات پرداخت شما با موفقیت ذخیره شد و به زودی مورد بررسی قرار می گیرد.';
+$lang['']='';
+$lang['']='';
+$lang['']='';
+$lang['']='';
+$lang['']='';
+$lang['']='';
+$lang['']='';
+$lang['']='';
 $lang['']='';
 $lang['']='';
 $lang['']='';

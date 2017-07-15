@@ -25,7 +25,7 @@ class Order_manager_model extends CI_Model
 				`order_id` INT AUTO_INCREMENT
 				,`order_customer_id` INT NOT NULL
 				,`order_date`	CHAR(19)
-				,`order_total` VARCHAR(63)
+				,`order_total` DOUBLE 
 				,`order_status` VARCHAR(63)
 				,PRIMARY KEY (order_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"

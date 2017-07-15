@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class CE_Payment extends Burge_CMF_Controller {
-	protected $hit_level=2;
+	protected $hit_level=1;
 
 	function __construct()
 	{
@@ -67,11 +67,5 @@ class CE_Payment extends Burge_CMF_Controller {
 		$this->send_customer_output("payment_pay");
 		
 		return;
-	}
-
-	public function orders()
-	{
-		
-	
 	}
 }

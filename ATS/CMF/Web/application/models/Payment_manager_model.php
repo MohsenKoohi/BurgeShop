@@ -22,6 +22,7 @@ class Payment_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $tbl_name (
 				`payment_id` INT AUTO_INCREMENT
 				,`payment_order_id` INT NOT NULL
+				,`payment_total` DOUBLE 
 				,`payment_method` VARCHAR(63)
 				,`payment_date`	CHAR(19)
 				,`payment_status` VARCHAR(63)
@@ -55,38 +56,35 @@ class Payment_manager_model extends CI_Model
 		return;
 	}
 	
-	public function submit_order()
+	public function add_payment($order_id, $total, $method)
 	{
-		$this->load->model(array(
-			"cart_manager_model"
-			,"customer_manager_model"
-		));
-		$cart=$this->cart_manager_model->get_cart($this->selected_lang);
-	
 		$props=array(
-			"order_customer_id"	=> $this->customer_manager_model->get_logged_customer_id()
-			,"order_date"			=> get_current_time()
-			,"order_total"			=> $cart['total_price']
+			"payment_order_id"	=> $order_id
+			,"payment_total"		=> $total
+			,"payment_method"		=> $method
+			,"payment_date"		=> get_current_time()
 		);
 
-		$this->db->insert($this->order_table_name,$props);
-		$order_id=$this->db->insert_id();
-		$props['order_id']=$order_id;
-		$this->log_manager_model->info("ORDER_SUBMIT",$props);	
+		$this->db->insert($this->payment_table_name,$props);
+		$payment_id=$this->db->insert_id();
+		$props['payment_id']=$payment_id;
+		$this->log_manager_model->info("PAYMENT_ADD",$props);	
 
-		$this->cart_manager_model->save_order_cart($order_id);
+		$this->add_history($payment_id,"start_payment");
 
-		$this->add_history($order_id,"submitted");
-
-		return $order_id;
+		return $payment_id;
 	}
 
-	public function add_history($payment_id, $status, $comment='')
+	public function add_history($payment_id, $status, $comment='',$reference_code='')
 	{
 		$this->db
-			->set("paytment_status", $status)
 			->where("payment_id", $payment_id)
-			->update($this->payment_table_name);
+			->set("payment_status", $status);
+		
+		if($reference_code)
+			$this->db->set("payment_reference",$reference_code);
+
+		$this->db->update($this->payment_table_name);
 
 		$props=array(
 			"ph_payment_id"	=> $payment_id
