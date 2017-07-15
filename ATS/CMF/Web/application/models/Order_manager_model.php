@@ -71,7 +71,6 @@ class Order_manager_model extends CI_Model
 				,"count"	=> $c['count']
 			);
 		$data['orders_count']=$order_counts;
-		$data['total_orders_text']=$CI->lang->line("total");
 		
 		$CI->load->library('parser');
 		$ret=$CI->parser->parse($CI->get_admin_view_file("order_dashboard"),$data,TRUE);
