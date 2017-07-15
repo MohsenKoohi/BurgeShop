@@ -14,14 +14,14 @@
 		<b>{after_transferring_money_through_the_bank_submit_this_form_text}:</b>
 
 		<br><br>
-		<?php echo form_open(""); ?>
+		<?php echo form_open("",array("onsubmit"=>"return checkForm();","id"=>"submit_form")); ?>
 			<input type='hidden' name='post_type' value='submit_payment'/>
 			<div class='row even-odd-bg'>
 				<div class="two columns">
 					{payer_name_text}:
 				</div>
 				<div class="six columns">
-					<input class='full-width'  name='name' />
+					<input class='full-width' type='text'  name='name' />
 				</div>
 			</div>
 
@@ -30,7 +30,7 @@
 					{payment_date_text}:
 				</div>
 				<div class="six columns">
-					<input class='full-width date'  name='date' />
+					<input class='full-width date' type='text' name='date' />
 				</div>
 			</div>
 
@@ -39,7 +39,7 @@
 					{payment_bank_text}:
 				</div>
 				<div class="six columns">
-					<input class='full-width'  name='bank' />
+					<input class='full-width' type='text'  name='bank' />
 				</div>
 			</div>
 
@@ -48,7 +48,7 @@
 					{reference_code_text}:
 				</div>
 				<div class="six columns">
-					<input class='full-width date'  name='reference_code' />
+					<input class='full-width date' type='text' name='reference_code' />
 				</div>
 			</div>
 
@@ -58,6 +58,22 @@
 				<input type='submit' class='three columns anti-float button button-primary' value='{submit_text}'/>
 			</div>
 
+			<script type="text/javascript">
+				function checkForm()
+				{
+					var ret=true;
+					$("input[type=text]",$("#submit_form")).each(function(index,el)
+					{
+						if(!$(el).val())
+							ret=false;
+					});
+
+					if(!ret)
+						alert("{please_fill_all_fields_text}");
+
+					return ret;
+				}
+			</script>
 		<?php echo form_close(); ?>
 	</div>
 </div>

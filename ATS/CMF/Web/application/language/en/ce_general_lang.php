@@ -62,6 +62,7 @@ $lang['payment_bank']='Source bank name';
 $lang['reference_code']='Reference code';
 $lang['submit']='Submit';
 $lang['your_payment_info_saved_successfully_and_will_be_verified_soon']='Your payment info saved successfully and will be verified soon.';
+$lang['please_fill_all_fields']='Please fill all fields.';
 $lang['']='';
 $lang['']='';
 $lang['']='';
