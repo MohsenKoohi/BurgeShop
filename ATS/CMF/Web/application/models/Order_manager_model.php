@@ -55,7 +55,41 @@ class Order_manager_model extends CI_Model
 	{
 		return;
 	}
-	
+
+	public function get_dashboard_info()
+	{
+		$CI=& get_instance();
+		$lang=$CI->language->get();
+		$CI->lang->load('ae_general',$lang);		
+		
+		$data=array();
+		$counts=$this->get_orders_count();
+		$order_counts=array();
+		foreach($counts as $c)
+			$order_counts[]=array(
+				"name"	=> $CI->lang->line("order_status_".$c['order_status'])
+				,"count"	=> $c['count']
+			);
+		$data['orders_count']=$order_counts;
+		$data['total_orders_text']=$CI->lang->line("total");
+		
+		$CI->load->library('parser');
+		$ret=$CI->parser->parse($CI->get_admin_view_file("order_dashboard"),$data,TRUE);
+		
+		return $ret;		
+	}
+
+
+	private function get_orders_count()
+	{
+		return $this->db
+			->select("order_status, COUNT(*) as count")
+			->from($this->order_table_name)
+			->group_by("order_status")
+			->get()
+			->result_array();
+	}
+
 	public function submit_order()
 	{
 		$this->load->model(array(
@@ -171,16 +205,5 @@ class Order_manager_model extends CI_Model
 			$this->db->limit((int)$filter['length'],(int)$filter['start']);
 
 		return;
-	}
-
-	private function get_orders_count()
-	{
-		$this->db->select("COUNT(*) as count");
-		$this->db->from($this->order_table_name);
-		$result=$this->db->get();
-
-		$row=$result->row_array();
-		return $row['count'];
-	}
-	
+	}	
 }

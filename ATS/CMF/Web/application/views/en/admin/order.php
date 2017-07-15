@@ -143,52 +143,51 @@
 				</div>
 			</div>
 			
-		<?php $i=$start; foreach($orders_info as $order) {?>
-			<div class="row even-odd-bg" >
-				<div class="one columns align-center">
-					<!--<label>#<?php echo $i++;?></label>-->
-					<span class="counter"><?php echo $order['order_id'];?></span>
-				</div>
-				<div class="three columns">
-					<span >
-						<a href="<?php echo get_admin_customer_details_link($order['order_customer_id']);?>" target="_blank">
-							<?php 
-								echo $order['customer_name']."<br>";
-								if($order['customer_name'] !== $order['customer_email']) 
-									echo $order['customer_email'];
-							?>
-						</a>
-					</span>
-				</div>
-				<div class="two columns align-center">
-					<span class='date'><?php echo $order['order_date'];?></span>
-				</div>
-				<div class="two columns align-left">
-					<span><?php echo price_separator($order['order_total'])." ".$currency_text;?></span>
-				</div>
-				<div class='two columns align-center'>
-					<span><?php echo ${'order_status_'.$order['order_status'].'_text'};?></span>
-				</div>
-				<div class="two columns align-center">
-					<span>
-						<a target="_blank" 
-							href="<?php echo get_admin_order_details_link($order['order_id']); ?>"
-							class="button button-primary sub-primary full-width"
-						>
-							{view_text}
-						</a>
-						<?php if(0){?>
-							<a class="one column">&nbsp;</a>
-							<a class="button button-delete sub-primary five columns" 
-								onclick="deleteOrder(<?php echo $order['order_id'].','.$order['order_customer_id'];?>);"
-							>
-								{delete_text}
+			<?php $i=$start; foreach($orders_info as $order) {?>
+				<div class="row even-odd-bg" >
+					<div class="one columns align-center">
+						<span class="counter"><?php echo $order['order_id'];?></span>
+					</div>
+					<div class="three columns">
+						<span >
+							<a href="<?php echo get_admin_customer_details_link($order['order_customer_id']);?>" target="_blank">
+								<?php 
+									echo $order['customer_name']."<br>";
+									if($order['customer_name'] !== $order['customer_email']) 
+										echo $order['customer_email'];
+								?>
 							</a>
-						<?php } ?>
-					</span>
+						</span>
+					</div>
+					<div class="two columns align-center">
+						<span class='date'><?php echo $order['order_date'];?></span>
+					</div>
+					<div class="two columns align-left">
+						<span><?php echo price_separator($order['order_total'])." ".$currency_text;?></span>
+					</div>
+					<div class='two columns align-center'>
+						<span><?php echo ${'order_status_'.$order['order_status'].'_text'};?></span>
+					</div>
+					<div class="two columns align-center">
+						<span>
+							<a target="_blank" 
+								href="<?php echo get_admin_order_details_link($order['order_id']); ?>"
+								class="button button-primary sub-primary full-width"
+							>
+								{view_text}
+							</a>
+							<?php if(0){?>
+								<a class="one column">&nbsp;</a>
+								<a class="button button-delete sub-primary five columns" 
+									onclick="deleteOrder(<?php echo $order['order_id'].','.$order['order_customer_id'];?>);"
+								>
+									{delete_text}
+								</a>
+							<?php } ?>
+						</span>
+					</div>
 				</div>
-			</div>
-		<?php } ?>
+			<?php } ?>
 			<div style="display:none">
 				<?php echo form_open(get_link("admin_order"),array("class"=>"delete")); ?>
 					<input type="hidden" name="post_type" value="delete_order"/>

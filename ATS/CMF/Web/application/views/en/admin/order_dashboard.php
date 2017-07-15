@@ -1,3 +1,6 @@
 <ul class="dash-ul" style="padding:10px">
-	<li>{total_text}: {orders_count}</li>
+	<?php 
+		foreach($orders_count as $o)
+			echo "<li>".$o['name'].": ".$o['count']."</li>";
+	?>
 </ul>

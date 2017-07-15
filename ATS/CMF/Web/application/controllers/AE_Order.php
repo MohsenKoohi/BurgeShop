@@ -57,7 +57,7 @@ class AE_Order extends Burge_CMF_Controller {
 		
 		$this->data['filter']=$filter;
 		
-		$items_per_page=20;
+		$items_per_page=10;
 		$page=1;
 		if($this->input->get("page"))
 			$page=(int)$this->input->get("page");
