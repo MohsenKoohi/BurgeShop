@@ -35,3 +35,11 @@ $lang['order_status_completed']='Completed';
 $lang['order_status_canceled']='Canceled';
 
 $lang['payment_method_bank_transfer']='Bank transfer';
+
+$lang['payment_status_start_payment']='Start payment';
+$lang['payment_status_end_payment']='End payment';
+
+$lang['payment_comment_date']="Transfer date";
+$lang['payment_comment_name']="Name";
+$lang['payment_comment_bank']="Bank";
+$lang['payment_comment_reference_code']="Reference code";
