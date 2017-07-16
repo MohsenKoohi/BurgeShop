@@ -69,12 +69,7 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 			,"reference_code"		=> $this->input->post("reference_code")
 		);
 
-		$comment='';
-		foreach($props as $pi => &$pv)
-		{
-			persian_normalize($pv);
-			$comment.="$pi: $pv\n";
-		}
+		$comment=$props;
 
 		$this->payment_manager_model->add_history($payment_id, 'end_payment', $comment, $props['reference_code']);
 		

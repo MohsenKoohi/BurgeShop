@@ -26,9 +26,20 @@ $lang['customer_event_has_message']="پیام";
 
 //BurgeShop
 $lang['currency']="ریال";
+
 $lang['order_status_submitted']='ثبت شده';
 $lang['order_status_payed']='پرداخت شده';
 $lang['order_status_verified']='تایید شده';
 $lang['order_status_processing']='در حال آماده سازی';
 $lang['order_status_completed']='کامل';
 $lang['order_status_canceled']='لغو';
+
+$lang['payment_method_bank_transfer']='انتقال وجه بانکی';
+
+$lang['payment_status_start_payment']='شروع پرداخت';
+$lang['payment_status_end_payment']='پایان پرداخت';
+
+$lang['payment_comment_date']="تاریخ واریز";
+$lang['payment_comment_name']="نام واریز کننده";
+$lang['payment_comment_bank']="بانک مرجع";
+$lang['payment_comment_reference_code']="کد رهگیری";

@@ -109,6 +109,58 @@
 			</div>
 
 			<div class="tab" id="payment" style="">
+				<?php foreach($payments_info as $p){ ?>
+					<div class='row even-odd-bg'>
+						<div class='three columns'>
+							<label>{payment_method_text}</label>
+							<span><?php echo ${"payment_method_".$p['method']."_text"};?></span>
+							<small>(<?php echo $p['id'];?>)</small>
+						</div>
+
+						<div class='three columns'>
+							<label>{date_text}</label>
+							<span class='date'><?php echo $p['date'];?></span>
+						</div>
+
+						<div class='three columns'>
+							<label>{status_text}</label>
+							<span><?php echo ${'payment_status_'.$p['status'].'_text'};?></span>
+						</div>
+
+						<div class='three columns'>
+							<label>{reference_code_text}</label>
+							<span class='date'><?php echo $p['reference'];?></span>
+						</div>
+
+						<?php foreach($p['history'] as $h){ ?>
+							<div class='row separated'>
+								<div class='three columns'>
+									<label>{date_text}</label>
+									<span class='date' title='<?php echo $h['id'];?>'>
+										<?php echo $h['date'];?>
+									</span>
+								</div>
+
+								<div class='three columns'>
+									<label>{status_text}</label>
+									<span><?php echo ${'payment_status_'.$h['status'].'_text'};?></span>
+								</div>
+
+								<div class='six columns'>
+									<label>{comment_text}</label>
+									<span class=''>
+										<?php 
+											if($h['comment'])
+												foreach($h['comment'] as $index => $value)
+													echo ${'payment_comment_'.$index."_text"}.": ".$value."<br>";
+										?>
+									</span>
+								</div>
+							</div>
+						<?php } ?>
+						
+					</div>
+				<?php } ?>
 			</div>
 
 			<div class="tab" id="status" style="">

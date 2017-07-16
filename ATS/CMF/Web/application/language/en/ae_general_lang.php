@@ -26,9 +26,12 @@ $lang['customer_event_has_message']="Has Message";
 
 //BurgeShop
 $lang['currency']="Rial";
+
 $lang['order_status_submitted']='Submitted';
 $lang['order_status_payed']='Payed';
 $lang['order_status_verified']='Verified';
 $lang['order_status_processing']='Processing';
 $lang['order_status_completed']='Completed';
 $lang['order_status_canceled']='Canceled';
+
+$lang['payment_method_bank_transfer']='Bank transfer';

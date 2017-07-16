@@ -136,7 +136,6 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
 		
 		$this->data['payments_info']=$this->payment_manager_model->get_order_payments($order_id);
-		bprint_r($this->data['payments_info']);exit();
 
 		$this->data['lang_pages']=get_lang_pages(get_admin_order_details_link($order_id,TRUE));
 		$this->data['header_title']=$this->lang->line("order_details")." ".$order_id;

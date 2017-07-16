@@ -126,7 +126,7 @@ class Order_manager_model extends CI_Model
 			"oh_order_id"	=> $order_id
 			,"oh_status"	=> $status
 			,"oh_date"		=> get_current_time()
-			,"oh_comment"	=> $comment
+			,"oh_comment"	=> trim(preg_replace('/[\\r\\n]+/', "\n", $comment))
 		);
 		$this->db->insert($this->order_history_table_name,$props);
 		$oh_id=$this->db->insert_id();
