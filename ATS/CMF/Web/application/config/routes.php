@@ -129,7 +129,7 @@ $route["pcategory-(\d+)/([^\/]+)/([^\/]*)/(\d+)"]		="CE_Product_Category/index/$
 $route["cart"]								= "CE_Cart";
 
 $route[ADMIN_URL_FOLDER."/order"]						= "AE_Order";
-$route[ADMIN_URL_FOLDER."/order/details/(\d+)"]		= "AE_Order/details/$1";
+$route[ADMIN_URL_FOLDER."/order/(\d+)"]				= "AE_Order/details/$1";
 $route["order/submit"]										= "CE_Order/submit";
 $route["order"]												= "CE_Order/orders_list";
 

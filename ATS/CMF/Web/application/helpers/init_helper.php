@@ -100,7 +100,7 @@ function &get_links($just_common=FALSE)
 			,'customer_cart'								=> HOME_SURL_LANG."/cart"
 
 			,'admin_order'								=> ADMIN_SURL_LANG."/order"
-			,'admin_order_details_format'			=> ADMIN_SURL_LANG."/order/details/order_id"
+			,'admin_order_details_format'			=> ADMIN_SURL_LANG."/order/order_id"
 			,'customer_order_submit'				=> HOME_SURL_LANG."/order/submit"
 			,'customer_order'							=> HOME_SURL_LANG."/order"
 			

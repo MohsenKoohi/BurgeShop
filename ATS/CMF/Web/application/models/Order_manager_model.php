@@ -149,7 +149,6 @@ class Order_manager_model extends CI_Model
 		return $this->db
 			->get()
 			->result_array();
-
 	}
 
 	public function get_total_orders($filter)

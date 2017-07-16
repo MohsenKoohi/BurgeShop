@@ -135,6 +135,45 @@ class Cart_manager_model extends CI_Model
 		return;
 	}
 
+	public function get_order_cart($order_id, $lang_id)
+	{
+		$result=$this->db
+			->select("cp.*, cpo.*, pc_title")
+			->from($this->cart_product_table_name." cp")
+			->join($this->cart_product_option_table_name." cpo", "cp_id = cpo_cp_id" ,"LEFT")
+			->join("product_content pc", "cp_product_id = pc_product_id" ,"LEFT")
+			->where("cp_order_id", $order_id)
+			->where("pc_lang_id", $lang_id)
+			->order_by("cp_id ASC, cpo_id ASC")
+			->get()
+			->result_array();
+
+		$products=array();
+		$last_item=NULL;
+		$last_cp_id=0;
+		foreach($result as $r)
+		{
+			if($r['cp_id'] != $last_cp_id)
+			{
+				$last_cp_id=$r['cp_id'];
+				$products[]=array(
+					'product_id'	=> $r['cp_product_id']
+					,'name'			=> $r['pc_title']
+					,'quantity'		=> $r['cp_quantity']
+					,'price'			=> $r['cp_price']
+					,'options'		=> array()
+				);
+			}
+
+			$products[sizeof($products)-1]['options'][]=array(
+				'type'		=> $r['cpo_type']
+				,'value'		=> $r['cpo_value']
+			);
+		}
+
+		return $products;
+	}
+
 	public function save_order_cart($order_id)
 	{
 		$this->save($order_id);
@@ -267,6 +306,5 @@ class Cart_manager_model extends CI_Model
 		}
 
 		return $cart;
-	}
-	
+	}	
 }

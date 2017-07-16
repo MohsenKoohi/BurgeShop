@@ -9,6 +9,7 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->load->model(array(
 			"order_manager_model"
 			,"customer_manager_model"
+			,"cart_manager_model"
 		));
 
 		$this->lang->load('ae_order',$this->selected_lang);
@@ -119,8 +120,12 @@ class AE_Order extends Burge_CMF_Controller {
 
 	public function details($order_id)
 	{
-		$this->data['order_info']=$this->order_manager_model->get_order_info($order_id,$this->selected_lang);
-	
+		$this->data['order_id']=$order_id;
+		$orders_info=$this->order_manager_model->get_orders(array("order_id"=>$order_id));
+		$this->data['order_info']=$orders_info[0];
+
+		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
+
 		$this->data['lang_pages']=get_lang_pages(get_admin_order_details_link($order_id,TRUE));
 		$this->data['header_title']=$this->lang->line("order_details")." ".$order_id;
 		

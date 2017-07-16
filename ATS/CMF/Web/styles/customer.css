@@ -944,3 +944,6 @@ img.remove-product {
 
 .row.title-row {
   font-size: 1.3em; }
+  .row.title-row div {
+    font-weight: bold;
+    text-align: center; }
