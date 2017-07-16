@@ -31,11 +31,12 @@
 			</div>
 		</div>
 
+		<br><br>
 		<div class="tab-container">
 			<ul class="tabs">
 				<li><a href="#products">{products_text}</a></li>
-				<li><a href="#payments">{payments_text}</a></li>
-				<li><a href="#history">{history_text}</a></li>
+				<li><a href="#payment">{payment_text}</a></li>
+				<li><a href="#status">{status_text}</a></li>
 			</ul>
 			<script type="text/javascript">
 				$(function(){
@@ -78,15 +79,39 @@
 
 				<?php foreach($cart_info as $p){ ?>
 					<div class='row even-odd-bg'>
-						
+						<div class='four columns'>
+							<a href="<?php echo get_admin_product_details_link($p['product_id']);?>">
+								<b><?php echo $p['name'];?></b>
+								<br>
+								<ul class='dash-ul'>
+									<?php 
+										foreach($p['options'] as $o)
+										{
+											$type=$o['type'];
+											$value=$o['value'];
+											echo "<li>$type: $value</li>";
+										} 
+									?>
+								</ul>
+							</a>
+						</div>
+						<div class='two columns align-center'>
+							<?php echo $p['quantity'];?>
+						</div>
+						<div class='three columns align-center'>
+							<?php echo price_separator($p['price']);?>
+						</div>
+						<div class='three columns align-center'>
+							<?php echo price_separator($p['quantity']*$p['price']);?>
+						</div>
 					</div>
 				<?php } ?>
 			</div>
 
-			<div class="tab" id="payments" style="">
+			<div class="tab" id="payment" style="">
 			</div>
 
-			<div class="tab" id="history" style="">
+			<div class="tab" id="status" style="">
 			</div>
 		</div>
 								

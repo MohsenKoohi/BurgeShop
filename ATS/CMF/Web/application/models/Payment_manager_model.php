@@ -55,6 +55,17 @@ class Payment_manager_model extends CI_Model
 	{
 		return;
 	}
+
+	public function get_order_payments($order_id)
+	{
+		return $this->db
+			->select("*")
+			->from($this->payment_table_name)
+			->join($this->payment_history_table_name,"payment_id = ph_payment_id","LEFT")
+			->where("payment_order_id", $order_id)
+			->get()
+			->result_array();
+	}
 	
 	public function add_payment($order_id, $total, $method)
 	{
