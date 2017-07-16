@@ -9,6 +9,9 @@ class Order_manager_model extends CI_Model
 {
 	private $order_table_name="order";
 	private $order_history_table_name="order_history";
+	private $order_statuses=array(
+		"submitted","payed","verified","processing","completed","canceled"
+	);
 	
 	public function __construct()
 	{
@@ -54,6 +57,11 @@ class Order_manager_model extends CI_Model
 	public function uninstall()
 	{
 		return;
+	}
+
+	public function get_order_statuses()
+	{
+		return $this->order_statuses;
 	}
 
 	public function get_dashboard_info()
@@ -135,6 +143,17 @@ class Order_manager_model extends CI_Model
 		$this->log_manager_model->info("ORDER_ADD_HISTORY",$props);	
 
 		return;
+	}
+
+	public function get_order_history($order_id)
+	{
+		return $this->db
+			->select("*")
+			->from($this->order_history_table_name)
+			->where("oh_order_id",$order_id)
+			->order_by("oh_id DESC")
+			->get()
+			->result_array();
 	}
 
 	public function get_orders($filter)

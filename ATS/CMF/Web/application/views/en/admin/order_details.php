@@ -109,29 +109,38 @@
 			</div>
 
 			<div class="tab" id="payment" style="">
+
 				<?php foreach($payments_info as $p){ ?>
 					<div class='row even-odd-bg'>
-						<div class='three columns'>
-							<label>{payment_method_text}</label>
-							<span><?php echo ${"payment_method_".$p['method']."_text"};?></span>
-							<small>(<?php echo $p['id'];?>)</small>
+						<div class='row'>
+							<div class='three columns'>
+								<label>{payment_method_text}</label>
+								<span><?php echo ${"payment_method_".$p['method']."_text"};?></span>
+							</div>
+
+							<div class='two columns'>
+								<label>{payment_id_text}</label>
+								<span><?php echo $p['id'];?></span>
+							</div>
+
+							<div class='two columns'>
+								<label>{date_text}</label>
+								<span class='date'><?php echo $p['date'];?></span>
+							</div>
+
+							<div class='two columns'>
+								<label>{status_text}</label>
+								<span><?php echo ${'payment_status_'.$p['status'].'_text'};?></span>
+							</div>
+
+							<div class='three columns'>
+								<label>{reference_code_text}</label>
+								<span class='date'><?php echo $p['reference'];?></span>
+							</div>
 						</div>
 
-						<div class='three columns'>
-							<label>{date_text}</label>
-							<span class='date'><?php echo $p['date'];?></span>
-						</div>
-
-						<div class='three columns'>
-							<label>{status_text}</label>
-							<span><?php echo ${'payment_status_'.$p['status'].'_text'};?></span>
-						</div>
-
-						<div class='three columns'>
-							<label>{reference_code_text}</label>
-							<span class='date'><?php echo $p['reference'];?></span>
-						</div>
-
+						<br><br>
+						<b style='font-size:1.2em'>{history_text}</b>
 						<?php foreach($p['history'] as $h){ ?>
 							<div class='row separated'>
 								<div class='three columns'>
@@ -158,12 +167,80 @@
 								</div>
 							</div>
 						<?php } ?>
-						
 					</div>
 				<?php } ?>
 			</div>
 
 			<div class="tab" id="status" style="">
+				<div class='row separated'>
+					<h4>{history_text}</h4>
+					<?php foreach($order_history as $h){ ?>
+						<div class='row even-odd-bg'>
+							<div class='two columns'>
+								<label>{status_text}</label>
+								<span><?php echo ${"order_status_".$h['oh_status']."_text"};?></span>
+							</div>
+
+							<div class='two columns'>
+								<label>{date_text}</label>
+								<span class='date'><?php echo $h['oh_date'];?></span>
+							</div>
+
+							<div class='eight columns'>
+								<label>{comment_text}</label>
+								<span><?php echo nl2br($h['oh_comment']);?></span>
+							</div>
+						</div>
+					<?php } ?>
+				</div>
+
+				<div class='row separated'>
+					<h4>{submit_status_text}</h4>
+					<?php echo form_open('',array('onsubmit'=>'return statusFormSubmitted()','id'=> 'status-from'));?>
+						<input type='hidden' name='post_type' value='submit_status'/>
+						<div class='row even-odd-bg'>
+							<div class='three columns'>
+								<span>{status_text}</span>
+							</div>
+							<div class='six columns'>
+								<select name='status' class='full-width'>
+									<option value=''>&nbsp;</option>
+									<?php 
+										foreach($order_statuses as $s)
+											echo "<option value='$s'>".${"order_status_".$s."_text"}."</option>";
+									?>
+								</select>
+							</div>
+						</div>
+
+						<div class='row even-odd-bg'>
+							<div class='three columns'>
+								<span>{comment_text}</span>
+							</div>
+							<div class='nine columns'>
+								<textarea name='comment' class='full-width' rows='5'></textarea>
+							</div>
+						</div>
+
+						<br><br>
+						<div class='row'>
+							<input type='submit' value='{submit_text}' class='anti-float two columns button button-primary'/>
+						</div>
+					<?php echo form_close();?>
+
+					<script type="text/javascript">
+						function statusFormSubmitted()
+						{
+							if(!$('#status-from select').val())
+							{
+								alert("{please_select_the_new_status_text}");
+								return false;
+							}
+
+							return true;
+						}
+					</script>
+				</div>
 			</div>
 		</div>
 								

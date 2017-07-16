@@ -131,16 +131,37 @@ class AE_Order extends Burge_CMF_Controller {
 		if(!$orders_info)
 			return redirect(get_link('admin_order'));
 
+		if($this->input->post("post_type") == 'submit_status')
+			return $this->submit_status($order_id);
+
 		$this->data['order_info']=$orders_info[0];
 
 		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
 		
 		$this->data['payments_info']=$this->payment_manager_model->get_order_payments($order_id);
 
+		$this->data['order_history']=$this->order_manager_model->get_order_history($order_id);
+		$this->data['order_statuses']=$this->order_manager_model->get_order_statuses();
+
+		$this->data['message']=get_message();
 		$this->data['lang_pages']=get_lang_pages(get_admin_order_details_link($order_id,TRUE));
 		$this->data['header_title']=$this->lang->line("order_details")." ".$order_id;
 		
 		$this->send_admin_output("order_details");
+
+		return;
+	}
+
+	private function submit_status($order_id)
+	{
+		$new_status=$this->input->post("status");
+		$comment=preg_replace("/[\\n\\r]+/", "\n", $this->input->post("comment"));
+
+		$this->order_manager_model->add_history($order_id, $new_status, $comment);
+
+		set_message($this->lang->line("new_status_submitted_successfully"));
+
+		redirect(get_admin_order_details_link($order_id)."#status");
 
 		return;
 	}

@@ -41,5 +41,5 @@ $lang['payment_status_end_payment']='پایان پرداخت';
 
 $lang['payment_comment_date']="تاریخ واریز";
 $lang['payment_comment_name']="نام واریز کننده";
-$lang['payment_comment_bank']="بانک مرجع";
+$lang['payment_comment_bank']="بانک مبدا";
 $lang['payment_comment_reference_code']="کد رهگیری";
