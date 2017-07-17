@@ -147,11 +147,11 @@
 				{
 		?>
 			<div class="row even-odd-bg" >
-				<div class="one columns">
+				<div class="three columns">
 					<label>{payment_id_text}</label>
-					<span class="counter"><?php echo $p['payment_id'];?></span>
+					<span class=''><?php echo $p['payment_id'];?></span>
 				</div>
-				<div class="one columns">
+				<div class="three columns">
 					<label>{order_id_text}</label>
 					<span class=""><?php echo $p['payment_order_id'];?></span>
 				</div>
@@ -163,7 +163,6 @@
 					<label>{method_text}</label>
 					<span class='date'><?php echo ${'payment_method_'.$p['payment_method'].'_text'};?></span>
 				</div>
-				
 				<div class="two columns">
 					<label>{customer_name_text}</label>
 					<span >
@@ -175,17 +174,24 @@
 							?>
 						</a>
 					</span>
-				</div>
-				
-				<div class="two columns">
+				</div>				
+				<div class="three columns">
 					<label>{total_text}</label>
 					<span><?php echo price_separator($p['payment_total'])." ".$currency_text;?></span>
 				</div>
-				<div class='one columns'>
+				<div class='three columns'>
 					<label>{status_text}</label>
-					<span><?php echo ${'payment_status_'.$p['payment_status'].'_text'};?></span>
+					<span>
+						<?php echo ${'payment_status_'.$p['payment_status'].'_text'};?>
+					</span>
 				</div>
-				<div class="one columns align-center">
+				<div class='three columns'>
+					<label>{reference_code_text}</label>
+					<span>
+						<?php echo $p['payment_reference'];?>
+					</span>
+				</div>
+				<div class="three columns align-center">
 					<span>
 						<label>&nbsp;</label>
 						<a target="_blank" 
