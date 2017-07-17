@@ -191,7 +191,11 @@
 						<?php echo $p['payment_reference'];?>
 					</span>
 				</div>
-				<div class="three columns align-center">
+
+				<div class="one columns">
+					<label></label>
+				</div>
+				<div class="two columns">
 					<span>
 						<label>&nbsp;</label>
 						<a target="_blank" 
