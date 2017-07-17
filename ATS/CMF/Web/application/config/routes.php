@@ -132,6 +132,7 @@ $route[ADMIN_URL_FOLDER."/order"]				= "AE_Order";
 $route[ADMIN_URL_FOLDER."/order/(\d+)"]		= "AE_Order/details/$1";
 $route["order/submit"]								= "CE_Order/submit";
 $route["order"]										= "CE_Order/orders_list";
+$route["order/(\d+)"]								= "CE_Order/details/$1";
 
 $route[ADMIN_URL_FOLDER."/payment"]				= "AE_Payment";
 $route["payment/pay/(\d+)"]						= "CE_Payment/pay/$1";

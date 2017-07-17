@@ -103,6 +103,7 @@ function &get_links($just_common=FALSE)
 			,'admin_order_details_format'			=> ADMIN_SURL_LANG."/order/order_id"
 			,'customer_order_submit'				=> HOME_SURL_LANG."/order/submit"
 			,'customer_order'							=> HOME_SURL_LANG."/order"
+			,'customer_order_details_format'		=> HOME_SURL_LANG."/order/order_id"
 			
 			,'admin_payment'							=> ADMIN_SURL_LANG."/payment"
 			,'customer_payment_order_format'		=> HOME_URL_LANG."/payment/pay/order_id"
@@ -115,6 +116,12 @@ function &get_links($just_common=FALSE)
 		return $LINKS_COMMON;
 	
 	return $LINKS;
+}
+
+function get_customer_order_details_link($order_id, $do_not_set_lang=FALSE)
+{
+	$format_link=get_link("customer_order_details_format",$do_not_set_lang);
+	return str_replace("order_id", $order_id, $format_link);
 }
 
 function get_admin_order_details_link($order_id, $do_not_set_lang=FALSE)
