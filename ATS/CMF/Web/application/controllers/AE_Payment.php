@@ -21,6 +21,7 @@ class AE_Payment extends Burge_CMF_Controller {
 
 		$this->data['message']=get_message();
 
+		$this->data['payment_methods']=$this->payment_manager_model->get_payment_methods();
 		$this->data['raw_page_url']=get_link("admin_payment");
 		$this->data['lang_pages']=get_lang_pages(get_link("admin_payment",TRUE));
 		$this->data['header_title']=$this->lang->line("payments");
@@ -36,7 +37,7 @@ class AE_Payment extends Burge_CMF_Controller {
 		
 		$this->data['filter']=$filter;
 		
-		$items_per_page=10;
+		$items_per_page=20;
 		$page=1;
 		if($this->input->get("page"))
 			$page=(int)$this->input->get("page");

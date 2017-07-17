@@ -6,26 +6,44 @@
 				<link type="text/css" rel="stylesheet" href="{styles_url}/persian-datepicker-default.css" />
 				<script type="text/javascript" src="{scripts_url}/persian-datepicker.js"></script>
 
-				<div class="three columns">
+				<div class="three columns ">
+					<label>{payment_id_text}</label>
+					<input type="text" name="payment_id" class="full-width ltr" />
+				</div>
+
+				<div class="three columns half-col-margin">
 					<label>{order_number_text}</label>
 					<input type="text" name="order_id" class="full-width ltr" />
 				</div>
+
 				<div class="three columns half-col-margin">
+					<label>{payment_method_text}</label>
+					<select type="text" name="method" class="full-width">
+						<option value=''>&nbsp;</option>
+						<?php 
+							foreach($payment_methods as $p)
+							{
+								$name=${'payment_method_'.$p.'_text'};
+								echo "<option value='$p'>$name</option>";
+							}
+						?>
+					</select>
+				</div>
+
+				<div class="three columns">
 					<label>{start_date_text}</label>
 					<input type="text" name="start_date" class="date full-width ltr" />
 				</div>
+
 				<div class="three columns half-col-margin">
 					<label>{end_date_text}</label>
 					<input type="text" name="end_date" class="date full-width ltr" />
 				</div>
-				<div class="three columns ">
-					<label>{name_text}</label>
+
+				<div class="three columns half-col-margin ">
+					<label>{customer_name_text}</label>
 					<input type="text" name="name" class="full-width" />
-				</div>
-				<div class="three columns half-col-margin">
-					<label>{email_text}</label>
-					<input type="text" name="email" class="full-width" />
-				</div>				
+				</div>			
 			</div>
 			<div clas="row">
 				<div class="two columns results-search-again">
@@ -123,7 +141,11 @@
 		</div>	
 			
 		<br><br>
-		<?php $i=$start; foreach($payments_info as $p) {?>
+		<?php 
+			if($total)
+				foreach($payments_info as $p)
+				{
+		?>
 			<div class="row even-odd-bg" >
 				<div class="one columns">
 					<label>{payment_id_text}</label>
@@ -175,6 +197,8 @@
 					</span>
 				</div>
 			</div>
-		<?php } ?>
+		<?php
+				 } 
+		?>
 	</div>
 </div>
