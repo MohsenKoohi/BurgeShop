@@ -104,6 +104,7 @@ function &get_links($just_common=FALSE)
 			,'customer_order_submit'				=> HOME_SURL_LANG."/order/submit"
 			,'customer_order'							=> HOME_SURL_LANG."/order"
 			
+			,'admin_payment'							=> ADMIN_SURL_LANG."/payment"
 			,'customer_payment_order_format'		=> HOME_URL_LANG."/payment/pay/order_id"
 			,'customer_payment_method_format'	=> HOME_URL_LANG."/payment/pay/order_id/payment_method"
 

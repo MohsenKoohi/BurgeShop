@@ -114,28 +114,28 @@ $route['message']																= "CE_Message/message";
 $route['message/(\d+)']														= "CE_Message/details/$1";
 $route['message/send/(\d+)']												= "CE_Message/c2c/$1";
 
-$route[ADMIN_URL_FOLDER."/product"]					="AE_Product";
-$route[ADMIN_URL_FOLDER."/product/(\d+)"]			="AE_Product/details/$1";
-$route["product-(\d+)/?"]								="CE_Product/index/$1";
-$route["product-(\d+)/([^\/]*)/?"]					="CE_Product/index/$1/$2";
+$route[ADMIN_URL_FOLDER."/product"]					= "AE_Product";
+$route[ADMIN_URL_FOLDER."/product/(\d+)"]			= "AE_Product/details/$1";
+$route["product-(\d+)/?"]								= "CE_Product/index/$1";
+$route["product-(\d+)/([^\/]*)/?"]					= "CE_Product/index/$1/$2";
 
-$route[ADMIN_URL_FOLDER."/product_category"]						="AE_Product_Category";
-$route[ADMIN_URL_FOLDER."/product_category/organize"]			="AE_Product_Category/organize";
-$route[ADMIN_URL_FOLDER."/product_category/(\d+)"]				="AE_Product_Category/details/$1";
-$route["pcategory-(\d+)/([^\/]+)/?"]						="CE_Product_Category/index/$1/$2";
-$route["pcategory-(\d+)/([^\/]+)/([^\/]*)/?"]			="CE_Product_Category/index/$1/$2/$3";
-$route["pcategory-(\d+)/([^\/]+)/([^\/]*)/(\d+)"]		="CE_Product_Category/index/$1/$2/$3/$4";
+$route[ADMIN_URL_FOLDER."/product_category"]					= "AE_Product_Category";
+$route[ADMIN_URL_FOLDER."/product_category/organize"]		= "AE_Product_Category/organize";
+$route[ADMIN_URL_FOLDER."/product_category/(\d+)"]			= "AE_Product_Category/details/$1";
+$route["pcategory-(\d+)/([^\/]+)/?"]							= "CE_Product_Category/index/$1/$2";
+$route["pcategory-(\d+)/([^\/]+)/([^\/]*)/?"]				= "CE_Product_Category/index/$1/$2/$3";
+$route["pcategory-(\d+)/([^\/]+)/([^\/]*)/(\d+)"]			= "CE_Product_Category/index/$1/$2/$3/$4";
 
 $route["cart"]								= "CE_Cart";
 
-$route[ADMIN_URL_FOLDER."/order"]						= "AE_Order";
-$route[ADMIN_URL_FOLDER."/order/(\d+)"]				= "AE_Order/details/$1";
-$route["order/submit"]										= "CE_Order/submit";
-$route["order"]												= "CE_Order/orders_list";
+$route[ADMIN_URL_FOLDER."/order"]				= "AE_Order";
+$route[ADMIN_URL_FOLDER."/order/(\d+)"]		= "AE_Order/details/$1";
+$route["order/submit"]								= "CE_Order/submit";
+$route["order"]										= "CE_Order/orders_list";
 
-
-$route["payment/pay/(\d+)"]							="CE_Payment/pay/$1";
-$route["payment/pay/(\d+)/bank_transfer"]			="payment/CE_Bank_Transfer/index/$1";
+$route[ADMIN_URL_FOLDER."/payment"]				= "AE_Payment";
+$route["payment/pay/(\d+)"]						= "CE_Payment/pay/$1";
+$route["payment/pay/(\d+)/bank_transfer"]		= "payment/CE_Bank_Transfer/index/$1";
 
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";

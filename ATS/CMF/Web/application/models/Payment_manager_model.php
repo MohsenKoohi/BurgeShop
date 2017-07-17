@@ -148,4 +148,81 @@ class Payment_manager_model extends CI_Model
 
 		return;
 	}
+
+	public function get_payments($filter)
+	{
+		$this->db
+			->select("o.*,  customer_id, customer_name, customer_email")
+			->from($this->payment_table_name." o")
+			->join("order","payment_order_id = order_id","left")
+			->join("customer","order_customer_id = customer_id","left");
+
+		$this->set_query_filters($filter);
+			
+		return $this->db
+			->get()
+			->result_array();
+	}
+
+	public function get_total_payments($filter)
+	{
+		$this->db
+			->select("COUNT(*) as count")
+			->from($this->payment_table_name)
+			->join("order","payment_order_id = order_id","left")
+			->join("customer","order_customer_id = customer_id","left");
+
+		
+		$this->set_query_filters($filter);
+
+		$row=$this->db
+			->get()
+			->row_array();
+
+		return $row['count'];
+	}
+
+	private function set_query_filters($filter)
+	{
+		if(isset($filter['payment_id']))
+		{
+			$ids=explode(" ",preg_replace("/\s+/"," ", $filter['payment_id']));
+			if(sizeof($ids)>1)
+				$this->db->where_in("payment_id",$ids);
+			else
+				$this->db->where("payment_id",$filter['payment_id']);
+		}
+
+		if(isset($filter['order_id']))
+		{
+			$ids=explode(" ",preg_replace("/\s+/"," ", $filter['order_id']));
+			if(sizeof($ids)>1)
+				$this->db->where_in("payment_order_id",$ids);
+			else
+				$this->db->where("payment_order_id",$filter['order_id']);
+		}
+
+		if(isset($filter['method']))
+			$this->db->where("payment_method",$filter['method']);
+
+		if(isset($filter['start_date']))
+			$this->db->where("payment_date >=",$filter['start_date']." 00:00:00");
+
+		if(isset($filter['end_date']))
+			$this->db->where("payment_date <=",$filter['end_date']." 23:59:59");
+
+		if(isset($filter['customer_id']))
+			$this->db->where("order_customer_id",(int)$filter['customer_id']);
+
+		if(isset($filter['name']))
+			$this->db->where("customer_name LIKE '%".str_replace(' ', '%', $filter['name'])."%'");
+
+		if(isset($filter['order_by']))
+			$this->db->order_by($filter['order_by']);
+
+		if(isset($filter['start']) && isset($filter['length']))
+			$this->db->limit((int)$filter['length'],(int)$filter['start']);
+
+		return;
+	}	
 }
