@@ -320,7 +320,7 @@ class Product_category_manager_model extends CI_Model
 			->get()
 			->result_array();
 
-		if($lang_id)
+		if($result && $lang_id)
 			return $result[0];
 
 		return $result;
