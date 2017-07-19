@@ -301,13 +301,17 @@ class Product_category_manager_model extends CI_Model
 	}
 	
 
-	public function get_info($category_id,$lang_id=NULL)
+	public function get_info($category_id_name,$lang_id=NULL)
 	{
 		$this->db
 			->select("*")
 			->from($this->product_category_table_name)
-			->join($this->product_category_description_table_name,"pc_id = pcd_category_id","LEFT")
-			->where("pc_id",(int)$category_id);
+			->join($this->product_category_description_table_name,"pc_id = pcd_category_id","LEFT");
+
+		if(is_numeric($category_id_name))
+			$this->db->where("pc_id",(int)$category_id_name);
+		else
+			$this->db->where("pcd_name",$category_id_name);
 
 		if($lang_id)
 			$this->db->where("pcd_lang_id",$lang_id);
