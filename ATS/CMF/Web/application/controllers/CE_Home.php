@@ -54,7 +54,7 @@ class CE_Home extends Burge_CMF_Controller {
 				{
 					foreach($product_info['pc_gallery']['images'] as $img)
 						break;
-					$product_info['pc_image']=get_link("post_gallery_url").'/'.$img['image'];
+					$product_info['pc_image']=get_link("product_gallery_url").'/'.$img['image'];
 				}
 		}
 
