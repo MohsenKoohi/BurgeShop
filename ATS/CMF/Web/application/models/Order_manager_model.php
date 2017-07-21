@@ -114,13 +114,15 @@ class Order_manager_model extends CI_Model
 
 		$this->db->insert($this->order_table_name,$props);
 		$order_id=$this->db->insert_id();
+		
 		$props['order_id']=$order_id;
+
 		$this->log_manager_model->info("ORDER_SUBMIT",$props);	
+		$this->customer_manager_model->add_customer_log($customer_id,'ORDER_SUBMIT',$props);
 
 		$this->cart_manager_model->save_order_cart($order_id);
 
 		$this->add_history($order_id,"submitted");
-		$this->customer_manager_model->add_customer_log($customer_id,'ORDER_SUBMIT',$props);
 
 		return $order_id;
 	}
@@ -144,14 +146,24 @@ class Order_manager_model extends CI_Model
 
 		$this->log_manager_model->info("ORDER_ADD_HISTORY",$props);	
 
-		$order=$this->db->get_where($this->order_table_name,array("order_id"=> $order_id))->row_array();
-		if($order)
-		{
-			$customer_id=$order['order_customer_id'];
-			$this->customer_manager_model->add_customer_log($customer_id,'ORDER_ADD_HISTORY',$props);
-		}
+		$customer_id=$this->get_customer_of_order($order_id);
+		$this->customer_manager_model->add_customer_log($customer_id,'ORDER_ADD_HISTORY',$props);
 
 		return;
+	}
+
+	private function get_customer_of_order($order_id)
+	{
+		$order=$this->db
+			->from($this->order_table_name)
+			->where("order_id", $order_id)
+			->get()
+			->row_array();
+
+		if($order)
+			return $order['order_customer_id'];
+
+		return 0;
 	}
 
 	public function get_order_history($order_id)

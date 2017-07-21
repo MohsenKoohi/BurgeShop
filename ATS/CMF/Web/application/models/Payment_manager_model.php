@@ -113,8 +113,14 @@ class Payment_manager_model extends CI_Model
 
 		$this->db->insert($this->payment_table_name,$props);
 		$payment_id=$this->db->insert_id();
+
 		$props['payment_id']=$payment_id;
+		
 		$this->log_manager_model->info("PAYMENT_ADD",$props);	
+
+		$this->load->model("customer_manager_model");
+		$customer_id= $this->get_customer_of_payment($payment_id);
+		$this->customer_manager_model->add_customer_log($customer_id,'PAYMENT_ADD',$props);
 
 		$this->add_history($payment_id,"start_payment");
 
@@ -134,19 +140,44 @@ class Payment_manager_model extends CI_Model
 		$this->db->update($this->payment_table_name);
 
 		$props=array(
-			"ph_payment_id"	=> $payment_id
-			,"ph_status"		=> $status
-			,"ph_date"			=> get_current_time()
-			,"ph_comment"		=> json_encode($comment)
+			"ph_payment_id"		=> $payment_id
+			,"ph_status"			=> $status
+			,"ph_date"				=> get_current_time()
+			,"ph_comment"			=> json_encode($comment)
 		);
 
 		$this->db->insert($this->payment_history_table_name,$props);
+		
 		$oh_id=$this->db->insert_id();
 		$props['ph_id']=$oh_id;
-
+		if(!is_string($comment))
+		{
+			unset($props['ph_comment']);
+			foreach($comment as $index => $value)
+				$props['ph_comment_'.$index]=$value;
+		}
+		$props['reference_code']=$reference_code;
 		$this->log_manager_model->info("PAYMENT_ADD_HISTORY",$props);	
 
+		$this->load->model("customer_manager_model");
+		$customer_id= $this->get_customer_of_payment($payment_id);
+		$this->customer_manager_model->add_customer_log($customer_id, 'PAYMENT_ADD_HISTORY', $props);
+
 		return;
+	}
+
+	private function get_customer_of_payment($payment_id)
+	{
+		$payment=$this->db
+			->from($this->payment_table_name)
+			->join("order","payment_order_id = order_id","LEFT")
+			->where("payment_id", $payment_id)
+			->get()
+			->row_array();
+			
+		if($payment)
+			return $payment['order_customer_id'];
+
 	}
 
 	public function get_payments($filter)
