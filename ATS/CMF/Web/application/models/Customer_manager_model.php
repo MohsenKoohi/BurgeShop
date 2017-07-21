@@ -49,6 +49,13 @@ class Customer_manager_model extends CI_Model
 
 		,"MESSAGE_ADD"							=>1132
 		,"MESSAGE_THREAD_ADD"				=>1133
+
+		//BurgeShop
+		,"ORDER_SUBMIT"			=> 2081
+		,"ORDER_ADD_HISTORY"		=> 2082
+
+		,"PAYMENT_ADD"				=>2101
+		,"PAYMENT_ADD_HISTORY"	=>2102
 	);
 	
 	public function __construct()

@@ -104,9 +104,10 @@ class Order_manager_model extends CI_Model
 			,"customer_manager_model"
 		));
 		$cart=$this->cart_manager_model->get_cart($this->selected_lang);
-	
+		
+		$customer_id = $this->customer_manager_model->get_logged_customer_id();
 		$props=array(
-			"order_customer_id"	=> $this->customer_manager_model->get_logged_customer_id()
+			"order_customer_id"	=> $customer_id
 			,"order_date"			=> get_current_time()
 			,"order_total"			=> $cart['total_price']
 		);
@@ -119,6 +120,7 @@ class Order_manager_model extends CI_Model
 		$this->cart_manager_model->save_order_cart($order_id);
 
 		$this->add_history($order_id,"submitted");
+		$this->customer_manager_model->add_customer_log($customer_id,'ORDER_SUBMIT',$props);
 
 		return $order_id;
 	}
