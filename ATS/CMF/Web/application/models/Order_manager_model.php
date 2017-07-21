@@ -144,6 +144,13 @@ class Order_manager_model extends CI_Model
 
 		$this->log_manager_model->info("ORDER_ADD_HISTORY",$props);	
 
+		$order=$this->db->get_where($this->order_table_name,array("order_id"=> $order_id))->row_array();
+		if($order)
+		{
+			$customer_id=$order['order_customer_id'];
+			$this->customer_manager_model->add_customer_log($customer_id,'ORDER_ADD_HISTORY',$props);
+		}
+
 		return;
 	}
 
