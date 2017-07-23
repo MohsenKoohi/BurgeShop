@@ -27,7 +27,15 @@
 			</div>
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{status_text}</div>
-				<div class="eight columns"><?php echo ${'order_status_'.$order_info['order_status']."_text"}	; ?></span></div>
+				<div class="eight columns">
+					<?php 
+						$status_name='order_status_'.$order_info['order_status'].'_text';
+						if(isset($$status_name))
+							echo $$status_name;
+						else
+							echo $order_info['order_status'];
+					?>
+				</div>
 			</div>
 		</div>
 
