@@ -166,7 +166,15 @@
 						<span><?php echo price_separator($order['order_total'])." ".$currency_text;?></span>
 					</div>
 					<div class='two columns align-center'>
-						<span><?php echo ${'order_status_'.$order['order_status'].'_text'};?></span>
+						<span>
+							<?php 
+								$status_name='order_status_'.$order['order_status'].'_text';
+								if(isset($$status_name))
+									echo $$status_name;
+								else
+									echo $order['order_status'];
+							?>
+						</span>
 					</div>
 					<div class="two columns align-center">
 						<span>
