@@ -53,7 +53,15 @@
 					</div>
 					<div class='three columns'>
 						<label>{status_text}</label>
-						<span><?php echo ${'order_status_'.$order['order_status'].'_text'};?></span>
+						<span>
+							<?php 
+								$status_name='order_status_'.$order['order_status'].'_text';
+								if(isset($$status_name))
+									echo $$status_name;
+								else
+									echo $order['order_status'];
+							?>
+						</span>
 					</div>
 					<div class="two columns align-center">
 						<label>&nbsp;</label>					
