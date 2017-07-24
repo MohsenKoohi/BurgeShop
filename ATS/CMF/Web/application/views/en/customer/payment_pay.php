@@ -4,7 +4,7 @@
 		<h1>{payment_of_order_text} {order_id} </h1>
 		<br>
 			
-		<h2>{total_text}: {order_total} {currency_text}</h2>
+		<h2>{total_text}: <?php echo price_separator($order_total);?> {currency_text}</h2>
 		<br>
 
 		<b>{please_select_the_payment_method_text}</b>
