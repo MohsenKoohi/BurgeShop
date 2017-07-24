@@ -9,9 +9,7 @@
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{name_text}</div>
 				<div class="eight columns">
-					<a href="<?php echo get_admin_customer_details_link($order_info['order_customer_id']);?>" >
-						<?php echo $order_info['customer_name']; ?>
-					</a>
+					<?php echo $order_info['customer_name']; ?>
 				</div>
 			</div>
 			<div class="row even-odd-bg dont-magnify" >
