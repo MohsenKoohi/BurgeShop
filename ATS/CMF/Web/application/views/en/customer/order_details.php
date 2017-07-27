@@ -1,7 +1,7 @@
 <div class="main">
-	<div class="container">
+	<div class="container cart">
 		<h1>{order_details_text} <?php echo $order_id;?></h1>
-		<div class='row'>
+		<div class='row order-details'>
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{order_number_text}</div>
 				<div class="eight columns"><?php echo $order_id; ?></div>
@@ -50,21 +50,17 @@
 		</div>
 
 		<br><br>
-				
-		<div class='row title-row even-odd-bg'>
-			<div class='four columns'>{product_name_text}</div>
-			<div class='two columns'>{quantity_text}</div>
-			<div class='three columns'>{unit_price_text}</div>
-			<div class='three columns'>{total_price_text}</div>
-		</div>
 
 		<?php foreach($cart_info as $p){ ?>
-			<div class='row even-odd-bg'>
-				<div class='four columns'>
-					<a href="<?php echo get_customer_product_details_link($p['product_id'],$p['name']);?>"
-						target='_blank'
-					>
-						<b><?php echo $p['name'];?></b>
+			<div class='row even-odd-bg item-row'>
+				<div class='four columns product'>
+					<label>{product_text}</label>
+					<span class='align-right'>
+						<a href="<?php echo get_customer_product_details_link($p['product_id'],$p['name']);?>"
+							target='_blank'
+						>
+							<b><?php echo $p['name'];?></b>
+						</a>
 						<br>
 						<ul class='dash-ul'>
 							<?php 
@@ -72,24 +68,38 @@
 								{
 									$type=$o['type'];
 									$value=$o['value'];
-									echo "<li>$type: $value</li>";
+									$ttype='product_option_'.$type.'_text';
+									if(isset($$ttype))
+										$ttype=$$ttype;
+									else
+										$ttype=$type;									
+
+									if($type!='file')
+										echo "<li>".$ttype.": <span>".$value."</span></li>";
+									else
+									{
+										$link=get_order_item_file_url($value);
+										echo "<li>".$ttype.": <span><a target='_blank' href='$link'>{download_text}</a></span></li>";	
+									}
 								} 
 							?>
 						</ul>
-					</a>
+					</span>
 				</div>
-				<div class='two columns align-center'>
-					<?php echo $p['quantity'];?>
+				<div class='two columns'>
+					<label>{quantity_text}</label>
+					<span><?php echo $p['quantity'];?></span>
 				</div>
-				<div class='three columns align-center'>
-					<?php echo price_separator($p['price']);?>
+				<div class='three columns'>
+					<label>{unit_price_text}</label>
+					<span><?php echo price_separator($p['price']);?></span>
 				</div>
-				<div class='three columns align-center'>
-					<?php echo price_separator($p['quantity']*$p['price']);?>
+				<div class='three columns'>
+					<label>{total_price_text}</label>
+					<span><?php echo price_separator($p['quantity']*$p['price']);?></span>
 				</div>
 			</div>
 		<?php } ?>
-			
 								
 			
 	</div>
