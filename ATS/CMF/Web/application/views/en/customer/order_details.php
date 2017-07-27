@@ -32,6 +32,18 @@
 							echo $$status_name;
 						else
 							echo $order_info['order_status'];
+
+						if(isset($payment_link))
+						{
+					?>
+							<a target="_blank" 
+								href="<?php echo $payment_link; ?>"
+								class="button button-primary sub-primary four columns anti-float "
+							>
+								{pay_text}
+							</a>
+					<?php 
+						}
 					?>
 				</div>
 			</div>
