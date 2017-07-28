@@ -212,10 +212,14 @@
 							</div>
 							<div class='six columns'>
 								<select name='status' class='full-width'>
-									<option value=''>&nbsp;</option>
 									<?php 
 										foreach($order_statuses as $s)
-											echo "<option value='$s'>".${"order_status_".$s."_text"}."</option>";
+										{
+											$sel='';
+											if($s == $order_info['order_status'])
+												$sel='selected';
+											echo "<option value='$s' $sel >".${"order_status_".$s."_text"}."</option>";
+										}
 									?>
 								</select>
 							</div>
