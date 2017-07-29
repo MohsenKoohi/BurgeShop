@@ -181,7 +181,7 @@ class Order_manager_model extends CI_Model
 			->from($this->order_history_table_name. "oh")
 			->join("user","user_id = oh_user_id ","LEFT")
 			->where("oh_order_id",$order_id)
-			->order_by("oh_id DESC")
+			->order_by("oh_id ASC")
 			->get()
 			->result_array();
 	}
