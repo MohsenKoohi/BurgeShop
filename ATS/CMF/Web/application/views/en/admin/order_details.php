@@ -194,7 +194,17 @@
 								<span class='date'><?php echo $h['oh_date'];?></span>
 							</div>
 
-							<div class='eight columns'>
+							<div class='two columns'>
+								<label>{user_text}</label>
+								<span class=''>
+									<?php 
+										if($h['oh_user_id'])
+											echo $h['user_name']." (".$h['user_code'].")";
+									?>
+								</span>
+							</div>
+
+							<div class='six columns'>
 								<label>{comment_text}</label>
 								<span><?php echo nl2br($h['oh_comment']);?></span>
 							</div>

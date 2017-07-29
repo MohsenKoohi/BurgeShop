@@ -41,6 +41,7 @@ class Order_manager_model extends CI_Model
 				,`oh_order_id` INT NOT NULL
 				,`oh_date`	CHAR(19)
 				,`oh_status` VARCHAR(63)
+				,`oh_user_id` INT DEFAULT 0
 				,`oh_comment` VARCHAR(511) NOT NULL
 				,PRIMARY KEY (oh_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
@@ -134,10 +135,17 @@ class Order_manager_model extends CI_Model
 			->where("order_id", $order_id)
 			->update($this->order_table_name);
 
+		$user_info=$this->user_manager_model->get_user_info();
+		if($user_info)
+			$user_id=$user_info->get_id();
+		else
+			$user_id=0;
+
 		$props=array(
 			"oh_order_id"	=> $order_id
 			,"oh_status"	=> $status
 			,"oh_date"		=> get_current_time()
+			,"oh_user_id"	=> $user_id
 			,"oh_comment"	=> trim(preg_replace('/[\\r\\n]+/', "\n", $comment))
 		);
 		$this->db->insert($this->order_history_table_name,$props);
@@ -169,8 +177,9 @@ class Order_manager_model extends CI_Model
 	public function get_order_history($order_id)
 	{
 		return $this->db
-			->select("*")
-			->from($this->order_history_table_name)
+			->select("oh.* , user_name, user_code")
+			->from($this->order_history_table_name. "oh")
+			->join("user","user_id = oh_user_id ","LEFT")
 			->where("oh_order_id",$order_id)
 			->order_by("oh_id DESC")
 			->get()
