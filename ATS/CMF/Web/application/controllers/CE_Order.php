@@ -133,7 +133,7 @@ class CE_Order extends Burge_CMF_Controller {
 		));
 
 		if(!$orders_info)
-			return redirect(get_link('admin_order'));
+			return redirect(get_link('customer_order'));
 
 		$this->data['order_id']=$order_id;
 		$order_info=$orders_info[0];
