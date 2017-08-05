@@ -165,10 +165,11 @@ class Cart_manager_model extends CI_Model
 				);
 			}
 
-			$products[sizeof($products)-1]['options'][]=array(
-				'type'		=> $r['cpo_type']
-				,'value'		=> $r['cpo_value']
-			);
+			if($r['cpo_type'])
+				$products[sizeof($products)-1]['options'][]=array(
+					'type'		=> $r['cpo_type']
+					,'value'		=> $r['cpo_value']
+				);
 		}
 
 		return $products;
