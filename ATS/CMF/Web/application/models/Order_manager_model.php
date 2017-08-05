@@ -135,6 +135,7 @@ class Order_manager_model extends CI_Model
 			->where("order_id", $order_id)
 			->update($this->order_table_name);
 
+		$this->load->model("user_manager_model");
 		$user_info=$this->user_manager_model->get_user_info();
 		if($user_info)
 			$user_id=$user_info->get_id();
