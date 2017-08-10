@@ -172,8 +172,9 @@ class AE_Product extends Burge_CMF_Controller {
 		foreach($props as $p)
 		{
 			$gallery=$p['pc_gallery']['images'];
-			foreach($gallery as $i)
-				unlink(get_product_gallery_image_path($i['image']));
+			if($gallery)
+				foreach($gallery as $i)
+					unlink(get_product_gallery_image_path($i['image']));
 		}
 		
 		$this->product_manager_model->delete_product($product_id);
