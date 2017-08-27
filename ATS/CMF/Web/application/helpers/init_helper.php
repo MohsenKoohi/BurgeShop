@@ -25,7 +25,7 @@ function &get_links($just_common=FALSE)
 		);
 
 		$LINKS=array_merge($LINKS_COMMON, array(
-			'admin_url'					=> ADMIN_URL_LANG
+			'admin_url'					=> ADMIN_SURL_LANG
 			,'admin_surl'				=> ADMIN_SURL_LANG
 			,'admin_no_access'		=>	HOME_URL_LANG
 			,'admin_login'				=> ADMIN_SURL_LANG."/login"
@@ -57,7 +57,7 @@ function &get_links($just_common=FALSE)
 			,'admin_contact_us_send_new'						=> ADMIN_SURL_LANG."/contact_us/send_new"
 			,'admin_contact_us_message_details_format'	=> ADMIN_SURL_LANG."/contact_us/message_id"
 
-			,'customer_contact_us'								=> HOME_URL_LANG."/contact_us"
+			,'customer_contact_us'								=> HOME_SURL_LANG."/contact_us"
 
 			,'admin_footer_link'									=> ADMIN_SURL_LANG."/footer_link"
 
