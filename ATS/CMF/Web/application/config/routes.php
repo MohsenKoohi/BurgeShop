@@ -55,7 +55,10 @@ $route[ADMIN_URL_FOLDER."/change_pass"]		="AE_Change_Pass";
 $route[ADMIN_URL_FOLDER."/logout"]				="AE_Logout";
 $route[ADMIN_URL_FOLDER."/access"]				="AE_Access/index/0";
 $route[ADMIN_URL_FOLDER."/access/(\-?\d+)"]	="AE_Access/index/$1";
+
 $route[ADMIN_URL_FOLDER."/module"]				="AE_Module";
+//$route["bcron_1388"]									="CE_Module/cron";
+
 $route[ADMIN_URL_FOLDER."/hit_counter"]		="AE_Hit_Counter";
 $route[ADMIN_URL_FOLDER."/log"]					="AE_Log";
 $route[ADMIN_URL_FOLDER."/constant"]			="AE_Constant";
@@ -116,6 +119,8 @@ $route['message']																= "CE_Message/message";
 $route['message/(\d+)']														= "CE_Message/details/$1";
 $route['message/send/(\d+)']												= "CE_Message/c2c/$1";
 
+$route[ADMIN_URL_FOLDER."/es"]			= "AE_Es/index";
+
 $route[ADMIN_URL_FOLDER."/product"]					= "AE_Product";
 $route[ADMIN_URL_FOLDER."/product/(\d+)"]			= "AE_Product/details/$1";
 $route["product-(\d+)/?"]								= "CE_Product/index/$1";
@@ -139,7 +144,6 @@ $route["order/(\d+)"]								= "CE_Order/details/$1";
 $route[ADMIN_URL_FOLDER."/payment"]				= "AE_Payment";
 $route["payment/pay/(\d+)"]						= "CE_Payment/pay/$1";
 $route["payment/pay/(\d+)/bank_transfer"]		= "payment/CE_Bank_Transfer/index/$1";
-
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 

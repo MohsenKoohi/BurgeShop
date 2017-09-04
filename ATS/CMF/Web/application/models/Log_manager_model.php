@@ -29,6 +29,8 @@ class Log_manager_model extends CI_Model
 		,"MODULE_ADD"				=>53
 		,"MODULE_ADD_NAME"		=>54
 		,"MODULE_RESORT"			=>55
+		,"MODULE_CRON_UPDATE"	=>56
+		,"MODULE_CRON_EXECUTE"	=>57
 
 		,"ACCESS_SET"				=>81
 		,"ACCESS_UNSET"			=>82
@@ -43,7 +45,6 @@ class Log_manager_model extends CI_Model
 		,"USER_GROUP_ADD"				=>107
 		,"USER_GROUP_DELETE"			=>108
 		,"USER_GROUP_CHANGE_PROPS"	=>109
-		
 
 		,"CONSTANT_SET"			=>131
 		,"CONSTANT_UNSET"			=>132		
@@ -95,6 +96,10 @@ class Log_manager_model extends CI_Model
 		,"MESSAGE_THREAD_VERIFY"		=>1134
 		,"MESSAGE_SET_PROPS"				=>1135
 		,"MESSAGE_SET_PARTICIPANTS"	=>1136
+
+		,"ES_ADD"		=> 1171
+		,"ES_UPDATE"	=> 1172
+		,"ES_CRON"		=> 1173
 
 		//BurgeShop
 		,"PRODUCT_ADD"					=> 2001

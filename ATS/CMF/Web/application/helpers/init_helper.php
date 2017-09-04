@@ -90,6 +90,8 @@ function &get_links($just_common=FALSE)
 			,'customer_message_c2d'						=> HOME_SURL_LANG."/contact_us"
 			,'customer_message_c2c_format'			=> HOME_SURL_LANG."/message/send/customer_id"
 
+			,'admin_es'					=> ADMIN_SURL_LANG."/es"
+			
 			,'admin_product'									=> ADMIN_SURL_LANG."/product"
 			,'admin_product_details_format'				=> ADMIN_SURL_LANG."/product/product_id"
 			,'customer_product_details_format'			=> HOME_URL_LANG."/product-product_id/product_name"
@@ -1207,7 +1209,25 @@ function burge_cmf_send_mail($receiver,$subject,$message)
 	$CI->email->subject($subject);
 	$CI->email->message($message);
 
-	$CI->email->send();
+	$result=$CI->email->send();
 
-	return;
+	return $result;
+}
+
+function burge_cmf_send_sms($receiver, $content)
+{
+	$url="";
+
+	$url=str_replace(
+		array("TO","CONTENT")
+		,array($receiver, utf8_encode($content))
+		,$url
+	);
+
+	if($url)
+		$result=file_get_contents($url);
+	else
+		$result=0;
+
+	return $result;
 }

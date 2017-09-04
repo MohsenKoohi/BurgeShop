@@ -115,6 +115,8 @@ class AE_Setup extends CI_Controller {
 
 		$this->module_manager_model->install_module("message_manager");
 
+		$this->module_manager_model->install_module("es_manager");
+		
 		//BurgeShop
 		$this->module_manager_model->install_module("product_manager");
 
