@@ -168,8 +168,6 @@ class AE_Order extends Burge_CMF_Controller {
 		if($this->input->post("sms_status")=="on")
 			$this->order_manager_model->sms_status($order_id);
 
-		exit();
-
 		set_message($this->lang->line("new_status_submitted_successfully"));
 
 		redirect(get_admin_order_details_link($order_id)."#status");
