@@ -51,3 +51,6 @@ $lang['email_invoice']="ارسال ایمیل فاکتور";
 $lang['email_status']="ارسال ایمیل تغییر وضعیت";
 $lang['sms_status']="ارسال پیامک تغییر وضعیت";
 $lang['invoice']="فاکتور";
+$lang['order_status_changed']='سلام.<br>وضعیت سفارش شما به STATUS تغییر یافت.<br>برای مشاهده اطلاعات بیشتر به حساب کاربر خود مراجعه کنید.';
+$lang['order_status_changed_sms']='وضعیت سفارش ID به STATUS تغییر یافت';
+$lang['order']='سفارش';

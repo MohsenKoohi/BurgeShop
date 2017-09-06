@@ -93,6 +93,17 @@ class Order_manager_model extends CI_Model
 
 		if($type == 'order')
 			return $this->get_order_invoice($id);
+
+		if($type == 'order_status')
+			return $this->get_email_status($id);
+	}
+
+	public function get_sms_content($customer_id, $keyword)
+	{
+		list($type,$id)=explode("=", $keyword);
+
+		if($type == 'order_sms')
+			return $this->get_sms_status($id);
 	}
 
 	public function email_invoice($order_id)
@@ -102,12 +113,14 @@ class Order_manager_model extends CI_Model
 			return;
 		$order=$orders[0];
 
-		list($subject, $content)=$this->get_order_ivoice($order_id, $order);
+		list($subject, $content)=$this->get_order_invoice($order_id, $order);
 
 		$customer_id=$order['order_customer_id'];
 		$this->load->model("customer_manager_model");
 		$customer_info=$this->customer_manager_model->get_customer_info($customer_id);
 		$email=$customer_info['customer_email'];
+		if(!$email)
+			return;
 
 		$this->load->model("es_manager_model");
 		$this->es_manager_model->send_email_now($customer_id, "order", "order=$order_id", $email, $subject, $content);
@@ -123,7 +136,7 @@ class Order_manager_model extends CI_Model
 		return;
 	}
 
-	private function get_order_ivoice($order_id, $order=NULL)
+	private function get_order_invoice($order_id, $order=NULL)
 	{
 		if(!$order)
 		{
@@ -133,16 +146,18 @@ class Order_manager_model extends CI_Model
 			$order=$orders[0];
 		}
 
-		$this->load->model("cart_manager_model");
+		$CI=& get_instance();
+
+		$CI->load->model("cart_manager_model");
 		$data=array();
 		$data['order_id']=$order_id;
 		$data['order_info']=$order;
-		$data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
+		$data['cart_info']=$CI->cart_manager_model->get_order_cart($order_id, $CI->selected_lang);
 		$data['styles_url']=get_link("styles_url");
-		$CI=& get_instance();
-		$this->lang->load('ae_order',$this->selected_lang);
-		$this->lang->load('ae_general',$this->selected_lang);
-		$this->load->library('parser');
+		
+		$CI->lang->load('ae_order',$CI->selected_lang);
+		$CI->lang->load('ae_general',$CI->selected_lang);
+		$CI->load->library('parser');
 		$words=array(
 			"order_number","name","date","total","status","currency","status","product_name"
 			,"quantity","unit_price","total_price","invoice");
@@ -150,13 +165,107 @@ class Order_manager_model extends CI_Model
 			$words[]='order_status_'.$s;
 
 		foreach($words as $w)
-			$data[$w."_text"]=$this->lang->line($w);
+			$data[$w."_text"]=$CI->lang->line($w);
 		
-		$content=$this->parser->parse($CI->get_admin_view_file("order_invoice"),$data,TRUE);
+		$content=$CI->parser->parse($CI->get_admin_view_file("order_invoice"),$data,TRUE);
 
-		$subject=$this->lang->line("order")." ".$order_id;
+		$subject=$CI->lang->line("order")." ".$order_id;
 
 		return array($subject, $content);
+	}
+
+	public function email_status($order_id)
+	{
+		$orders=$this->get_orders(array("order_id"=>$order_id));
+		if(!$orders)
+			return;
+		$order=$orders[0];
+
+		list($subject, $content2)=$this->get_email_status($order_id, $order);
+		$content="AsdF";
+		
+		$customer_id=$order['order_customer_id'];
+		$this->load->model("customer_manager_model");
+		$customer_info=$this->customer_manager_model->get_customer_info($customer_id);
+		$email=$customer_info['customer_email'];
+		if(!$email)
+			return;
+
+		$this->load->model("es_manager_model");
+		$this->es_manager_model->send_email_now($customer_id, "order", "order_status=$order_id", $email, $subject, $content2);
+
+		return;
+	}
+
+	private function get_email_status($order_id, $order=NULL)
+	{
+		if(!$order)
+		{
+			$orders=$this->get_orders(array("order_id"=>$order_id));
+			if(!$orders)
+				return;
+			$order=$orders[0];
+		}
+
+		$CI=& get_instance();
+
+		$CI->lang->load('ae_general',$CI->selected_lang);
+		$CI->lang->load('ae_order',$CI->selected_lang);
+
+		$subject=$CI->lang->line("order")." ".$order_id;
+		$content=str_replace(
+			"STATUS"
+			,$CI->lang->line("order_status_".$order['order_status'])
+			,$CI->lang->line("order_status_changed")
+		)."<span style='color:white'>AA</span>";
+
+		return array($subject, $content);
+	}
+
+	public function sms_status($order_id)
+	{
+		$orders=$this->get_orders(array("order_id"=>$order_id));
+		if(!$orders)
+			return;
+		$order=$orders[0];
+
+		$content=$this->get_sms_status($order_id, $order);
+		
+		$customer_id=$order['order_customer_id'];
+		$this->load->model("customer_manager_model");
+		$customer_info=$this->customer_manager_model->get_customer_info($customer_id);
+		$mobile=$customer_info['customer_mobile'];
+		if(!$mobile)
+			return;
+
+		$this->load->model("es_manager_model");
+		$this->es_manager_model->send_sms_now($customer_id, "order", "order_sms=$order_id", $mobile, $content);
+
+		return;
+	}
+
+	private function get_sms_status($order_id, $order=NULL)
+	{
+		if(!$order)
+		{
+			$orders=$this->get_orders(array("order_id"=>$order_id));
+			if(!$orders)
+				return;
+			$order=$orders[0];
+		}
+
+		$CI=& get_instance();
+
+		$CI->lang->load('ae_general',$CI->selected_lang);
+		$CI->lang->load('ae_order',$CI->selected_lang);
+
+		$content=str_replace(
+			array("STATUS","ID")
+			,array($CI->lang->line("order_status_".$order['order_status']), $order_id)
+			,$CI->lang->line("order_status_changed_sms")
+		);
+
+		return $content;
 	}
 
 
