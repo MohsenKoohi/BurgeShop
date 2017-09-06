@@ -1190,7 +1190,7 @@ function get_link_pagination($settings)
 	return $CI->pagination->create_links();
 }
 
-function burge_cmf_send_mail2($receiver,$subject,$message)
+function burge_cmf_send_mail($receiver,$subject,$message)
 {
 	$CI=&get_instance();
 	$CI->load->library("email");
@@ -1230,29 +1230,4 @@ function burge_cmf_send_sms($receiver, $content)
 		$result=0;
 
 	return $result;
-}
-
-
-function burge_cmf_send_mail($receiver,$subject,$message)
-{
-	$CI=&get_instance();
-	$CI->load->library("email");
-	$CI->email->initialize(array(
-		"protocol"=>"smtp",
-		"smtp_host"=>"mail.lonex.com",
-		"smtp_port"=>2525,
-		"smtp_user"=>"admin@burge.ir",
-		"smtp_pass"=>"zcvq3fDCZx34,vdsfZa>fasdf",
-		"mailtype"=>"html"
-		));
-	
-	$CI->email->from('admin@burge.ir', 'Burge Computer Lab');
-	$CI->email->to($receiver);
-	$CI->email->bcc('admin@burge.ir');
-	$CI->email->subject($subject);
-	$CI->email->message($message);
-
-	$res=$CI->email->send();
-
-	return 1;
 }
