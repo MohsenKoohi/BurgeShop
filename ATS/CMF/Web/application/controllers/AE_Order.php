@@ -159,6 +159,9 @@ class AE_Order extends Burge_CMF_Controller {
 
 		$this->order_manager_model->add_history($order_id, $new_status, $comment);
 
+		if($this->input->post("email_invoice")=="on")
+			$this->order_manager_model->email_invoice($order_id);
+
 		set_message($this->lang->line("new_status_submitted_successfully"));
 
 		redirect(get_admin_order_details_link($order_id)."#status");

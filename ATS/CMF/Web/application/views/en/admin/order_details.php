@@ -237,6 +237,33 @@
 
 						<div class='row even-odd-bg'>
 							<div class='three columns'>
+								<span>{email_invoice_text}</span>
+							</div>
+							<div class='nine columns'>
+								<input type='checkbox' name='email_invoice' class='graphical' />
+							</div>
+						</div>
+
+						<div class='row even-odd-bg'>
+							<div class='three columns'>
+								<span>{email_status_text}</span>
+							</div>
+							<div class='nine columns'>
+								<input type='checkbox' name='email_status' class='graphical' /> 
+							</div>
+						</div>
+
+						<div class='row even-odd-bg'>
+							<div class='three columns'>
+								<span>{sms_status_text}</span>
+							</div>
+							<div class='nine columns'>
+								<input type='checkbox' name='sms_status' class='graphical' /> 
+							</div>
+						</div>
+
+						<div class='row even-odd-bg'>
+							<div class='three columns'>
 								<span>{comment_text}</span>
 							</div>
 							<div class='nine columns'>

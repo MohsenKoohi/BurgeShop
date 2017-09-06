@@ -87,6 +87,62 @@ class Order_manager_model extends CI_Model
 		return $ret;		
 	}
 
+	public function email_invoice($order_id)
+	{
+		$orders=$this->get_orders(array("order_id"=>$order_id));
+		if(!$orders)
+			return;
+		$order=$orders[0];
+
+		list($subject, $content)=$this->get_order_ivoice($order_id, $order);
+
+		$customer_id=$order['order_customer_id'];
+		$this->load->model("customer_manager_model");
+		$customer_info=$this->customer_manager_model->get_customer_info($customer_id);
+		$email=$customer_info['customer_email'];
+
+		$this->load->model("es_manager_model");
+		$this->es_manager_model->send_email_now($customer_id, "order", "order=$order_id", $email, $subject, $content);
+
+		return;
+	}
+
+	private function get_order_ivoice($order_id, $order=NULL)
+	{
+		if(!$order)
+		{
+			$orders=$this->get_orders(array("order_id"=>$order_id));
+			if(!$orders)
+				return;
+			$order=$orders[0];
+		}
+
+		$this->load->model("cart_manager_model");
+		$data=array();
+		$data['order_id']=$order_id;
+		$data['order_info']=$order;
+		$data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
+		$data['styles_url']=get_link("styles_url");
+		$CI=& get_instance();
+		$this->lang->load('ae_order',$this->selected_lang);
+		$this->lang->load('ae_general',$this->selected_lang);
+		$this->load->library('parser');
+		$words=array(
+			"order_number","name","date","total","status","currency","status","product_name"
+			,"quantity","unit_price","total_price","invoice");
+		foreach($this->order_statuses as $s)
+			$words[]='order_status_'.$s;
+
+		foreach($words as $w)
+			$data[$w."_text"]=$this->lang->line($w);
+		
+		$content=$this->parser->parse($CI->get_admin_view_file("order_invoice"),$data,TRUE);
+
+		$subject=$this->lang->line("order")." ".$order_id;
+
+		return array($subject, $content);
+	}
+
 
 	private function get_orders_count()
 	{
