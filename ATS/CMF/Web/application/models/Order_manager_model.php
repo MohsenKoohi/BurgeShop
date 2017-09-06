@@ -87,6 +87,14 @@ class Order_manager_model extends CI_Model
 		return $ret;		
 	}
 
+	public function get_email_subject_and_content($customer_id, $keyword)
+	{
+		list($type,$id)=explode("=", $keyword);
+
+		if($type == 'order')
+			return $this->get_order_invoice($id);
+	}
+
 	public function email_invoice($order_id)
 	{
 		$orders=$this->get_orders(array("order_id"=>$order_id));
