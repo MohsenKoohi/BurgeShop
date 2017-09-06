@@ -118,6 +118,7 @@ class Log_manager_model extends CI_Model
 
 		,"ORDER_SUBMIT"			=> 2081
 		,"ORDER_ADD_HISTORY"		=> 2082
+		,"ORDER_EMAIL_INVOICE"	=> 2083
 
 		,"PAYMENT_ADD"				=>2101
 		,"PAYMENT_ADD_HISTORY"	=>2102

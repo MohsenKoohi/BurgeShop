@@ -112,6 +112,14 @@ class Order_manager_model extends CI_Model
 		$this->load->model("es_manager_model");
 		$this->es_manager_model->send_email_now($customer_id, "order", "order=$order_id", $email, $subject, $content);
 
+		$props=array(
+			"customer_id"	=> $customer_id
+			,"order_id"		=> $order_id
+		);
+
+		$this->log_manager_model->info("ORDER_EMAIL_INVOICE",$props);	
+		$this->customer_manager_model->add_customer_log($customer_id,'ORDER_EMAIL_INVOICE',$props);
+
 		return;
 	}
 
