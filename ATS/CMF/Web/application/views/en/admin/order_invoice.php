@@ -5,9 +5,7 @@
 		<div class="row even-odd-bg dont-magnify" >
 			<div style="width:25%;float:left">{name_text}</div>
 			<div style="width:75%;float:left">
-				<a href="<?php echo get_admin_customer_details_link($order_info['order_customer_id']);?>" >
 					<?php echo $order_info['customer_name']; ?>
-				</a>
 			</div>
 		</div>
 		<div class="row even-odd-bg dont-magnify" >
