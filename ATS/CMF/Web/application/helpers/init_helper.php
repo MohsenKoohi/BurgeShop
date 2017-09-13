@@ -91,7 +91,11 @@ function &get_links($just_common=FALSE)
 			,'customer_message_c2c_format'			=> HOME_SURL_LANG."/message/send/customer_id"
 
 			,'admin_es'					=> ADMIN_SURL_LANG."/es"
-			
+
+			,'admin_news_letter'							=> ADMIN_SURL_LANG."/news_letter"
+			,'admin_news_letter_template_format'	=> ADMIN_SURL_LANG."/news_letter/template_id"
+			,'customer_news_letter'						=> "news_letter"
+
 			,'admin_product'									=> ADMIN_SURL_LANG."/product"
 			,'admin_product_details_format'				=> ADMIN_SURL_LANG."/product/product_id"
 			,'customer_product_details_format'			=> HOME_URL_LANG."/product-product_id/product_name"
@@ -112,7 +116,6 @@ function &get_links($just_common=FALSE)
 			,'admin_payment'							=> ADMIN_SURL_LANG."/payment"
 			,'customer_payment_order_format'		=> HOME_URL_LANG."/payment/pay/order_id"
 			,'customer_payment_method_format'	=> HOME_URL_LANG."/payment/pay/order_id/payment_method"
-
 		));
 	}
 
@@ -198,6 +201,15 @@ function get_product_gallery_image_path($img)
 function get_product_gallery_image_url($img)
 {
 	return PRODUCT_GALLERY_URL."/".$img;
+}
+
+function get_admin_news_letter_template_link($template_id, $do_not_set_lang=FALSE)
+{
+	return str_replace(
+		array("template_id")
+		,array($template_id)
+		,get_link("admin_news_letter_template_format",$do_not_set_lang)
+	);
 }
 
 function get_message_thread_attachment_url($message_id,$thread_id,$filename)

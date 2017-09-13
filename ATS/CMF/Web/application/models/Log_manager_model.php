@@ -101,6 +101,12 @@ class Log_manager_model extends CI_Model
 		,"ES_UPDATE"	=> 1172
 		,"ES_CRON"		=> 1173
 
+		,"NEWS_LETTER_TEMPLATE_ADD"		=> 1201
+		,"NEWS_LETTER_TEMPLATE_EDIT"		=> 1202
+		,"NEWS_LETTER_TEMPLATE_DELETE"	=> 1203
+		,"NEWS_LETTER_TEMPLATE_SEND"		=> 1204
+		,"NEWS_LETTER_EMAIL_ADD"			=> 1205
+		
 		//BurgeShop
 		,"PRODUCT_ADD"					=> 2001
 		,"PRODUCT_CHANGE"				=> 2002
@@ -122,6 +128,7 @@ class Log_manager_model extends CI_Model
 
 		,"PAYMENT_ADD"				=>2101
 		,"PAYMENT_ADD_HISTORY"	=>2102
+
 	);
 
 	public function __construct()

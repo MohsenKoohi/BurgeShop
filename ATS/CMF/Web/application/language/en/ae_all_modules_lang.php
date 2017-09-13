@@ -22,6 +22,7 @@ $lang['task_exec']="Tasks Execution";
 $lang['message']="Messages";
 $lang['message_access']="Access Levels of Messages";
 $lang['es']="Email & SMS";
+$lang['news_letter']="News Letter";
 
 //BurgeShop
 $lang['product']='Products';
