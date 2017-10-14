@@ -13,6 +13,7 @@ class Message_manager_model extends CI_Model
 		1=>"customers"
 		,2=>"agents"
 		,3=>"management"
+		,4=>"sales"
 		);
 
 	private $c2c_response_department_id=1;

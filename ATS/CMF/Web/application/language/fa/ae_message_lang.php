@@ -5,6 +5,7 @@ $lang['message_access']="سطح دسترسی پیام‌ها";
 $lang['department_customers']="مشتریان";
 $lang['department_agents']="نمایندگان";
 $lang['department_management']="مدیریت";
+$lang['department_sales']="فروش";
 
 $lang['user']="کاربر";
 $lang['verifier']="تایید کننده";
