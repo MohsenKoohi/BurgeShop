@@ -29,3 +29,11 @@ $lang['order_status_verified']='Verified';
 $lang['order_status_processing']='Procsessing';
 $lang['order_status_completed']='Completed';
 $lang['order_status_canceled']='Canceled';
+
+$lang['order']="Order";
+$lang['order_first_message_content']="
+	Dear Customer,
+	Thanks for your order,
+	We send all notes about this order through this ticket.
+	You may also send us if you have any question or request.
+";

@@ -3,6 +3,7 @@
 $lang['department_customers']="Customers";
 $lang['department_agents']="Agents";
 $lang['department_management']="Management";
+$lang['department_sales']="Sales";
 
 $lang['department']="Department";
 $lang['subject']="Subject";

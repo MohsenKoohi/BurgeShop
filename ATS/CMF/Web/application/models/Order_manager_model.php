@@ -30,6 +30,7 @@ class Order_manager_model extends CI_Model
 				,`order_date`	CHAR(19)
 				,`order_total` DOUBLE 
 				,`order_status` VARCHAR(63)
+				,`order_message_id` BIGINT DEFAULT 0
 				,PRIMARY KEY (order_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -284,6 +285,7 @@ class Order_manager_model extends CI_Model
 		$this->load->model(array(
 			"cart_manager_model"
 			,"customer_manager_model"
+			,"message_manager_model"
 		));
 		$cart=$this->cart_manager_model->get_cart($this->selected_lang);
 		
@@ -305,6 +307,24 @@ class Order_manager_model extends CI_Model
 		$this->cart_manager_model->save_order_cart($order_id);
 
 		$this->add_history($order_id,"submitted");
+
+		$this->lang->load('ce_order',$this->selected_lang);
+		$subject=$this->lang->line("order")." ".$order_id;
+		$content=$this->lang->line("order_first_message_content");
+		$mids=$this->message_manager_model->add_d2c_message(array(
+			"sender_id"			=> 4
+			,"subject"			=> $subject
+			,"receiver_ids"	=>array($customer_id)
+			,"verifier_id"		=> 0
+			,"content"			=> $content
+			,"attachment"		=> NULL
+		));
+
+		$mid=$mids[0];
+		$this->db
+			->set("order_message_id", $mid)
+			->where("order_id", $order_id)
+			->update($this->order_table_name);
 
 		return $order_id;
 	}

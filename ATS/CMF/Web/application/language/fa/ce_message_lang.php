@@ -3,6 +3,7 @@
 $lang['department_customers']="مشتریان";
 $lang['department_agents']="نمایندگان";
 $lang['department_management']="مدیریت";
+$lang['department_sales']="فروش";
 
 $lang['department']="بخش";
 $lang['subject']="موضوع";
