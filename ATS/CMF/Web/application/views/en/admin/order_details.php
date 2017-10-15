@@ -37,6 +37,25 @@
 					?>
 				</div>
 			</div>
+			<div class="row even-odd-bg dont-magnify" >
+				<div class="three columns">{order_message_text}</div>
+				<div class="eight columns">
+					<a href="<?php echo get_admin_message_details_link($order_info['order_message_id']);?>" >
+						{message_text} <?php echo $order_info['order_message_id']; ?>
+					</a>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="three columns">
+					{last_message_text}:
+				</div>
+				<div class="eight columns">
+					<span style="direction:ltr;display:inline-block">
+						<?php echo str_replace("-","/",$message_info['mi_last_activity']); ?>
+					</span>
+				</div>
+			</div>
 		</div>
 
 		<br><br>
@@ -45,6 +64,7 @@
 				<li><a href="#products">{products_text}</a></li>
 				<li><a href="#payment">{payment_text}</a></li>
 				<li><a href="#status">{status_text}</a></li>
+				<li><a href="#message">{message_text}</a></li>
 			</ul>
 			<script type="text/javascript">
 				$(function(){
@@ -290,6 +310,195 @@
 						}
 					</script>
 				</div>
+			</div>
+
+			<div class="tab" id="message" style="">
+				<style type="text/css">
+					.even-odd-bg .even-odd-bg
+					{
+						margin-bottom:-8px;
+					}
+
+					.even-odd-bg.row div.content
+					{
+						padding:10px;
+						border:1px solid #ddd;
+						border-radius: 10px;
+						max-height: 200px;
+						overflow: auto;
+						min-height: 50px;
+					}
+				</style>
+				<?php 
+					if(!$message_info) {
+				?>
+					<h4>{not_found_text}</h4>
+				<?php 
+					}else{ 
+				?>
+					<div class="container">
+						<?php 
+							$i=1;
+							$verification_status=array();	
+							foreach($message_threads as $thread)
+							{ 
+						?>
+							<div class="row even-odd-bg dont-magnify">
+								<div class="one columns counter" title="<?php echo $thread['mt_thread_id']; ?>">
+									# <?php echo $i++;?>
+								</div>								
+								<div class="three columns">
+									<?php 
+										$type=$thread['mt_sender_type'];;
+										if($type === "department")
+										{
+											$sender=$department_text." ".${"department_".$departments[$thread['mt_sender_id']]."_text"};
+											$sender.=" ( ".$user_text." ".$thread['vuc']." - ".$thread['vun']." ) ";
+										}
+										if($type === "user")
+											$sender=$user_text." ".$thread['suc']." - ".$thread['sun'];
+										if($type === "customer")
+										{
+											$link=get_admin_customer_details_link($thread['mt_sender_id']);
+											$sender="<a target='_blank' href='$link'>"
+												.$customer_text." ".$thread['mt_sender_id']." - ".$thread['scn']
+												."</a>";
+										}
+										echo $sender;
+									?>
+								</div>
+
+								<div class="three columns">
+									<span style="direction:ltr;display:inline-block">
+										<?php echo str_replace("-","/",$thread['mt_timestamp']); ?>
+									</span>
+								</div>
+
+								<?php									
+									if(($message_info['mi_sender_type'] === "customer") 
+										&& ($message_info['mi_receiver_type'] === "customer")
+										&& ($thread['mt_sender_type'] === "customer")
+										)
+									{
+										echo '<div class="five columns">';
+										
+										$verification_status[$thread['mt_thread_id']]=(int)$thread['mt_verifier_id'];
+										if($thread['mt_verifier_id'])
+										{
+											$verify="checked";
+											echo $verified_text." ( ".$user_text." ".$thread['vuc']." - ".$thread['vun']." )";
+										}
+										else
+										{
+											$verify="";
+											echo $not_verified_text;
+										}
+										$id=$thread['mt_thread_id'];
+										if($access['verifier'])
+											echo " - ".$verify_text.": <span>&nbsp;</span> <input type='checkbox' ".$verify." class='graphical' onchange='verifyMessage($id,$(this).prop(\"checked\"));'>";
+										
+										echo '</div>';
+									}
+								?>
+								
+								<?php
+									if(preg_match("/[ابپتثجچحخدذرز]/",$thread['mt_content']))
+										$lang="fa";
+									else
+										$lang="en";
+								?>
+								<div class="content eleven columns lang-<?php echo $lang;?>">
+									<span>
+										<?php echo nl2br($thread['mt_content']);?>
+									</span>
+								</div>
+
+								<?php 
+									if($thread['mt_attachment'])
+									{ 
+										$link=get_message_thread_attachment_url($thread['mt_message_id'],$thread['mt_thread_id'],$thread['mt_attachment']);
+								?>
+										<div class="three columns">
+											<a href="<?php echo $link;?>" target="_blank">
+												<span>
+													<img class='clips' src="{images_url}/clips.png"/>
+													<b>{attachment_text}</b>
+												</span>
+											</a>
+										</div>	
+								<?php 
+									} 
+								?>
+								
+							</div>
+						<?php 
+								}
+						?>
+
+					
+					<div class="separated">
+						<h2>{reply_text}</h2>
+						<?php echo form_open_multipart('',array()); ?>
+							<input type="hidden" name="post_type" value="add_message_reply" />			
+							<div class="row response-type">
+								<div class="three columns">
+									<label>{language_text}</label>
+									<select name="language" class="full-width" onchange="langChanged(this);">
+										<?php
+											foreach($all_langs as $key => $val)
+											{
+												$sel="";
+												if($key===$selected_lang)
+													$sel="selected";
+
+												echo "<option $sel value='$key'>$val</option>";
+											}
+										?>
+										<script type="text/javascript">
+											var langSelectVal;
+
+											function langChanged(el)
+											{
+												if(langSelectVal)
+													$("#content-ta").toggleClass(langSelectVal);
+
+												langSelectVal="lang-"+""+$(el).val();
+												
+												$("#content-ta").toggleClass(langSelectVal);
+											}
+
+											$(function()
+											{
+												$("select[name='language']").trigger("change");
+											});
+										</script>
+									</select>
+								</div>
+							</div>	
+							<br><br>
+							<div class="row">
+								<div class="twelve columns">
+									<textarea id="content-ta" name="content" class="full-width" rows="7"></textarea>
+								</div>
+							</div>
+							<div class="row">
+								<div class="three columns">
+									<span>{attachment_text}</span>
+								</div>
+								<div class="three columns">
+									<input type="file" name="attachment" class="full-width" />
+								</div>
+							</div>
+							<br><br>
+							<div class="row">
+								<div class="four columns">&nbsp;</div>
+								<input type="submit" class=" button-primary four columns" value="{send_text}"/>
+							</div>
+						</form>
+					</div>
+				<?php 
+					}
+				?>
 			</div>
 		</div>
 								

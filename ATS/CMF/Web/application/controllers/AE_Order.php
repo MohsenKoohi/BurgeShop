@@ -147,11 +147,108 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->data['message']=get_message();
 		$this->data['lang_pages']=get_lang_pages(get_admin_order_details_link($order_id,TRUE));
 		$this->data['header_title']=$this->lang->line("order_details")." ".$order_id;
+
+		$message_id=(int)$this->data['order_info']['order_message_id'];
+		$message_info=$this->message_manager_model->get_admin_message($message_id);
+
+		$this->lang->load('ae_message',$this->selected_lang);
+
+		if($message_info)
+		{
+			if($this->input->post("post_type") === "add_message_reply")
+				return $this->add_message_reply($order_id, $message_id, $message_info);
+
+			$this->data['message_access']=$message_info['access'];
+			$this->data['message_info']=$message_info['message'];
+			$this->data['message_threads']=$message_info['threads'];
+
+			$this->data['departments']=$this->message_manager_model->get_departments();			
+		}
+		else
+		{
+			$this->data['message_info']=NULL;	
+		}
 		
 		$this->send_admin_output("order_details");
 
 		return;
 	}
+
+	private function add_message_reply($order_id, $message_id, $mess)
+	{	
+		$attachment=NULL;
+		$error="";
+		$this->get_attachment_file($attachment,$error);
+
+		if($error)
+		{
+			set_message($error);
+			return redirect(get_admin_order_details_link($order_id)."#message");
+		}
+		
+		$thread_props=array(
+			"content"		=> $this->input->post("content")
+			,"attachment"	=> $attachment
+		);
+
+		$user_id=$this->user_manager_model->get_user_info()->get_id();
+
+		$st=$mess['message']['mi_sender_type'];
+		$rt=$mess['message']['mi_receiver_type'];
+
+		if( (($st==="customer") && ($rt==="department")) ||
+			(($st==="department") && ($rt==="customer")) )
+		{
+			$thread_props['sender_type']="department";
+			if($st==="department")
+				$thread_props['sender_id']=$mess['message']['mi_sender_id'];
+			else
+				$thread_props['sender_id']=$mess['message']['mi_receiver_id'];
+
+			$thread_props['verifier_id']=$user_id;
+		}
+
+		$this->message_manager_model->add_reply($message_id,array(),$thread_props);
+
+		set_message($this->lang->line("your_reply_added_successfully"));
+
+		return redirect(get_admin_order_details_link($order_id)."#message");
+	}
+
+	private function get_attachment_file(&$attachment,&$error)
+	{
+		$attachment=NULL;
+		$error="";
+
+		$file_name=$_FILES['attachment']['name'];
+		$file_tmp_name=$_FILES['attachment']['tmp_name'];
+		$file_error=$_FILES['attachment']['error'];
+		$file_size=$_FILES['attachment']['size'];
+
+		if($file_error ==  UPLOAD_ERR_NO_FILE)
+			return;
+	
+		if($file_error)
+		{
+			$error=$this->lang->line("the_file_is_erroneous");
+			return;
+		}
+
+		if($file_size >  10*1024*1024 )
+		{
+			$error = $this->lang->line("the_file_size_is_larger_than");
+			return;
+		}
+
+		$extension=strtolower(pathinfo($file_name, PATHINFO_EXTENSION));		
+		$attachment=array(
+			"temp_name"		=> $file_tmp_name
+			,"extension"	=> $extension
+		);
+
+		return;		
+	}
+
 
 	private function submit_status($order_id)
 	{

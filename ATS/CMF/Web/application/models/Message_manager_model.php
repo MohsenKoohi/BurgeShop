@@ -1095,8 +1095,9 @@ class Message_manager_model extends CI_Model
 
 		$mprops=array(
 			"mi_last_activity"=>$current_time
-			,"mi_complete"=>$message_props['complete']
 		);
+		if(isset($message_props['complete']))
+			$mprops["mi_complete"]=$message_props['complete'];
 		
 		if(isset($message_props['active']))
 			$mprops['mi_active']=(int)$message_props['active'];
