@@ -125,6 +125,7 @@ class CE_Order extends Burge_CMF_Controller {
 		$this->load->model(array(
 			"cart_manager_model"
 			,"payment_manager_model"
+			,"message_manager_model"
 		));
 
 		$orders_info=$this->order_manager_model->get_orders(array(
@@ -144,6 +145,22 @@ class CE_Order extends Burge_CMF_Controller {
 
 		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
 
+		$this->lang->load('ce_message',$this->selected_lang);
+		$message_id=$order_info['order_message_id'];
+		$this->data['message_id']=$message_id;
+		$result=$this->message_manager_model->get_customer_message($message_id,$customer_id);
+		if($result)
+		{
+			if($this->input->post("post_type")==="add_reply")
+				return $this->add_reply($order_id, $message_id,$customer_id);
+
+			$this->data['message_info']=$result['message'];
+			$this->data['threads']=$result['threads'];
+			$this->data['departments']=$this->message_manager_model->get_departments();
+		}
+		else
+			$this->data['message_info']=NULL;
+
 		$this->data['message']=get_message();
 		$this->data['lang_pages']=get_lang_pages(get_customer_order_details_link($order_id,TRUE));
 		$this->data['header_title']=$this->lang->line("order_details")." ".$order_id
@@ -153,4 +170,77 @@ class CE_Order extends Burge_CMF_Controller {
 
 		return;
 	}
+
+	private function add_reply($order_id, $message_id,$customer_id)
+	{
+		$link=get_customer_order_details_link($order_id);
+		$content=$this->input->post("content");
+
+		if(1 || verify_captcha($this->input->post("captcha")))
+		{
+			$attachment=NULL;
+			$error="";
+			$this->get_attachment_file($attachment,$error);
+
+			if($error)
+			{
+				//$this->session->set_flashdata("content".$message_id,$content);
+				set_message($error);
+			}
+			else
+			{
+				$this->message_manager_model->add_customer_reply($message_id,$customer_id,$content,$attachment);
+				set_message($this->lang->line("reply_message_sent_successfully"));
+			}
+		}
+		else
+		{
+			set_message($this->lang->line("captcha_incorrect"));
+			//$this->session->set_flashdata("content".$message_id,$content);
+		}
+
+		return redirect($link);
+	}
+
+	private function get_attachment_file(&$attachment,&$error)
+	{
+		$attachment=NULL;
+		$error="";
+
+		$file_name=$_FILES['attachment']['name'];
+		$file_tmp_name=$_FILES['attachment']['tmp_name'];
+		$file_error=$_FILES['attachment']['error'];
+		$file_size=$_FILES['attachment']['size'];
+
+		if($file_error ==  UPLOAD_ERR_NO_FILE)
+			return;
+	
+		if($file_error)
+		{
+			$error=$this->lang->line("the_file_is_erroneous");
+			return;
+		}
+
+		if($file_size >  4*1024*1024 )
+		{
+			$error = $this->lang->line("the_file_size_is_larger_than");
+			return;
+		}
+
+		$extension=strtolower(pathinfo($file_name, PATHINFO_EXTENSION));		
+		if(!in_array($extension,array("pdf","jpg","png","doc","docx")))
+		{
+			$error=$this->lang->line("the_file_format_is_not_supported");
+			return;
+		}
+
+		$attachment=array(
+			"temp_name"		=> $file_tmp_name
+			,"extension"	=> $extension
+		);
+
+		return;		
+	}
+
+
 }

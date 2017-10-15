@@ -53,3 +53,16 @@ $lang['invoice']="Invoice";
 $lang['order_status_changed']="The status of your order has been changed to STATUS.<br>Find more info in your account.";
 $lang['order_status_changed_sms']='The status of order ID has been changed to STATUS.';
 $lang['order']='Order';
+
+$lang['order_message']='Order message';
+$lang['reply']="Submit reply";
+$lang['last_message']="Last message time";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
+$lang['']="";
