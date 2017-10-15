@@ -315,7 +315,7 @@ class Order_manager_model extends CI_Model
 			"sender_id"			=> 4
 			,"subject"			=> $subject
 			,"receiver_ids"	=>array($customer_id)
-			,"verifier_id"		=> 0
+			,"verifier_id"		=> 1
 			,"content"			=> $content
 			,"attachment"		=> NULL
 		));

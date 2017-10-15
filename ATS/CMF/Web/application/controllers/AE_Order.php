@@ -124,6 +124,7 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->load->model(array(
 			"cart_manager_model"
 			,"payment_manager_model"
+			,"message_manager_model"
 		));
 
 		$this->data['order_id']=$order_id;
