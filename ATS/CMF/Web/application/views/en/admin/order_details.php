@@ -48,7 +48,7 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row even-odd-bg">
 				<div class="three columns">
 					{last_message_text}
 				</div>
@@ -58,6 +58,30 @@
 					</span>
 				</div>
 			</div>
+		</div>
+		<br><br>
+		<div class="row general-buttons">
+			<a  class="two columns"  onclick="deleteOrder()">
+				<div class="full-width button sub-primary button-type2">
+					{delete_order_text}
+				</div>
+			</a>
+
+			<?php echo form_open('',array("id"=>"delete")); ?>
+				<input type="hidden" name="post_type" value="delete_order"/>
+				<input type="hidden" name="order_id" value="{order_id}"/>
+				<input type="hidden" name="customer_id" value="<?php echo $order_info['order_customer_id'];?>"/>
+			</form>
+
+			<script type="text/javascript">
+				function deleteOrder()
+				{
+					if(!confirm("{are_you_sure_to_delete_this_order_text}"))
+						return;
+
+					$("form#delete").submit();
+				}
+			</script>
 		</div>
 
 		<br><br>

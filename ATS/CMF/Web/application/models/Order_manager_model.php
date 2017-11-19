@@ -88,6 +88,22 @@ class Order_manager_model extends CI_Model
 		return $ret;		
 	}
 
+	public function delete_order($order_id, $customer_id)
+	{
+		return FALSE;
+
+		$this->db
+			->where("order_id", $order_id)
+			->where("order_customer_id", $customer_id)
+			->delete($this->order_table_name);
+
+		$this->db
+			->where("oh_order_id", $order_id)
+			->delete($this->order_history_table_name);
+
+		return TRUE;
+	}
+
 	public function get_email_subject_and_content($customer_id, $keyword)
 	{
 		list($type,$id)=explode("=", $keyword);
@@ -182,8 +198,7 @@ class Order_manager_model extends CI_Model
 			return;
 		$order=$orders[0];
 
-		list($subject, $content2)=$this->get_email_status($order_id, $order);
-		$content="AsdF";
+		list($subject, $content)=$this->get_email_status($order_id, $order);
 		
 		$customer_id=$order['order_customer_id'];
 		$this->load->model("customer_manager_model");
@@ -193,7 +208,7 @@ class Order_manager_model extends CI_Model
 			return;
 
 		$this->load->model("es_manager_model");
-		$this->es_manager_model->send_email_now($customer_id, "order", "order_status=$order_id", $email, $subject, $content2);
+		$this->es_manager_model->send_email_now($customer_id, "order", "order_status=$order_id", $email, $subject, $content);
 
 		return;
 	}

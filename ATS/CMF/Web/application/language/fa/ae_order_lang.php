@@ -19,7 +19,6 @@ $lang['page']="صفحه";
 $lang['view']="مشاهده";
 $lang['delete']="حذف";
 
-$lang['are_you_sure_to_delete_this_order']="آیا با حذف این سفارش موافقید؟";
 $lang['deleted_successfully']="حذف با موفقیت انجام شد.";
 $lang['cant_be_deleted']="امکان حذف وجود ندارد.";
 
@@ -58,8 +57,8 @@ $lang['order']='سفارش';
 $lang['order_message']='پیام سفارش';
 $lang['reply']="ثبت پاسخ";
 $lang['last_message']="زمان آخرین پیام";
-$lang['']="";
-$lang['']="";
+$lang['delete_order']="حذف سفارش";
+$lang['are_you_sure_to_delete_this_order']="حذف سفارش غیرقابل بازگشت است. این سفارش حذف شود؟";
 $lang['']="";
 $lang['']="";
 $lang['']="";

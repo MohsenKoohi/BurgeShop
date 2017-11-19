@@ -18,12 +18,6 @@ class AE_Order extends Burge_CMF_Controller {
 
 	public function index()
 	{	
-		if($this->input->post())
-		{
-			if($this->input->post('post_type')==="delete_order")
-				return $this->delete_order();
-		}
-		
 		$this->set_search_results();
 
 		$this->data['message']=get_message();
@@ -35,20 +29,6 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->send_admin_output("order");
 
 		return;	 
-	}
-
-	private function delete_order()
-	{
-		$order_id=(int)$this->input->post("order_id");
-		$customer_id=(int)$this->input->post("customer_id");
-
-		$result=$this->order_manager_model->delete_order($order_id,$customer_id);
-		if($result)
-			set_message($this->lang->line("deleted_successfully"));
-		else
-			set_message($this->lang->line("cant_be_deleted"));
-
-		return redirect(get_link("admin_order"));
 	}
 
 	private function set_search_results()
@@ -135,6 +115,12 @@ class AE_Order extends Burge_CMF_Controller {
 		if($this->input->post("post_type") == 'submit_status')
 			return $this->submit_status($order_id);
 
+		if($this->input->post())
+		{
+			if($this->input->post('post_type')==="delete_order")
+				return $this->delete_order();
+		}
+
 		$this->data['order_info']=$orders_info[0];
 
 		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
@@ -172,6 +158,20 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->send_admin_output("order_details");
 
 		return;
+	}
+
+	private function delete_order()
+	{
+		$order_id=(int)$this->input->post("order_id");
+		$customer_id=(int)$this->input->post("customer_id");
+
+		$result=$this->order_manager_model->delete_order($order_id,$customer_id);
+		if($result)
+			set_message($this->lang->line("deleted_successfully"));
+		else
+			set_message($this->lang->line("cant_be_deleted"));
+
+		return redirect(get_link("admin_order"));
 	}
 
 	private function add_message_reply($order_id, $message_id, $mess)

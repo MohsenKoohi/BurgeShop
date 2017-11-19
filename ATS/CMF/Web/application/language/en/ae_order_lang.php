@@ -18,7 +18,6 @@ $lang['page']="Page";
 $lang['view']="View";
 $lang['delete']="Delete";
 
-$lang['are_you_sure_to_delete_this_order']="Are you sure to delete this order?";
 $lang['deleted_successfully']="Deleteion done.";
 $lang['cant_be_deleted']="This order can't be deleted.";
 
@@ -57,6 +56,9 @@ $lang['order']='Order';
 $lang['order_message']='Order message';
 $lang['reply']="Submit reply";
 $lang['last_message']="Last message time";
+$lang['delete_order']="Delete Order";
+$lang['are_you_sure_to_delete_this_order']="Deletion can't be reversed. Are you sure to delete this order?";
+
 $lang['']="";
 $lang['']="";
 $lang['']="";
