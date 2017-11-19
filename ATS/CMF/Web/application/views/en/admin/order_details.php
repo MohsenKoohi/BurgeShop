@@ -4,55 +4,57 @@
 		<div class='row'>
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{order_number_text}</div>
-				<div class="eight columns"><?php echo $order_id; ?></div>
+				<div class="eight columns"><b><?php echo $order_id; ?></b></div>
 			</div>
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{name_text}</div>
 				<div class="eight columns">
 					<a href="<?php echo get_admin_customer_details_link($order_info['order_customer_id']);?>" >
-						<?php echo $order_info['customer_name']; ?>
+						<b><?php echo $order_info['customer_name']; ?></b>
 					</a>
 				</div>
 			</div>
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{date_text}</div>
-				<div class="eight columns"><span class='date'><?php echo $order_info['order_date']; ?></span></div>
+				<div class="eight columns"><span class='date'><b><?php echo $order_info['order_date']; ?></b></span></div>
 			</div>
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{total_text}</div>
 				<div class="eight columns">
-					<span class='date'><?php echo price_separator($order_info['order_total']); ?></span>
+					<span class='date'><b><?php echo price_separator($order_info['order_total']); ?></b></span>
 					 {currency_text}
 				</div>
 			</div>
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{status_text}</div>
 				<div class="eight columns">
-					<?php 
-						$status_name='order_status_'.$order_info['order_status'].'_text';
-						if(isset($$status_name))
-							echo $$status_name;
-						else
-							echo $order_info['order_status'];
-					?>
+					<b>
+						<?php 
+							$status_name='order_status_'.$order_info['order_status'].'_text';
+							if(isset($$status_name))
+								echo $$status_name;
+							else
+								echo $order_info['order_status'];
+						?>
+					</b>
 				</div>
 			</div>
 			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{order_message_text}</div>
 				<div class="eight columns">
 					<a href="<?php echo get_admin_message_details_link($order_info['order_message_id']);?>" >
-						{message_text} <?php echo $order_info['order_message_id']; ?>
+						<b>{message_text} <?php echo $order_info['order_message_id']; ?></b>
 					</a>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="three columns">
-					{last_message_text}:
+					{last_message_text}
 				</div>
 				<div class="eight columns">
 					<span style="direction:ltr;display:inline-block">
-						<?php echo str_replace("-","/",$message_info['mi_last_activity']); ?>
+						<b><?php echo str_replace("-","/",$message_info['mi_last_activity']); ?></b>
 					</span>
 				</div>
 			</div>
