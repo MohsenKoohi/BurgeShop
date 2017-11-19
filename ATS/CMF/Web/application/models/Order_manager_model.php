@@ -9,8 +9,13 @@ class Order_manager_model extends CI_Model
 {
 	private $order_table_name="order";
 	private $order_history_table_name="order_history";
+	private $order_payment_section_table_name="order_payment_section";
 	private $order_statuses=array(
 		"submitted","payed","verified","processing","completed","canceled"
+	);
+
+	private $ops_statuses=array(
+		"not_payed","payed","verified"
 	);
 	
 	public function __construct()
@@ -48,6 +53,20 @@ class Order_manager_model extends CI_Model
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 
+		$tbl_name=$this->db->dbprefix($this->order_payment_section_table_name); 
+		$ops_statuses="'".implode("','",$this->ops_statuses)."'";
+		$ops_status_default=$this->ops_statuses[0];
+
+		$this->db->query(
+			"CREATE TABLE IF NOT EXISTS $tbl_name (
+				`ops_order_id` INT AUTO_INCREMENT
+				,`ops_number` INT NOT NULL
+				,`ops_total` DOUBLE
+				,`ops_status` ENUM ($ops_statuses) DEFAULT '$ops_status_default'
+				,PRIMARY KEY (ops_order_id, ops_number)	
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
+		);
+
 		$this->load->model("module_manager_model");
 
 		$this->module_manager_model->add_module("order","order_manager");
@@ -64,6 +83,11 @@ class Order_manager_model extends CI_Model
 	public function get_order_statuses()
 	{
 		return $this->order_statuses;
+	}
+
+	public function get_order_payment_section_statuses()
+	{
+		return $this->ops_statuses;
 	}
 
 	public function get_dashboard_info()
@@ -323,6 +347,8 @@ class Order_manager_model extends CI_Model
 
 		$this->add_history($order_id,"submitted");
 
+		$this->add_order_payment_section($order_id, $cart['total_price']);
+
 		$this->lang->load('ce_order',$this->selected_lang);
 		$subject=$this->lang->line("order")." ".$order_id;
 		$content=$this->lang->line("order_first_message_content");
@@ -342,6 +368,54 @@ class Order_manager_model extends CI_Model
 			->update($this->order_table_name);
 
 		return $order_id;
+	}
+
+	public function add_order_payment_section($order_id, $total)
+	{
+		$ops_number=0;
+		$count_row=$this->db
+			->select("COUNT(*) as count")
+			->from($this->order_payment_section_table_name)
+			->where("ops_order_id",$order_id)
+			->get()
+			->row_array();
+		if($count_row)
+			$ops_number=$count_row['count'];
+
+		$props=array(
+			"ops_order_id"	=> $order_id
+			,"ops_number"	=> $ops_number
+			,"ops_total"	=>	$total
+		);
+
+		$this->db->insert($this->order_payment_section_table_name,$props);
+		$this->log_manager_model->info("ORDER_PAYMENT_SECTION_ADD",$props);	
+
+		$customer_id=$this->get_customer_of_order($order_id);
+		$this->customer_manager_model->add_customer_log($customer_id,'ORDER_PAYMENT_SECTION_ADD',$props);
+		
+		return;
+	}
+
+	public function set_order_payment_section_status($order_id, $ops_number, $status)
+	{
+		$props=array(
+			"ops_order_id"	=> $order_id
+			,"ops_number"	=> $ops_number
+		);
+
+		$this->db
+			->set("ops_statuses", $status)
+			->where($props)
+			->update($this->order_payment_section_table_name);
+		
+		$props["ops_status"]=$status;
+		$this->log_manager_model->info("ORDER_PAYMENT_SECTION_STATUS_CHANGE", $props);	
+
+		$customer_id=$this->get_customer_of_order($order_id);
+		$this->customer_manager_model->add_customer_log($customer_id, 'ORDER_PAYMENT_SECTION_STATUS_CHANGE', $props);
+
+		return;
 	}
 
 	public function add_history($order_id, $status, $comment='')

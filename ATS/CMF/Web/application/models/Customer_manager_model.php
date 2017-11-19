@@ -55,8 +55,11 @@ class Customer_manager_model extends CI_Model
 		,"ORDER_ADD_HISTORY"		=> 2082
 		,"ORDER_EMAIL_INVOICE"	=> 2083
 
-		,"PAYMENT_ADD"				=>2101
-		,"PAYMENT_ADD_HISTORY"	=>2102
+		,"PAYMENT_ADD"				=> 2101
+		,"PAYMENT_ADD_HISTORY"	=> 2102
+
+		,"ORDER_PAYMENT_SECTION_ADD"				=> 2131
+		,"ORDER_PAYMENT_SECTION_STATUS_CHANGE"	=> 2132
 	);
 	
 	public function __construct()

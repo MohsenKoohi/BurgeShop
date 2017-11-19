@@ -22,6 +22,7 @@ class Payment_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $tbl_name (
 				`payment_id` INT AUTO_INCREMENT
 				,`payment_order_id` INT NOT NULL
+				,`payment_ops_number` INT DEFAULT 1
 				,`payment_total` DOUBLE 
 				,`payment_method` VARCHAR(63)
 				,`payment_date`	CHAR(19)
