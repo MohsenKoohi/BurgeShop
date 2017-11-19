@@ -43,3 +43,7 @@ $lang['payment_comment_date']="Transfer date";
 $lang['payment_comment_name']="Name";
 $lang['payment_comment_bank']="Bank";
 $lang['payment_comment_reference_code']="Reference code";
+
+$lang['order_payment_section_status_not_payed']="Ready to Pay";
+$lang['order_payment_section_status_payed']="Payed";
+$lang['order_payment_section_status_verified']="Verified";

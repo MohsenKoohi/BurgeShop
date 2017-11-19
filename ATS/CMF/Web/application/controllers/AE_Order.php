@@ -122,13 +122,15 @@ class AE_Order extends Burge_CMF_Controller {
 		}
 
 		$this->data['order_info']=$orders_info[0];
-
+		
 		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
 		
-		$this->data['payments_info']=$this->payment_manager_model->get_order_payments($order_id);
+		$this->data['payments_info']=$this->payment_manager_model->get_order_payment_sections($order_id);
 
 		$this->data['order_history']=$this->order_manager_model->get_order_history($order_id);
+		
 		$this->data['order_statuses']=$this->order_manager_model->get_order_statuses();
+		$this->data['order_payment_section_statuses']=$this->order_manager_model->get_order_payment_section_statuses();
 
 		$this->data['message']=get_message();
 		$this->data['lang_pages']=get_lang_pages(get_admin_order_details_link($order_id,TRUE));

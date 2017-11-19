@@ -14,7 +14,7 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 		));
 	}
 
-	public function index($order_id)
+	public function index($order_id, $ops_number)
 	{	
 		if(!$this->customer_manager_model->has_customer_logged_in())
 		{
@@ -23,28 +23,23 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 		}
 
 		$order_id=(int)$order_id;
-		$orders=$this->order_manager_model->get_orders(array(
-			"order_id" 			=> $order_id
-			,"customer_id"		=> $this->customer_manager_model->get_logged_customer_id()
-			,"status"			=> 'submitted'
-		));
-
-		if(!$orders)
+		$ops_number=(int)$ops_number;
+		$order=$this->order_manager_model->get_order_payment_section($order_id, $ops_number);
+		if(!$order || ($order['ops_status'] !== 'not_payed'))
 			return redirect(get_link("home_url"));
-
-		$order=$orders[0];
-		if($this->input->post("post_type") == 'submit_payment')
-			return $this->submit_payment($order_id);
 		
-		$total=$order['order_total'];
-		$payment_id=$this->payment_manager_model->add_payment($order_id, $total, "bank_transfer");
+		if($this->input->post("post_type") == 'submit_payment')
+			return $this->submit_payment($order_id, $ops_number);
+		
+		$total=$order['ops_total'];
+		$payment_id=$this->payment_manager_model->add_payment($order_id, $ops_number, $total, "bank_transfer");
 		$this->session->set_userdata("payment_bank_transfer_payment_id",$payment_id);		
 
 		$this->data['order_id']=$order_id;
 		$this->data['message']=get_message();
 		$this->data['order_total']=$total;
 
-		$this->data['lang_pages']=get_lang_pages(get_customer_payment_order_link($order_id,TRUE));
+		$this->data['lang_pages']=get_lang_pages(get_customer_order_section_payment_link($order_id, $ops_number, TRUE));
 		$this->data['header_title']=
 			$this->lang->line("payment_method_bank_transfer").$this->lang->line("header_separator")
 			.$this->data['header_title'];
@@ -54,7 +49,7 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 		return;
 	}
 
-	private function submit_payment($order_id)
+	private function submit_payment($order_id, $ops_number)
 	{
 		$payment_id=(int)$this->session->userdata("payment_bank_transfer_payment_id");				
 		$this->session->unset_userdata("payment_bank_transfer_payment_id");		
@@ -71,13 +66,13 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 
 		$comment=$props;
 
+		$this->order_manager_model->set_order_payment_section_status($order_id, $ops_number, 'payed');
+
 		$this->payment_manager_model->add_history($payment_id, 'end_payment', $comment, $props['reference_code']);
-		
-		$this->order_manager_model->add_history($order_id, 'payed');
 
 		set_message($this->lang->line("your_payment_info_saved_successfully_and_will_be_verified_soon"));
 
-		redirect(get_link("customer_order"));
+		//redirect(get_link("customer_order"));
 		
 		return;
 	}

@@ -62,37 +62,62 @@ class Payment_manager_model extends CI_Model
 		return $this->payment_methods;
 	}	
 
-	public function get_order_payments($order_id)
+
+	public function get_order_payment_sections_for_customer($order_id)
+	{
+		return $this->db
+			->select("*")
+			->from("order_payment_section")
+			->where("ops_order_id", $order_id)
+			->order_by("ops_number DESC")
+			->get()
+			->result_array();
+	}
+	
+	public function get_order_payment_sections($order_id)
 	{
 		$result=$this->db
 			->select("*")
-			->from($this->payment_table_name)
+			->from("order_payment_section")
+			->join($this->payment_table_name, "payment_order_id = $order_id AND payment_ops_number = ops_number", "LEFT")
 			->join($this->payment_history_table_name,"payment_id = ph_payment_id","LEFT")
-			->where("payment_order_id", $order_id)
-			->order_by("payment_id DESC, ph_id ASC")
+			->where("ops_order_id", $order_id)
+			->order_by("ops_number DESC, payment_id DESC, ph_id DESC")
 			->get()
 			->result_array();
 
+		$last_ops_number=-1;
 		$last_payment_id=0;
-		$payments=array();
+		$sections=array();
 
 		foreach($result as $r)
 		{
+			if($r['ops_number'] != $last_ops_number)
+			{
+				$last_ops_number= $r['ops_number'];
+				$sections[]=array(
+					"ops_number"	=> $r['ops_number']
+					,"ops_total"	=> $r['ops_total']
+					,"ops_status"	=> $r['ops_status']
+					,"payments"		=> array()
+				);
+			}
+
 			if($r['payment_id'] != $last_payment_id)
 			{
 				$last_payment_id=$r['payment_id'];
-				$payments[]=array(
-					"id"				=> $r['payment_id']
-					,"method"		=> $r['payment_method']
-					,"total"			=> $r['payment_total']
-					,"date"			=> $r['payment_date']
-					,"status"		=> $r['payment_status']
-					,"reference"	=> $r['payment_reference']
+				$sections[sizeof($sections)-1]['payments'][]=array(
+					"payment_id"				=> $r['payment_id']
+					,"payment_method"			=> $r['payment_method']
+					,"payment_total"			=> $r['payment_total']
+					,"payment_date"			=> $r['payment_date']
+					,"payment_status"			=> $r['payment_status']
+					,"payment_reference"		=> $r['payment_reference']
 					,'history'		=> array()
 				);
 			}
 
-			$payments[sizeof($payments)-1]['history'][]=array(
+			$sections[sizeof($sections)-1]['payments'][sizeof($sections[sizeof($sections)-1]['payments'])-1]['history'][]=array(
 				"id"			=> $r['ph_id']
 				,"date"		=> $r['ph_date']
 				,"status"	=> $r['ph_status']
@@ -100,16 +125,17 @@ class Payment_manager_model extends CI_Model
 			);
 		}
 
-		return $payments;
+		return $sections;
 	}
 	
-	public function add_payment($order_id, $total, $method)
+	public function add_payment($order_id, $ops_number, $total, $method)
 	{
 		$props=array(
-			"payment_order_id"	=> $order_id
-			,"payment_total"		=> $total
-			,"payment_method"		=> $method
-			,"payment_date"		=> get_current_time()
+			"payment_order_id"		=> $order_id
+			,"payment_ops_number"	=> $ops_number
+			,"payment_total"			=> $total
+			,"payment_method"			=> $method
+			,"payment_date"			=> get_current_time()
 		);
 
 		$this->db->insert($this->payment_table_name,$props);

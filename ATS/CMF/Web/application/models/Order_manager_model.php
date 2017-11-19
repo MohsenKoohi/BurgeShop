@@ -370,9 +370,20 @@ class Order_manager_model extends CI_Model
 		return $order_id;
 	}
 
+	public function get_order_payment_section($order_id, $ops_number)
+	{
+		return $this->db
+			->select("*")
+			->from($this->order_payment_section_table_name)
+			->where("ops_order_id",$order_id)
+			->where("ops_number", $ops_number)
+			->get()
+			->row_array();
+	}
+
 	public function add_order_payment_section($order_id, $total)
 	{
-		$ops_number=0;
+		$ops_number=1;
 		$count_row=$this->db
 			->select("COUNT(*) as count")
 			->from($this->order_payment_section_table_name)
@@ -380,7 +391,7 @@ class Order_manager_model extends CI_Model
 			->get()
 			->row_array();
 		if($count_row)
-			$ops_number=$count_row['count'];
+			$ops_number=1+$count_row['count'];
 
 		$props=array(
 			"ops_order_id"	=> $order_id
@@ -393,7 +404,7 @@ class Order_manager_model extends CI_Model
 
 		$customer_id=$this->get_customer_of_order($order_id);
 		$this->customer_manager_model->add_customer_log($customer_id,'ORDER_PAYMENT_SECTION_ADD',$props);
-		
+
 		return;
 	}
 
@@ -405,7 +416,7 @@ class Order_manager_model extends CI_Model
 		);
 
 		$this->db
-			->set("ops_statuses", $status)
+			->set("ops_status", $status)
 			->where($props)
 			->update($this->order_payment_section_table_name);
 		

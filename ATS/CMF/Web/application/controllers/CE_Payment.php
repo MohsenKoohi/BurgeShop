@@ -14,7 +14,7 @@ class CE_Payment extends Burge_CMF_Controller {
 		));
 	}
 
-	public function pay($order_id)
+	public function pay($order_id, $ops_number)
 	{	
 		if(!$this->customer_manager_model->has_customer_logged_in())
 		{
@@ -23,26 +23,20 @@ class CE_Payment extends Burge_CMF_Controller {
 		}
 
 		$order_id=(int)$order_id;
-		$orders=$this->order_manager_model->get_orders(array(
-			"order_id" 			=> $order_id
-			,"customer_id"		=> $this->customer_manager_model->get_logged_customer_id()
-			,"status"			=> 'submitted'
-		));
-
-		if(!$orders)
+		$order=$this->order_manager_model->get_order_payment_section($order_id, $ops_number);
+		if(!$order || ($order['ops_status'] !== 'not_payed'))
 			return redirect(get_link("home_url"));
 		
-		$order=$orders[0];
 		$this->data['order_id']=$order_id;
 
 		$this->data['message']=get_message();
-		$this->data['order_total']=$order['order_total'];
+		$this->data['order_total']=$order['ops_total'];
 
 		$payment_methods=$this->payment_manager_model->get_payment_methods();
 		$payments=array();
 		foreach($payment_methods as $p)
 		{
-			$link=get_customer_payment_method_link($order_id, $p);
+			$link=get_customer_payment_method_link($order_id, $ops_number, $p);
 			$name=$this->lang->line("payment_method_".$p);
 			$image_link="/payment/".$p.".png";
 			if(file_exists(IMAGES_DIR.$image_link))
@@ -58,7 +52,7 @@ class CE_Payment extends Burge_CMF_Controller {
 		}
 		$this->data['payment_methods']=$payments;
 
-		$this->data['lang_pages']=get_lang_pages(get_customer_payment_order_link($order_id,TRUE));
+		$this->data['lang_pages']=get_lang_pages(get_customer_order_section_payment_link($order_id, $ops_number, TRUE));
 		$this->data['header_title']=
 			$this->lang->line("payment").$this->lang->line("header_separator")
 			.$this->lang->line("order")." ".$order_id.$this->lang->line("header_separator")

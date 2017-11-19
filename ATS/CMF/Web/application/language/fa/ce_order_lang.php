@@ -30,6 +30,10 @@ $lang['order_status_processing']='در حال آماده سازی';
 $lang['order_status_completed']='کامل';
 $lang['order_status_canceled']='لغو';
 
+$lang['order_payment_section_status_not_payed']="آماده پرداخت";
+$lang['order_payment_section_status_payed']="پرداخت شده";
+$lang['order_payment_section_status_verified']="تایید شده";
+
 $lang['order']="سفارش";
 $lang['order_first_message_content']="
 	مشتری گرامی
@@ -37,3 +41,6 @@ $lang['order_first_message_content']="
 	هر گونه مطلب در مورد این سفارش،‌ از طریق این پیام به شما ارسال می شود.
 	همچنین از این طریق شما می توانید پیام های خود را برای ما ارسال نمایید.
 ";
+$lang['level']="نوبت";
+$lang['payments']="پرداخت‌ها";
+

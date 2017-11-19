@@ -43,3 +43,7 @@ $lang['payment_comment_date']="تاریخ واریز";
 $lang['payment_comment_name']="نام واریز کننده";
 $lang['payment_comment_bank']="بانک مبدا";
 $lang['payment_comment_reference_code']="کد رهگیری";
+
+$lang['order_payment_section_status_not_payed']="آماده پرداخت";
+$lang['order_payment_section_status_payed']="پرداخت شده";
+$lang['order_payment_section_status_verified']="تایید شده";

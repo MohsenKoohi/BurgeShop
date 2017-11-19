@@ -30,6 +30,10 @@ $lang['order_status_processing']='Procsessing';
 $lang['order_status_completed']='Completed';
 $lang['order_status_canceled']='Canceled';
 
+$lang['order_payment_section_status_not_payed']="Ready to Pay";
+$lang['order_payment_section_status_payed']="Payed";
+$lang['order_payment_section_status_verified']="Verified";
+
 $lang['order']="Order";
 $lang['order_first_message_content']="
 	Dear Customer,

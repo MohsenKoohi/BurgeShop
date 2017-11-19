@@ -145,9 +145,9 @@ $route["order/submit"]								= "CE_Order/submit";
 $route["order"]										= "CE_Order/orders_list";
 $route["order/(\d+)"]								= "CE_Order/details/$1";
 
-$route[ADMIN_URL_FOLDER."/payment"]				= "AE_Payment";
-$route["payment/pay/(\d+)"]						= "CE_Payment/pay/$1";
-$route["payment/pay/(\d+)/bank_transfer"]		= "payment/CE_Bank_Transfer/index/$1";
+$route[ADMIN_URL_FOLDER."/payment"]						= "AE_Payment";
+$route["payment/pay/(\d+)/(\d+)"]						= "CE_Payment/pay/$1/$2";
+$route["payment/pay/(\d+)/(\d+)/bank_transfer"]		= "payment/CE_Bank_Transfer/index/$1/$2";
 
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 

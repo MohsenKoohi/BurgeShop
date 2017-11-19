@@ -32,17 +32,33 @@
 							echo $$status_name;
 						else
 							echo $order_info['order_status'];
-
-						if(isset($payment_link))
-						{
 					?>
-							<a target="_blank" 
-								href="<?php echo $payment_link; ?>"
-								class="button button-primary sub-primary four columns anti-float "
-							>
-								{pay_text}
-							</a>
-					<?php 
+				</div>
+			</div>
+
+			<div class="row even-odd-bg dont-magnify">
+				<div class="three columns">{payments_text}</div>
+				<div class="eight	columns">
+					<?php
+						foreach($order_payment_sections as $ops)
+						{
+							$status_name='order_payment_section_status_'.$ops['ops_status'].'_text';
+							if(isset($$status_name))
+								$ops_status=$$status_name;
+							else
+								$ops_status=$ops['ops_status'];
+
+							echo "<div class='row'>";
+							echo "<div class='three columns'>$level_text ".$ops['ops_number']."</div>";
+							echo "<div class='three columns'><span class='date'>".price_separator($ops['ops_total'])."</span>$currency_text</div>";
+							echo "<div class='three columns'>$ops_status</div>";
+							if($ops['ops_status'] == 'not_payed')
+							{
+								$link=get_customer_order_section_payment_link($order_id, $ops['ops_number']);
+								echo "<div class='three columns'><a class='full-width button button-primary sub-primary' href='$link'>$pay_text</a></div>";
+							}
+
+
 						}
 					?>
 				</div>

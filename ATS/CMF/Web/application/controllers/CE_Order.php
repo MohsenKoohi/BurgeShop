@@ -140,8 +140,7 @@ class CE_Order extends Burge_CMF_Controller {
 		$order_info=$orders_info[0];
 		
 		$this->data['order_info']=$order_info;
-		if('submitted' == $order_info['order_status'])
-			$this->data['payment_link']=get_customer_payment_order_link($order_id);
+		$this->data['order_payment_sections']=$this->payment_manager_model->get_order_payment_sections_for_customer($order_id);
 
 		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
 
