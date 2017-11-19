@@ -59,8 +59,9 @@ $lang['last_message']="Last message time";
 $lang['delete_order']="Delete Order";
 $lang['are_you_sure_to_delete_this_order']="Deletion can't be reversed. Are you sure to delete this order?";
 
-$lang['']="";
-$lang['']="";
+$lang['section']="Section";
+$lang['amount']="Amount";
+$lang['new_payment_section_status_saved_successfully']="Status of payment section saved successfully.";
 $lang['']="";
 $lang['']="";
 $lang['']="";

@@ -113,11 +113,11 @@ class Payment_manager_model extends CI_Model
 					,"payment_date"			=> $r['payment_date']
 					,"payment_status"			=> $r['payment_status']
 					,"payment_reference"		=> $r['payment_reference']
-					,'history'		=> array()
+					,'payment_history'		=> array()
 				);
 			}
 
-			$sections[sizeof($sections)-1]['payments'][sizeof($sections[sizeof($sections)-1]['payments'])-1]['history'][]=array(
+			$sections[sizeof($sections)-1]['payments'][sizeof($sections[sizeof($sections)-1]['payments'])-1]['payment_history'][]=array(
 				"id"			=> $r['ph_id']
 				,"date"		=> $r['ph_date']
 				,"status"	=> $r['ph_status']

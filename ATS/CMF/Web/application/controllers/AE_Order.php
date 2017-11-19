@@ -117,6 +117,9 @@ class AE_Order extends Burge_CMF_Controller {
 
 		if($this->input->post())
 		{
+			if($this->input->post('post_type')==="set_ops_status")
+				return $this->set_ops_status($order_id);
+
 			if($this->input->post('post_type')==="delete_order")
 				return $this->delete_order();
 		}
@@ -125,7 +128,7 @@ class AE_Order extends Burge_CMF_Controller {
 		
 		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
 		
-		$this->data['payments_info']=$this->payment_manager_model->get_order_payment_sections($order_id);
+		$this->data['order_payment_sections']=$this->payment_manager_model->get_order_payment_sections($order_id);
 
 		$this->data['order_history']=$this->order_manager_model->get_order_history($order_id);
 		
@@ -160,6 +163,18 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->send_admin_output("order_details");
 
 		return;
+	}
+
+	private function set_ops_status($order_id)
+	{
+		$ops_number=$this->input->post("ops_number");
+		$status=$this->input->post("ops_status");
+
+		$this->order_manager_model->set_order_payment_section_status($order_id, $ops_number, $status);
+
+		set_message($this->lang->line("new_payment_section_status_saved_successfully"));
+
+		return redirect(get_admin_order_details_link($order_id)."#payment");
 	}
 
 	private function delete_order()

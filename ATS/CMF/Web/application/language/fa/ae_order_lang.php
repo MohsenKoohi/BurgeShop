@@ -59,7 +59,10 @@ $lang['reply']="ثبت پاسخ";
 $lang['last_message']="زمان آخرین پیام";
 $lang['delete_order']="حذف سفارش";
 $lang['are_you_sure_to_delete_this_order']="حذف سفارش غیرقابل بازگشت است. این سفارش حذف شود؟";
-$lang['']="";
+
+$lang['section']="نوبت پرداخت";
+$lang['amount']="مبلغ";
+$lang['new_payment_section_status_saved_successfully']="وضعیت نوبت پرداخت با موفقیت ثبت شد.";
 $lang['']="";
 $lang['']="";
 $lang['']="";
