@@ -164,7 +164,32 @@
 
 			<div class="tab" id="payment" style="">
 
-				<?php foreach($order_payment_sections as $ops){ ?>
+				<div class='row separated' >
+					<h3>{add_new_payment_section_text}</h3>
+
+					<?php echo form_open("");?>
+						<input type='hidden' name='post_type' value='add_new_payment_section'/>
+
+						<div class='row even-odd-bg dont-magnify'>
+							<div class='three columns'>{amount_text} ({currency_text})</div>
+							<div class='four columns'>
+								<input type='text' class='full-width ltr' name='amount'/>
+							</div>
+						</div>
+
+						<br><br>
+
+						<div class='row'>
+							<div class='four columns'>&nbsp;</div>
+							<div class='four columns'>
+								<input type='submit' class='full-width button button-primary' value="{submit_text}"/>
+							</div>
+						</div>
+					<?php echo form_close();?>
+				</div>
+				<br><br>
+
+				<?php foreach($order_payment_sections as $ops){?>
 					<div class='row separated' >
 						<h3>{section_text} <?php echo $ops['ops_number'];?></h3>
 						<div class='row even-odd-bg dont-magnify'>
@@ -206,72 +231,75 @@
 								</div>
 							<?php echo form_close();?>
 						</div>
-
-						<div class='row' style='max-height:400px;overflow:auto'>
-							<br>
-							<?php foreach($ops['payments'] as $p){?>
-								<div class='row even-odd-bg dont-magnify'>
-									<div class='row'>
-										<div class='three columns'>
-											<label>{payment_method_text}</label>
-											<span><?php echo ${"payment_method_".$p['payment_method']."_text"};?></span>
-										</div>
-
-										<div class='two columns'>
-											<label>{payment_id_text}</label>
-											<span><?php echo $p['payment_id'];?></span>
-										</div>
-
-										<div class='two columns'>
-											<label>{date_text}</label>
-											<span class='date'><?php echo $p['payment_date'];?></span>
-										</div>
-
-										<div class='two columns'>
-											<label>{status_text}</label>
-											<span><?php echo ${'payment_status_'.$p['payment_status'].'_text'};?></span>
-										</div>
-
-										<div class='three columns'>
-											<label>{reference_code_text}</label>
-											<span class='date'><?php echo $p['payment_reference'];?></span>
-										</div>
-									</div>
-
-									<?php if($p['payment_history']){ ?>
-										<br><br>
-										<b style='font-size:1.2em'>{history_text}</b>
-										<?php foreach($p['payment_history'] as $h){ ?>
-											<div class='row separated'>
-												<div class='three columns'>
-													<label>{date_text}</label>
-													<span class='date' title='<?php echo $h['id'];?>'>
-														<?php echo $h['date'];?>
-													</span>
-												</div>
-
-												<div class='three columns'>
-													<label>{status_text}</label>
-													<span><?php echo ${'payment_status_'.$h['status'].'_text'};?></span>
-												</div>
-
-												<div class='six columns'>
-													<label>{comment_text}</label>
-													<span class=''>
-														<?php 
-															if($h['comment'])
-																foreach($h['comment'] as $index => $value)
-																	echo ${'payment_comment_'.$index."_text"}.": ".$value."<br>";
-														?>
-													</span>
-												</div>
+						<?php if($ops['payments']){ ?>
+							<div class='row' style='max-height:400px;overflow:auto;padding:5px 10px;'>
+								<br>
+								<?php foreach($ops['payments'] as $p){?>
+									<div class='row even-odd-bg dont-magnify'>
+										<div class='row'>
+											<div class='three columns'>
+												<label>{payment_method_text}</label>
+												<span><?php echo ${"payment_method_".$p['payment_method']."_text"};?></span>
 											</div>
+
+											<div class='two columns'>
+												<label>{payment_id_text}</label>
+												<span><?php echo $p['payment_id'];?></span>
+											</div>
+
+											<div class='two columns'>
+												<label>{date_text}</label>
+												<span class='date'><?php echo $p['payment_date'];?></span>
+											</div>
+
+											<div class='two columns'>
+												<label>{status_text}</label>
+												<span><?php echo ${'payment_status_'.$p['payment_status'].'_text'};?></span>
+											</div>
+
+											<div class='three columns'>
+												<label>{reference_code_text}</label>
+												<span class='date'><?php echo $p['payment_reference'];?></span>
+											</div>
+										</div>
+
+										<?php if($p['payment_history']){ ?>
+											<br><br>
+											<b style='font-size:1.2em'>{history_text}</b>
+											<?php foreach($p['payment_history'] as $h){ ?>
+												<div class='row separated'>
+													<div class='three columns'>
+														<label>{date_text}</label>
+														<span class='date' title='<?php echo $h['id'];?>'>
+															<?php echo $h['date'];?>
+														</span>
+													</div>
+
+													<div class='three columns'>
+														<label>{status_text}</label>
+														<span><?php echo ${'payment_status_'.$h['status'].'_text'};?></span>
+													</div>
+
+													<div class='six columns'>
+														<label>{comment_text}</label>
+														<span class=''>
+															<?php 
+																if($h['comment'])
+																	foreach($h['comment'] as $index => $value)
+																		echo ${'payment_comment_'.$index."_text"}.": ".$value."<br>";
+															?>
+														</span>
+													</div>
+												</div>
+											<?php } ?>
 										<?php } ?>
-									<?php } ?>
-								</div>
-							<?php } ?>
-						</div>
+									</div>
+									<br><br>
+								<?php } ?>
+							</div>
+						<?php } ?>
 					</div>
+					<br><br>
 				<?php } ?>
 			</div>
 

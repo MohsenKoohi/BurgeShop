@@ -103,6 +103,9 @@ class Payment_manager_model extends CI_Model
 				);
 			}
 
+			if(!$r['payment_id'])
+				continue;
+			
 			if($r['payment_id'] != $last_payment_id)
 			{
 				$last_payment_id=$r['payment_id'];

@@ -72,7 +72,7 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 
 		set_message($this->lang->line("your_payment_info_saved_successfully_and_will_be_verified_soon"));
 
-		//redirect(get_link("customer_order"));
+		redirect(get_link("customer_order"));
 		
 		return;
 	}

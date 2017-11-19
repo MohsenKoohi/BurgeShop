@@ -57,7 +57,7 @@
 								$link=get_customer_order_section_payment_link($order_id, $ops['ops_number']);
 								echo "<div class='three columns'><a class='full-width button button-primary sub-primary' href='$link'>$pay_text</a></div>";
 							}
-
+							echo "</div><br>";
 
 						}
 					?>

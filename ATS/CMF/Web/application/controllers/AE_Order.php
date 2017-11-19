@@ -120,6 +120,9 @@ class AE_Order extends Burge_CMF_Controller {
 			if($this->input->post('post_type')==="set_ops_status")
 				return $this->set_ops_status($order_id);
 
+			if($this->input->post('post_type')==="add_new_payment_section")
+				return $this->add_new_payment_section($order_id);
+
 			if($this->input->post('post_type')==="delete_order")
 				return $this->delete_order();
 		}
@@ -163,6 +166,17 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->send_admin_output("order_details");
 
 		return;
+	}	
+
+	private function add_new_payment_section($order_id)
+	{
+		$amount=$this->input->post("amount");
+
+		$this->order_manager_model->add_order_payment_section($order_id, $amount);
+
+		set_message($this->lang->line("new_payment_section_added_successfully"));
+
+		return redirect(get_admin_order_details_link($order_id)."#payment");
 	}
 
 	private function set_ops_status($order_id)
