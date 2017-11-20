@@ -34,7 +34,7 @@ class CE_Order extends Burge_CMF_Controller {
 
 		set_message($this->lang->line("your_order_submitted_successfully"));
 
-		redirect(get_customer_payment_order_link($order_id));
+		redirect(get_customer_order_section_payment_link($order_id,1));
 		
 		return;
 	}

@@ -50,7 +50,7 @@
 
 							echo "<div class='row'>";
 							echo "<div class='three columns'>$level_text ".$ops['ops_number']."</div>";
-							echo "<div class='three columns'><span class='date'>".price_separator($ops['ops_total'])."</span>$currency_text</div>";
+							echo "<div class='three columns'><span class='date'>".price_separator($ops['ops_total'])."</span> $currency_text</div>";
 							echo "<div class='three columns'>$ops_status</div>";
 							if($ops['ops_status'] == 'not_payed')
 							{
