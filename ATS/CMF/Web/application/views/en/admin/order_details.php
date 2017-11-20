@@ -88,7 +88,7 @@
 		<div class="tab-container">
 			<ul class="tabs">
 				<li><a href="#products">{products_text}</a></li>
-				<li><a href="#payment">{payment_text}</a></li>
+				<li><a href="#payment">{payments_text}</a></li>
 				<li><a href="#status">{status_text}</a></li>
 				<li><a href="#message">{message_text}</a></li>
 			</ul>
