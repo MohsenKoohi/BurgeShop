@@ -383,6 +383,9 @@ class Order_manager_model extends CI_Model
 
 	public function add_order_payment_section($order_id, $total)
 	{
+		if(!$total)
+			return 0;
+
 		$ops_number=1;
 		$count_row=$this->db
 			->select("COUNT(*) as count")
@@ -405,7 +408,7 @@ class Order_manager_model extends CI_Model
 		$customer_id=$this->get_customer_of_order($order_id);
 		$this->customer_manager_model->add_customer_log($customer_id,'ORDER_PAYMENT_SECTION_ADD',$props);
 
-		return;
+		return $count_row;
 	}
 
 	public function set_order_payment_section_status($order_id, $ops_number, $status)

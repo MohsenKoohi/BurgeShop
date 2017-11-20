@@ -171,6 +171,7 @@ class AE_Order extends Burge_CMF_Controller {
 	private function add_new_payment_section($order_id)
 	{
 		$amount=$this->input->post("amount");
+		persian_normalize($amount);
 
 		$this->order_manager_model->add_order_payment_section($order_id, $amount);
 
