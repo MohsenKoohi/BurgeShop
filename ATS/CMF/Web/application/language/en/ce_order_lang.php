@@ -41,3 +41,5 @@ $lang['order_first_message_content']="
 	We send all notes about this order through this ticket.
 	You may also send us if you have any question or request.
 ";
+$lang['level']="Level";
+$lang['payments']="Payments";
