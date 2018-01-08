@@ -47,11 +47,15 @@ class AE_Coupon extends Burge_CMF_Controller {
 			return $this->delete_coupon($coupon_id);
 
 		$this->data['coupon_id']=$coupon_id;
-		list($coupon_info, $coupon_customers)=$this->coupon_manager_model->get_coupon($coupon_id);
+		
+		list($coupon_info, $coupon_customers, $orders)=$this->coupon_manager_model->get_coupon($coupon_id);
 		$this->data['info']=$coupon_info;
 		$this->data['customers']=$coupon_customers;
+		$this->data['orders']=$orders;
 
 		$this->data['message']=get_message();
+		$this->data['customers_search_url']=get_link("admin_customer_search");
+
 		$this->data['lang_pages']=get_lang_pages(get_admin_coupon_details_link($coupon_id,TRUE));
 		$this->data['header_title']=$this->lang->line("coupon")." ".$coupon_id.$this->lang->line("header_separator").$this->lang->line("coupons");
 
@@ -60,111 +64,34 @@ class AE_Coupon extends Burge_CMF_Controller {
 		return;
 	}
 
-	private function delete_message($coupon_id)
+	private function delete_coupon($coupon_id)
 	{
-		$res=$this->contact_us_manager_model->delete($message_id);
+		$res=$this->coupon_manager_model->delete($coupon_id);
 
-		if($res)
-			set_message($this->lang->line('message_deleted_successfully'));
-		else
-			set_message($this->lang->line('message_cant_be_deleted'));
-
-		return redirect(get_link("admin_contact_us"));
+		set_message($this->lang->line('coupon_deleted_successfully'));
+		
+		return redirect(get_link("admin_coupon"));
 	}
 
-	private function send_response($message_id)
+	private function edit_coupon($coupon_id)
 	{
-		$subject=$this->input->post("subject");
-		$response=trim($this->input->post("content"));
-		$lang=$this->input->post("language");
+		$props=array();
+		$props_names=array("name","code","min_price","expiration_date","value","value_type","usage_number");
+		foreach($props_names as $n)
+			$props['coupon_'.$n]=$this->input->post($n);
 
-		$info=$this->contact_us_manager_model->get_messages(
-			array("message_id"=>$message_id)
-		);
-		if(isset($info[0]))
-			$info=$info[0];
-		else
-			return redirect(get_link("admin_contact_us"));
+		persian_normalize($props);
+		$props['coupon_active']=(int)($this->input->post("active")=="on");
 
-		if($response)
-		{
-			$response=persian_normalize($response);
-			$subject=persian_normalize($subject);
+		$customers=-1;
+		if($this->input->post("customers_type") != -1)
+			$customers=implode(",", $this->input->post("customer_ids"));
+		$props['coupon_customers']=$customers;
 
-			$this->lang->load('ae_general_lang',$lang);
-			$this->lang->load('email_lang',$lang);	
+		$this->coupon_manager_model->set_props($coupon_id, $props);
 
-			$subject.=$this->lang->line("header_separator").$info['cu_ref_id'].$this->lang->line("header_separator").$this->lang->line("main_name");
+		set_message($this->lang->line("coupon_changed_successfully"));
 
-			$mo_response=$subject."\n".$response;
-			$this->contact_us_manager_model->set_response($message_id,$mo_response);
-			
-			$response_to=$this->lang->line("response_to")."<br>".nl2br($info['cu_message_content']);
-
-			$message=str_replace(
-				array('$content','$slogan','$response_to'),
-				array(nl2br($response),$this->lang->line("slogan"),$response_to)
-				,$this->lang->line("email_template")
-			);
-
-			burge_cmf_send_mail($info['cu_sender_email'],$subject,$message);
-
-			set_message($this->lang->line("response_sent_successfully"));
-		}
-		else
-			set_message($this->lang->line("response_content_is_empty"));
-
-		return redirect(get_admin_contact_us_message_details_link($message_id));
-	}
-
-	public function send_new()
-	{
-		if($this->input->post("post_type")==="send_message")
-		{
-			$receivers=$this->input->post("receivers");
-			$subject=$this->input->post("subject");
-			$content=nl2br($this->input->post("content"));
-			$lang=$this->input->post("language");
-
-			if($receivers && $subject && $content)
-			{
-				$receivers=preg_replace("/\s*[\n]+\s*/", ";", $receivers);
-				$receivers=explode(";", $receivers);
-				
-				$this->lang->load('ae_general_lang',$lang);
-				$this->lang->load('email_lang',$lang);	
-
-				$subject.=$this->lang->line("header_separator").$this->lang->line("main_name");
-
-				$message=str_replace(
-					array('$content','$slogan','$response_to'),
-					array($content,$this->lang->line("slogan"),"")
-					,$this->lang->line("email_template")
-				);
-
-				$this->log_manager_model->info("CONTACT_US_NEW_MESSAGE",array(
-					"receivers"=>implode(";", $receivers)
-					,"subject"=>$subject
-					,"message"=>$content
-				));
-
-				burge_cmf_send_mail($receivers,$subject,$message);
-
-				set_message($this->lang->line("message_sent_successfully"));
-				redirect(get_link("admin_contact_us_send_new"));
-				return;
-			}
-			else
-				set_message($this->lang->line("fill_all_fields"));
-
-			
-		}
-
-		$this->data['message']=get_message();
-		$this->data['lang_pages']=get_lang_pages(get_link("admin_contact_us_send_new",TRUE));
-		$this->data['header_title']=$this->lang->line("send_new_message");
-
-		$this->send_admin_output("contact_us_send_new");
-
+		return redirect(get_admin_coupon_details_link($coupon_id));
 	}
 }

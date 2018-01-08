@@ -134,7 +134,8 @@ class Log_manager_model extends CI_Model
 
 		,"COUPON_ADD"				=> 2171
 		,"COUPON_CHANGE"			=> 2172
-		,"COUPON_USE"				=> 2173
+		,"COUPON_DELETE"			=> 2173
+		,"COUPON_USE"				=> 2174
 	);
 
 	public function __construct()

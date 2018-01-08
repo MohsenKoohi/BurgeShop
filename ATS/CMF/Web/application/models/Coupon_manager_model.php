@@ -16,13 +16,13 @@ class Coupon_manager_model extends CI_Model {
 				`coupon_id` int AUTO_INCREMENT 
 				,`coupon_name` char(63) DEFAULT NULL
 				,`coupon_code` char(63) DEFAULT NULL
-				,`coupon_acitve` BIT(1) DEFAULT 0
+				,`coupon_ative` BIT(1) DEFAULT 0
 				,`coupon_min_price` INT DEFAULT 0
 				,`coupon_expiration_date` char(20) DEFAULT NULL
 				,`coupon_value` INT DEFAULT 0
 				,`coupon_value_type` enum('percent','currency') DEFAULT 'currency'
 				,`coupon_customers` varchar(1024) DEFAULT NULL
-				,`coupon_usage_number` INT DEFAULT 0
+				,`coupon_usage_number` INT DEFAULT 1
 				,PRIMARY KEY (coupon_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -56,6 +56,7 @@ class Coupon_manager_model extends CI_Model {
 		return $this->db
 			->select($this->coupon_table_name.".*")
 			->from($this->coupon_table_name)
+			->order_by("coupon_id DESC")
 			->get()
 			->result_array();
 	}
@@ -78,7 +79,20 @@ class Coupon_manager_model extends CI_Model {
 			));
 		}
 
-		return array($info, $customers);
+		$orders=array();
+		if($info)
+		{
+			$orders=$this->db
+				->select($this->coupon_payment_table_name.".* , customer_name, customer_id")
+				->from($this->coupon_payment_table_name)
+				->join("order","cp_order_id = order_id")
+				->join("customer", "order_customer_id = customer_id")
+				->where("cp_coupon_id",$coupon_id)
+				->get()
+				->result_array();
+		}
+
+		return array($info, $customers, $orders);
 	}
 
 	public function add_new()
@@ -98,36 +112,28 @@ class Coupon_manager_model extends CI_Model {
 		return $coupon_id;
 	}
 
-	public function set_response($message_id,$response)
+	public function set_props($coupon_id, $props)
 	{
-		$props=array(
-			'cu_response'=>$response
-			,'cu_response_time'=>get_current_time()
-			,'cu_response_user_id'=>$this->user_manager_model->get_user_info()->get_id()
-		);
+		$this->db
+			->set($props)
+			->where("coupon_id", $coupon_id)
+			->update($this->coupon_table_name);
 
-		$this->db->set($props);
-		$this->db->where("cu_id",$message_id);
-		$this->db->limit(1);
-		$this->db->update($this->contact_us_table_name);
+		$props['coupon_id']=$coupon_id;
+		$this->log_manager_model->info("COUPON_CHANGE",$props);
 
-		$props['cu_id']=$message_id;
-
-		$this->log_manager_model->info("CONTACT_US_REPLY",$props);
-		
-		return ;
+		return;
 	}
 
-	public function delete($message_id)
-	{
-		//return FALSE;
-
+	public function delete($coupon_id)
+	{		
 		$this->db
-			->where("cu_id",$message_id)
-			->delete($this->contact_us_table_name);
+			->where("coupon_id", $coupon_id)
+			->delete($this->coupon_table_name);
 
-		$this->log_manager_model->info("CONTACT_US_DELETE",array("cu_id"=>$message_id));
+		$props=array("coupon_id"=>$coupon_id);
+		$this->log_manager_model->info("COUPON_DELETE",$props);
 
-		return TRUE;
+		return;
 	}
 }
