@@ -116,6 +116,10 @@ function &get_links($just_common=FALSE)
 			,'admin_payment'										=> ADMIN_SURL_LANG."/payment"
 			,'customer_payment_order_section_format'		=> HOME_URL_LANG."/payment/pay/order_id/ops_number"
 			,'customer_payment_method_format'				=> HOME_URL_LANG."/payment/pay/order_id/ops_number/payment_method"
+
+			,'admin_coupon'						=> ADMIN_SURL_LANG."/coupon"
+			,'admin_coupon_details_format'	=> ADMIN_SURL_LANG."/coupon/coupon_id"
+			
 		));
 	}
 
@@ -123,6 +127,12 @@ function &get_links($just_common=FALSE)
 		return $LINKS_COMMON;
 	
 	return $LINKS;
+}
+
+function get_admin_coupon_details_link($coupon_id, $do_not_set_lang=FALSE)
+{
+	$format_link=get_link("admin_coupon_details_format",$do_not_set_lang);
+	return str_replace("coupon_id", $coupon_id, $format_link);
 }
 
 function get_customer_order_details_link($order_id, $do_not_set_lang=FALSE)

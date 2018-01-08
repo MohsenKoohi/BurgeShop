@@ -132,7 +132,9 @@ class Log_manager_model extends CI_Model
 		,"ORDER_PAYMENT_SECTION_ADD"				=> 2131
 		,"ORDER_PAYMENT_SECTION_STATUS_CHANGE"	=> 2132
 
-
+		,"COUPON_ADD"				=> 2171
+		,"COUPON_CHANGE"			=> 2172
+		,"COUPON_USE"				=> 2173
 	);
 
 	public function __construct()

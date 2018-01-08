@@ -30,3 +30,4 @@ $lang['product_category']='Products Category';
 $lang['cart']="Cart";
 $lang['order']="Orders";
 $lang['payment']="Payments";
+$lang['coupon']="Coupons";

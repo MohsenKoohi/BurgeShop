@@ -128,6 +128,8 @@ class AE_Setup extends CI_Controller {
 
 		$this->module_manager_model->install_module("payment_manager");
 
+		$this->module_manager_model->install_module("coupon_manager");
+
 		$this->module_manager_model->install_module("news_letter_manager");
 
 		$default_lang=array_keys(LANGUAGES())[0];

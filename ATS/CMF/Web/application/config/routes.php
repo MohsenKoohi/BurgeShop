@@ -149,6 +149,9 @@ $route[ADMIN_URL_FOLDER."/payment"]						= "AE_Payment";
 $route["payment/pay/(\d+)/(\d+)"]						= "CE_Payment/pay/$1/$2";
 $route["payment/pay/(\d+)/(\d+)/bank_transfer"]		= "payment/CE_Bank_Transfer/index/$1/$2";
 
+$route[ADMIN_URL_FOLDER."/coupon"]										= "AE_Coupon/index";
+$route[ADMIN_URL_FOLDER."/coupon/(\d+)"]								= "AE_Coupon/details/$1";
+
 $route['(((:any)/)*:any)']="CE_Home/redirect";
 
 /* End of file routes.php */

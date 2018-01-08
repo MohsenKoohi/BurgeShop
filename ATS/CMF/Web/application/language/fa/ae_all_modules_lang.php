@@ -30,3 +30,4 @@ $lang['product_category']='دسته‌های محصولات';
 $lang['cart']="سبد خرید";
 $lang['order']="سفارش‌ها";
 $lang['payment']="پرداخت‌ها";
+$lang['coupon']="کوپن‌ها";
