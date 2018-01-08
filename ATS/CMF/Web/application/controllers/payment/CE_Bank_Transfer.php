@@ -99,7 +99,6 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 			$this->coupon_manager_model->add_coupon_payment($coupon_id, $order_id, $payment_id, $coupon_value);
 		}
 
-
 		$this->payment_manager_model->add_history($payment_id, 'end_payment', $comment, $props['reference_code']);
 
 		set_message($this->lang->line("your_payment_info_saved_successfully_and_will_be_verified_soon"));

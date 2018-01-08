@@ -138,6 +138,17 @@ class Coupon_manager_model extends CI_Model {
 		return;
 	}
 
+	public function get_order_coupons($order_id)
+	{
+		return $this->db
+			->select("*")
+			->from($this->coupon_payment_table_name)
+			->join($this->coupon_table_name, "cp_coupon_id = coupon_id", "LEFT")
+			->where("cp_order_id", $order_id)
+			->get()
+			->result_array();
+	}
+
 	public function add_coupon_payment($coupon_id, $order_id, $payment_id, $coupon_value)
 	{
 		$props=array(

@@ -144,6 +144,9 @@ class CE_Order extends Burge_CMF_Controller {
 
 		$this->data['cart_info']=$this->cart_manager_model->get_order_cart($order_id, $this->selected_lang);
 
+		$this->load->model("coupon_manager_model");
+		$this->data['coupons']=$this->coupon_manager_model->get_order_coupons($order_id);
+
 		$this->lang->load('ce_message',$this->selected_lang);
 		$message_id=$order_info['order_message_id'];
 		$this->data['message_id']=$message_id;

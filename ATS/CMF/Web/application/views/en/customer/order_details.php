@@ -63,6 +63,23 @@
 					?>
 				</div>
 			</div>
+
+			<?php if($coupons){ ?>
+				<div class="row even-odd-bg dont-magnify">
+					<div class="three columns">{coupons_text}</div>
+					<div class="eight	columns">
+						<?php
+							foreach($coupons as $c)
+							{
+								echo "<div class='row'>";
+								echo "<div class='three columns'>$coupon_text ".$c['coupon_code']."</div>";
+								echo "<div class='six columns'><span class='date'>-".price_separator($c['cp_value'])."</span> $currency_text</div>";
+								echo "</div><br>";
+							}
+						?>
+					</div>
+				</div>
+			<?php } ?>
 		</div>
 
 		<br><br>

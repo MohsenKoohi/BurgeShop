@@ -26,6 +26,20 @@
 				</div>
 			</div>
 			<div class="row even-odd-bg dont-magnify" >
+				<div class="three columns">{coupons_text}</div>
+				<div class="eight columns">
+					<?php
+						foreach($coupons as $c)
+						{
+							echo "<div class='row'>";
+							echo "<div class='three columns'>$coupon_text ".$c['coupon_code']."</div>";
+							echo "<div class='six columns'><span class='date'>-".price_separator($c['cp_value'])."</span> $currency_text</div>";
+							echo "</div><br>";
+						}
+					?>
+				</div>
+			</div>
+			<div class="row even-odd-bg dont-magnify" >
 				<div class="three columns">{status_text}</div>
 				<div class="eight columns">
 					<b>
@@ -261,6 +275,17 @@
 												<label>{reference_code_text}</label>
 												<span class='date'><?php echo $p['payment_reference'];?></span>
 											</div>
+
+											<?php
+												if(isset($payments_coupons[$p['payment_id']]))
+												{
+													$c=$payments_coupons[$p['payment_id']];
+													echo "<div class='six columns' style='margin-top:20px'>
+																<label>$coupon_text ".$c['coupon_code']."</label>
+																<div><span class='date'>-".price_separator($c['cp_value'])."</span> $currency_text</div>
+															</div>";
+												}
+											?>
 										</div>
 
 										<?php if($p['payment_history']){ ?>

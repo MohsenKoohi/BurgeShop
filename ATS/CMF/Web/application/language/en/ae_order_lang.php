@@ -65,6 +65,10 @@ $lang['new_payment_section_status_saved_successfully']="Status of payment sectio
 $lang['add_new_payment_section']="Add New Payment Section";
 $lang['new_payment_section_added_successfully']="The new payment section added successfully.";
 $lang['payments']="Payments";
+
+$lang['coupons']="Coupons";
+$lang['coupon']="Coupon";
+
 $lang['']="";
 $lang['']="";
 $lang['']="";

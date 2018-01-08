@@ -255,6 +255,34 @@
 					</div>
 
 					<div class="tab" id="orders">
+						<?php foreach($orders as $o){ ?>
+							<div class='row even-odd-bg'>
+								<div class='three columns'>
+									<label>{customer_text}</label>
+									<span>
+										<a href="<?php echo get_admin_customer_details_link($o['customer_id']);?>">
+											<?php echo $o['customer_name'];?>
+										</a>
+									</span>
+								</div>
+								<div class='three columns'>
+									<label>{order_text}</label>
+									<span>
+										<a href="<?php echo get_admin_order_details_link($o['cp_order_id']);?>">
+											<?php echo $o['cp_order_id'];?>
+										</a>
+									</span>
+								</div>
+								<div class='three columns'>
+									<label>{payment_id_text}</label>
+									<span><?php echo $o['cp_payment_id'];?></span>
+								</div>
+								<div class='three columns'>
+									<label>{value_text}</label>
+									<span><?php echo price_separator($o['cp_value'])." ".$currency_text;?></span>
+								</div>
+							</div>
+						<?php } ?>
 					</div>
 				</div>
 

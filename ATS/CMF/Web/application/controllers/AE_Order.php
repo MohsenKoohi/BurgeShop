@@ -134,6 +134,13 @@ class AE_Order extends Burge_CMF_Controller {
 		$this->data['order_payment_sections']=$this->payment_manager_model->get_order_payment_sections($order_id);
 
 		$this->data['order_history']=$this->order_manager_model->get_order_history($order_id);
+
+		$this->load->model("coupon_manager_model");
+		$this->data['coupons']=$this->coupon_manager_model->get_order_coupons($order_id);
+		$payments_coupons=array();
+		foreach($this->data['coupons'] as $c)	
+			$payments_coupons[$c['cp_payment_id']]=$c;
+		$this->data['payments_coupons']=$payments_coupons;
 		
 		$this->data['order_statuses']=$this->order_manager_model->get_order_statuses();
 		$this->data['order_payment_section_statuses']=$this->order_manager_model->get_order_payment_section_statuses();
