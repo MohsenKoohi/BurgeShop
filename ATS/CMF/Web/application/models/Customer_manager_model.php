@@ -954,4 +954,10 @@ class Customer_manager_model extends CI_Model
 
 		return;
 	}
+
+	public function get_countries()
+	{
+		$this->load->helper("countries");
+		return get_all_countries();
+	}
 }
