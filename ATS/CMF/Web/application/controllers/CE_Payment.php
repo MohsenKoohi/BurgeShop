@@ -26,11 +26,36 @@ class CE_Payment extends Burge_CMF_Controller {
 		$order=$this->order_manager_model->get_order_payment_section($order_id, $ops_number);
 		if(!$order || ($order['ops_status'] !== 'not_payed'))
 			return redirect(get_link("home_url"));
+
+		$this->data['message']=get_message();
+
+		if($this->input->post("post_type") == 'coupon')
+		{
+			$code=$this->input->post("code");
+			$customer_id= $this->customer_manager_model->get_logged_customer_id();
+			
+			$this->load->model("coupon_manager_model");
+			
+			$coupon=$this->coupon_manager_model->check_customer_coupon($customer_id, $order['ops_total'], $code);
+			if($coupon)
+			{
+				$this->session->set_userdata("coupon_code", $code);
+				$this->session->set_userdata("coupon_value", $coupon['coupon_value']);
+			}
+			else
+			{
+				$this->session->unset_userdata("coupon_code");
+				$this->data['message']=$this->lang->line("coupon_is_not_valid");
+			}
+		}
+		else
+			$this->session->unset_userdata("coupon_code");
 		
 		$this->data['order_id']=$order_id;
 
-		$this->data['message']=get_message();
 		$this->data['order_total']=$order['ops_total'];
+		if($this->session->userdata("coupon_code"))
+			$this->data['coupon_discount']=$this->session->userdata("coupon_value");
 
 		$payment_methods=$this->payment_manager_model->get_payment_methods();
 		$payments=array();
