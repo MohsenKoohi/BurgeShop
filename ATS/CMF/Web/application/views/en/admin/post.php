@@ -334,11 +334,16 @@
 					<?php foreach($comments_info as $c){ ?>
 						<div class='row even-odd-bg'>
 							<input type='hidden' name='pcom_ids[]' value='<?php echo $c['pcom_id'];?>'/>
+
+							<div class='three columns'>
+								<label>{post_text}</label>
+								<?php echo $c['pcom_post_id']." - ".$c['pc_title'];?>
+							</div>
+
 							<div class='three columns'>
 								<label>{name_text}</label>
 								<?php echo $c['pcom_visitor_name'];?>
 							</div>
-
 
 							<div class='three columns'>
 								<label>IP</label>
@@ -348,6 +353,12 @@
 							<div class='three columns'>
 								<label>{date_text}</label>
 								<span class='date'><?php echo $c['pcom_date'];?></span>
+							</div>
+
+							<div class='six columns'>
+								<label>{comment_text}</label>
+								<textarea class='full-width' name='pcom_text[<?php echo $c['pcom_id'];?>]' rows=4
+									><?php echo $c['pcom_text'];?></textarea>
 							</div>
 
 							<div class='three columns'>
@@ -364,12 +375,6 @@
 										}
 									?>
 								</select>
-							</div>
-
-							<div class='nine columns'>
-								<label>{comment_text}</label>
-								<textarea class='full-width' name='pcom_text[<?php echo $c['pcom_id'];?>]' rows=4
-									><?php echo $c['pcom_text'];?></textarea>
 							</div>
 
 							<div class='three columns'>
