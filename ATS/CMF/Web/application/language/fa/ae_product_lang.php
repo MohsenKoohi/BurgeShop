@@ -42,3 +42,18 @@ $lang['end_date']="زمان پایان";
 
 $lang['customer_link']="صفحه مشتری";
 $lang['price']="قیمت";
+$lang['product_comment_status_not_verified']="تایید نشده";
+$lang['product_comment_status_verified']="تایید شده";
+$lang['product_comment_status_waiting']="منتظر تایید";
+$lang['name']="نام";
+$lang['status']="وضعیت";
+$lang['comment']="دیدگاه";
+$lang['comments']="دیدگاه‌ها";
+
+$lang['active_products']="محصولات فعال";
+$lang['total_products']="محصولات";
+$lang['not_verified_comments']="دیدگاه‌های تاییدنشده";
+$lang['verified_comments']="دیدگاه‌های تاییدشده ";
+$lang['waiting_comments']="دیدگاه‌های جدید";
+$lang['product']="محصول";
+$lang['writer_name']="نام نویسنده";

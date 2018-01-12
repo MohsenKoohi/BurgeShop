@@ -133,6 +133,7 @@
 									</a>
 								</li>
 							<?php } ?>
+							<li><a href="#comments">{comments_text}</a></li>
 						</ul>
 						<script type="text/javascript">
 							$(function(){
@@ -335,6 +336,59 @@
 								</div>
 							</div>
 						<?php } ?>
+
+						<div class="tab" id="comments">
+							<div class="container">
+								<?php foreach($comments as $c){ ?>
+									<div class='row even-odd-bg'>
+										<input type='hidden' name='pcom_ids[]' value='<?php echo $c['pcom_id'];?>'/>
+										<div class='three columns'>
+											<label>{name_text}</label>
+											<?php echo $c['pcom_visitor_name'];?>
+										</div>
+
+										<div class='three columns'>
+											<label>IP</label>
+											<span class='lang-en ip'><?php echo $c['pcom_visitor_ip'];?></span>
+										</div>
+
+										<div class='three columns'>
+											<label>{date_text}</label>
+											<span class='date'><?php echo $c['pcom_date'];?></span>
+										</div>
+
+										<div class='three columns'>
+											<label>{status_text}</label>
+											<select class='full-width' name="pcom_status[<?php echo $c['pcom_id'];?>]">
+												<?php 
+													foreach($comments_statuses as $s)
+													{
+														$sel='';
+														if($s == $c['pcom_status'])
+															$sel='selected';
+														$sname=${"product_comment_status_".$s."_text"};
+														echo "<option value='$s' $sel>$sname</option>";
+													}
+												?>
+											</select>
+										</div>
+
+										<div class='nine columns'>
+											<label>{comment_text}</label>
+											<textarea class='full-width' name='pcom_text[<?php echo $c['pcom_id'];?>]' rows=4
+												><?php echo $c['pcom_text'];?></textarea>
+										</div>
+
+										<div class='three columns'>
+											<label>{delete_text}</label>
+											<input type='checkbox' class='graphical' name="deleted_comment_ids[]" 
+												value='<?php echo $c['pcom_id'];?>' />
+										</div>
+
+									</div>
+								<?php } ?>
+							</div>
+						</div>
 					</div>
 					<br><br>
 					<div class="row">
@@ -554,6 +608,45 @@
 
 						$("form#delete").submit();
 					}
+
+					$(".ip").mouseover(function(event)
+					{
+						var el=$(event.target);
+						if(el.data('ip-queried'))
+							return;
+
+						el.data('ip-queried',1);
+
+						if(location.protocol == 'https:')
+						{
+							url="http://ipapi.co/"+el.html()+"/json";
+							$.get(url,function(info)
+							{
+								var newVal=el.html()
+									+"<br>"+info.country_name
+									+"<br>"+info.region+"-"+info.city
+									+"<br>"+info.org
+									+"<br>"+info.asn;
+								el.html(newVal);
+							});
+						}
+						else
+						{
+							url="http://ip-api.com/json/"+el.html();
+							$.get(url,function(info)
+							{
+								var newVal=el.html()
+									+"<br>"+info.country
+									+"<br>"+info.regionName+"-"+info.city
+									+"<br>"+info.org
+									+"<br>"+info.as;
+								el.html(newVal);
+							});
+						}
+
+						return;
+					});
+
 					</script>
 				</div>
 			</div>

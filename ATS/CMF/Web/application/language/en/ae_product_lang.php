@@ -43,3 +43,20 @@ $lang['end_date']="End Time";
 
 $lang['customer_link']="Customer Link";
 $lang['price']="Price";
+
+$lang['product_comment_status_not_verified']="Not verified";
+$lang['product_comment_status_verified']="Verified";
+$lang['product_comment_status_waiting']="Waiting";
+$lang['name']="Name";
+$lang['status']="Status";
+$lang['comment']="Comment";
+$lang['comments']="Comments";
+
+$lang['active_products']="Active Products";
+$lang['total_products']="Total Products";
+$lang['not_verified_comments']="Not Verified Comments";
+$lang['verified_comments']="Verified Comments";
+$lang['waiting_comments']="New Comments";
+$lang['product']="Product";
+$lang['writer_name']="Writer's Name";
+$lang['']="";

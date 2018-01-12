@@ -1,4 +1,3 @@
-
 <ul class="dash-ul six columns" style="padding:10px">
 	<li>{active_posts_text}: {active}</li>
 	<li>{total_posts_text}: {total}</li>

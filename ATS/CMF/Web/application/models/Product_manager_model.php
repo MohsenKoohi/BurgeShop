@@ -4,11 +4,16 @@ class Product_manager_model extends CI_Model
 	private $product_table_name="product";
 	private $product_content_table_name="product_content";
 	private $product_to_category_table_name="product_to_category";
+	private $product_comment_table_name="product_comment";
+
 	private $product_writable_props=array(
 		"product_price","product_date","product_active","product_allow_comment"
 	);
 	private $product_content_writable_props=array(
 		"pc_active","pc_image","pc_keywords","pc_description","pc_title","pc_content","pc_gallery"
+	);
+	private $product_comment_statuses=array(
+		"waiting","not_verified","verified"
 	);
 
 	public function __construct()
@@ -59,10 +64,29 @@ class Product_manager_model extends CI_Model
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
 
+		$product_comment_table=$this->db->dbprefix($this->product_comment_table_name); 
+		$statuses=$this->product_comment_statuses;
+		$default_status=$statuses[0];
+		$this->db->query(
+			"CREATE TABLE IF NOT EXISTS $product_comment_table (
+				`pcom_id` INT AUTO_INCREMENT
+				,`pcom_product_id` INT
+				,`pcom_visitor_name` CHAR(63)
+				,`pcom_visitor_ip` CHAR(15)
+				,`pcom_date` CHAR(20)
+				,`pcom_text` VARCHAR(1023)
+				,`pcom_status` ENUM ('".implode("','", $statuses)."') DEFAULT '$default_status'
+				,PRIMARY KEY (pcom_id)	
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
+		);
+
 		$this->load->model("module_manager_model");
 
 		$this->module_manager_model->add_module("product","product_manager");
 		$this->module_manager_model->add_module_names_from_lang_file("product");
+
+		$this->load->model("constant_manager_model");
+		$this->constant_manager_model->set("show_product_comment_after_verification",0);
 		
 		return;
 	}
@@ -90,11 +114,15 @@ class Product_manager_model extends CI_Model
 	private function get_statistics()
 	{
 		$tb=$this->db->dbprefix($this->product_table_name);
+		$ctb=$this->db->dbprefix($this->product_comment_table_name);
 
 		return $this->db->query("
 			SELECT 
-				(SELECT COUNT(*) FROM $tb) as total, 
-				(SELECT COUNT(*) FROM $tb WHERE product_active) as active
+				(SELECT COUNT(*) FROM $tb) as total
+				,(SELECT COUNT(*) FROM $tb WHERE product_active) as active
+				,(SELECT COUNT(*) FROM $ctb WHERE pcom_status = 'verified') as verified_comments
+				,(SELECT COUNT(*) FROM $ctb WHERE pcom_status = 'not_verified') as not_verified_comments
+				,(SELECT COUNT(*) FROM $ctb WHERE pcom_status = 'waiting') as waiting_comments
 			")->row_array();
 	}
 
@@ -371,5 +399,139 @@ class Product_manager_model extends CI_Model
 
 		return;
 
+	}
+
+	public function get_comments_statuses()
+	{
+		return $this->product_comment_statuses;
+	}
+
+	public function get_comments($filter)
+	{
+		$this->db->from($this->product_comment_table_name);
+		$this->db->join($this->product_table_name,"product_id = pcom_product_id","left");
+		$this->db->join($this->product_content_table_name,"pcom_product_id = pc_product_id AND pc_lang_id = '".$this->selected_lang."' ","left");
+		
+		$this->set_comments_query_filter($filter);
+
+		$results=$this->db->get();
+
+		$rows=$results->result_array();
+		
+		return $rows;
+	}
+
+	public function get_total_comments($filter)
+	{
+		$this->db->select("COUNT( DISTINCT pcom_id ) as count");
+		$this->db->from($this->product_comment_table_name);
+		$this->db->join($this->product_table_name,"product_id = pcom_product_id","left");
+		$this->db->join($this->product_content_table_name,"pcom_product_id = pc_product_id AND pc_lang_id = '".$this->selected_lang."' ","left");
+		
+		$this->set_comments_query_filter($filter);
+		
+		$row=$this->db->get()->row_array();
+
+		return $row['count'];
+	}
+
+	private function set_comments_query_filter($filter)
+	{
+		if(isset($filter['comment_product']))
+		{
+			if((int)$filter['comment_product'])
+				$this->db->where("pcom_product_id",(int)$filter['comment_product']);
+			elseif(is_string($filter['comment_product']))
+			{
+				if(strpos($filter['comment_product'], ",")!==FALSE)
+					$this->db->where_in("pcom_product_id", explode(",", $filter['comment_product']));				
+				else
+				{
+					$title=trim($filter['comment_product']);
+					$title="%".str_replace(" ","%",$title)."%";
+					$this->db->where("( `pc_title` LIKE '$title')");
+				}
+			}
+		}
+
+		if(isset($filter['comment_writer_name']))
+		{
+			$name=trim($filter['comment_writer_name']);
+			$name="%".str_replace(" ","%",$name)."%";
+			$this->db->where("( `pcom_visitor_name` LIKE '$name')");
+		}
+
+		if(isset($filter['comment_status']))
+			$this->db->where("pcom_status", $filter['comment_status']);
+
+		if(isset($filter['comment_ip']))
+		{
+			$ip=trim($filter['comment_ip']);
+			$ip="%".str_replace(" ","%",$ip)."%";
+			$this->db->where("( `pcom_visitor_ip` LIKE '$ip')");
+		}
+
+		if(isset($filter['comment_date_le']))
+			$this->db->where("pcom_date <=",str_replace("/","-",$filter['comment_date_le']));
+
+		if(isset($filter['comment_date_ge']))
+			$this->db->where("pcom_date >=",str_replace("/","-",$filter['comment_date_ge']));
+
+		if(isset($filter['start']))
+			$this->db->limit($filter['count'],$filter['start']);
+
+		return;
+	}
+
+	public function show_product_comment_after_verification()
+	{
+		$this->load->model("constant_manager_model");
+		return $this->constant_manager_model->get("show_product_comment_after_verification");
+	}
+
+	public function add_comment($product_id, $in_props)
+	{
+		$props=array(
+			"pcom_product_id"				=> $product_id
+			,"pcom_visitor_name"		=> $in_props['name']
+			,"pcom_visitor_ip"		=> $in_props['ip']
+			,"pcom_text"				=> $in_props['text']
+			,"pcom_date"				=> get_current_time()
+		);
+
+		$this->db->insert($this->product_comment_table_name, $props);
+
+		$pcom_id=$this->db->insert_id();
+
+		$props['pcom_id']=$pcom_id;
+		$this->log_manager_model->info("product_COMMENT_ADD", $props);
+
+		return $pcom_id;
+	}
+
+	public function update_comments($comment_updates, $deleted_comment_ids)
+	{
+		if($comment_updates)		
+		{
+			$this->db
+				->update_batch($this->product_comment_table_name, $comment_updates, "pcom_id");
+
+			foreach($comment_updates as $c)
+				$this->log_manager_model->info("product_COMMENT_CHANGE", $c);
+		}
+
+		if($deleted_comment_ids)
+		{
+			$this->db
+				->where_in("pcom_id",$deleted_comment_ids)
+				->delete($this->product_comment_table_name);
+
+			$props=array(
+				"pcom_ids"		=> implode(",", $deleted_comment_ids)
+			);
+			$this->log_manager_model->info("product_COMMENT_DELETE", $props);
+		}
+
+		return;
 	}
 }

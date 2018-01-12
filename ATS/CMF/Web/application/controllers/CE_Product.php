@@ -23,6 +23,10 @@ class CE_Product extends Burge_CMF_Controller {
 		if(!$product_info)
 			redirect(get_link("home_url"));
 
+		if($product_info['product_allow_comment'])
+			if($this->input->post("post_type") == 'add_comment')
+				return $this->add_comment($product_id, $product_info);
+
 		$this->data['product_gallery']=$product_info['pc_gallery']['images'];
 
 		$cat_ids=explode(',',$product_info['categories']);
@@ -50,10 +54,27 @@ class CE_Product extends Burge_CMF_Controller {
 				$this->data['page_main_image']=get_link("product_gallery_url").'/'.$img['image'];
 				$this->data['product_info']['pc_image']=$this->data['page_main_image'];
 			}
+
+		if($product_info['product_allow_comment'])
+		{
+			$comments=$this->product_manager_model->get_comments(array("comment_product"=>$product_id));
+			if($this->product_manager_model->show_product_comment_after_verification())
+			{
+				foreach($comments as $index => $comment)
+					if($comment['pcom_status'] != 'verified')
+						unset($comments[$index]);
+			}
+			else
+				foreach($comments as $index => $comment)
+					if($comment['pcom_status'] == 'not_verified')
+						unset($comments[$index]);
+
+			$this->data['comments']=$comments;
+		}
 			
 		$this->data['message']=get_message();
 
-		$this->data['lang_pages']=get_lang_pages(get_customer_product_details_link($product_id,"",$product_info['product_date'],TRUE));
+		$this->data['lang_pages']=get_lang_pages(get_customer_product_details_link($product_id,"",TRUE));
 		
 		$this->data['header_title']=$product_info['pc_title'].$this->lang->line("header_separator").$this->data['header_title'];
 		$this->data['header_meta_description']=$product_info['pc_description'];
@@ -86,5 +107,30 @@ class CE_Product extends Burge_CMF_Controller {
 
 		set_message("<a href='".get_link("customer_cart")."'>".$this->lang->line("product_added_successfully_to_your_cart")."</a>");
 		return redirect($this->data['page_link']);
+	}
+
+	private function add_comment($product_id, $product_info)
+	{
+		$page_link=get_customer_product_details_link($product_id,$product_info['pc_title']);
+
+		$text=trim($this->input->post("text"));
+		$name=trim($this->input->post("name"));
+		if(!$text || !$name)
+		{
+			set_message($this->lang->line("please_fill_all_fields"));
+			return redirect($page_link);
+		}
+
+		$ip=$this->input->ip_address();
+
+		$this->product_manager_model->add_comment($product_id, array(
+			"name"		=> $name
+			,"text"		=> $text
+			,"ip"			=> $ip
+		));
+
+		set_message($this->lang->line("your_comment_submitted_successfully"));
+		
+		return redirect($page_link);
 	}
 }

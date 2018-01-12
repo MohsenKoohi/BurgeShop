@@ -16,13 +16,23 @@ class AE_Product extends Burge_CMF_Controller {
 		if($this->input->post("product_type")==="add_product")
 			return $this->add_product();
 
+		if($this->input->post("post_type")==="edit_comments")
+		{
+		 	$this->edit_comments();
+		 	set_message($this->lang->line("changes_saved_successfully"));
+			return redirect(get_link("admin_product")."#comments");
+		}
+
 		$this->set_products_info();
+		$this->set_comments_info();
 
 		//we may have some messages that our product has been deleted successfully.
 		$this->data['message']=get_message();
 
 		$this->load->model("product_category_manager_model");
 		$this->data['categories']=$this->product_category_manager_model->get_all();
+
+		$this->data['comments_statuses']=$this->product_manager_model->get_comments_statuses();
 
 		$this->data['raw_page_url']=get_link("admin_product");
 		$this->data['lang_pages']=get_lang_pages(get_link("admin_product",TRUE));
@@ -31,6 +41,92 @@ class AE_Product extends Burge_CMF_Controller {
 		$this->send_admin_output("product");
 
 		return;	 
+	}
+
+	private function set_comments_info()
+	{
+		$filters=array();
+
+		$this->initialize_comments_filters($filters);
+
+		$total=$this->product_manager_model->get_total_comments($filters);
+		if($total)
+		{
+			$per_page=20;
+			$page=1;
+			if($this->input->get("page"))
+				$page=(int)$this->input->get("page");
+
+			$start=($page-1)*$per_page;
+
+			$filters['group_by']="product_id";
+			$filters['start']=$start;
+			$filters['count']=$per_page;
+			
+			$this->data['comments_info']=$this->product_manager_model->get_comments($filters);
+			
+			$end=$start+sizeof($this->data['comments_info'])-1;
+
+			unset($filters['start']);
+			unset($filters['count']);
+			unset($filters['group_by']);
+
+			$this->data['comments_current_page']=$page;
+			$this->data['comments_total_pages']=ceil($total/$per_page);
+			$this->data['comments_total']=$total;
+			$this->data['comments_start']=$start+1;
+			$this->data['comments_end']=$end+1;		
+		}
+		else
+		{
+			$this->data['comments_info']=array();
+			$this->data['comments_current_page']=0;
+			$this->data['comments_total_pages']=0;
+			$this->data['comments_total']=$total;
+			$this->data['comments_start']=0;
+			$this->data['comments_end']=0;
+		}
+			
+		$this->data['comments_filter']=$filters;
+
+		return;
+	}
+
+	private function initialize_comments_filters(&$filters)
+	{
+		if($this->input->get("comment_product"))
+			$filters['comment_product']=$this->input->get("comment_product");
+
+		if($this->input->get("comment_writer_name"))
+			$filters['comment_writer_name']=$this->input->get("comment_writer_name");
+
+		if($this->input->get("comment_status"))
+			$filters['comment_status']=$this->input->get("comment_status");
+
+		if($this->input->get("comment_ip"))
+			$filters['comment_ip']=$this->input->get("comment_ip");
+
+		if($this->input->get("comment_date_le"))
+		{	
+			$le=$this->input->get("comment_date_le");
+			if(sizeof(explode(" ",$le))==1)
+				$le.=" 23:59:59";
+
+			$filters['comment_date_le']=$le;
+		}
+
+		if($this->input->get("comment_date_ge"))
+		{
+			$ge=$this->input->get("comment_date_ge");
+			if(sizeof(explode(" ",$ge))==1)
+				$ge.=" 00:00:00";
+
+			$filters['comment_date_ge']=$ge;
+		}
+
+		persian_normalize($filters);
+
+		return;
 	}	
 
 	private function set_products_info()
@@ -146,6 +242,9 @@ class AE_Product extends Burge_CMF_Controller {
 				,"product_title"=>$this->data['product_contents'][$this->selected_lang]['pc_title']
 			);
 			$this->data['customer_link']=get_customer_product_details_link($product_id,$product_title);
+
+			$this->data['comments']=$this->product_manager_model->get_comments(array("comment_post"=>$product_id));
+			$this->data['comments_statuses']=$this->product_manager_model->get_comments_statuses();
 		}
 		else
 		{
@@ -229,11 +328,37 @@ class AE_Product extends Burge_CMF_Controller {
 
 
 		$this->product_manager_model->set_product_props($product_id,$product_props,$product_content_props);
+
+		$this->edit_comments();
 		
 		set_message($this->lang->line("changes_saved_successfully"));
 
 		redirect(get_admin_product_details_link($product_id));
 
+		return;
+	}
+
+	private function edit_comments()
+	{
+		$comment_updates=array();
+		$deleted_comment_ids=$this->input->post("deleted_comment_ids");
+		$texts=$this->input->post("pcom_text");
+		$statuses=$this->input->post("pcom_status");
+		foreach($this->input->post("pcom_ids") as $pcom_id)
+		{
+
+			if($deleted_comment_ids && in_array($pcom_id, $deleted_comment_ids))
+				continue;
+
+			$comment_updates[]=array(
+				"pcom_id"			=> $pcom_id
+				,"pcom_status"		=> $statuses[$pcom_id]
+				,"pcom_text"		=> $texts[$pcom_id]
+			);
+		}
+
+		$this->product_manager_model->update_comments($comment_updates, $deleted_comment_ids);
+			
 		return;
 	}
 

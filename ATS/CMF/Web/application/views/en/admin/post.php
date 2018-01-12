@@ -384,7 +384,48 @@
 					<div class="row">
 						<div class="four columns">&nbsp;</div>
 						<input type="submit" class="button-primary four columns" value="{submit_text}"/>
-					</div>				
+					</div>			
+
+					<script type="text/javascript">
+						$(".ip").mouseover(function(event)
+						{
+							var el=$(event.target);
+							if(el.data('ip-queried'))
+								return;
+
+							el.data('ip-queried',1);
+
+							if(location.protocol == 'https:')
+							{
+								url="http://ipapi.co/"+el.html()+"/json";
+								$.get(url,function(info)
+								{
+									var newVal=el.html()
+										+"<br>"+info.country_name
+										+"<br>"+info.region+"-"+info.city
+										+"<br>"+info.org
+										+"<br>"+info.asn;
+									el.html(newVal);
+								});
+							}
+							else
+							{
+								url="http://ip-api.com/json/"+el.html();
+								$.get(url,function(info)
+								{
+									var newVal=el.html()
+										+"<br>"+info.country
+										+"<br>"+info.regionName+"-"+info.city
+										+"<br>"+info.org
+										+"<br>"+info.as;
+									el.html(newVal);
+								});
+							}
+
+							return;
+						});
+
+					</script>	
 				<?php echo form_close();?>
 
 				</div>
