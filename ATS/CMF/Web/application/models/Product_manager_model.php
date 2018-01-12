@@ -509,7 +509,7 @@ class Product_manager_model extends CI_Model
 		$pcom_id=$this->db->insert_id();
 
 		$props['pcom_id']=$pcom_id;
-		$this->log_manager_model->info("product_COMMENT_ADD", $props);
+		$this->log_manager_model->info("PRODUCT_COMMENT_ADD", $props);
 
 		return $pcom_id;
 	}
@@ -522,7 +522,7 @@ class Product_manager_model extends CI_Model
 				->update_batch($this->product_comment_table_name, $comment_updates, "pcom_id");
 
 			foreach($comment_updates as $c)
-				$this->log_manager_model->info("product_COMMENT_CHANGE", $c);
+				$this->log_manager_model->info("PRODUCT_COMMENT_CHANGE", $c);
 		}
 
 		if($deleted_comment_ids)
@@ -534,7 +534,7 @@ class Product_manager_model extends CI_Model
 			$props=array(
 				"pcom_ids"		=> implode(",", $deleted_comment_ids)
 			);
-			$this->log_manager_model->info("product_COMMENT_DELETE", $props);
+			$this->log_manager_model->info("PRODUCT_COMMENT_DELETE", $props);
 		}
 
 		return;
