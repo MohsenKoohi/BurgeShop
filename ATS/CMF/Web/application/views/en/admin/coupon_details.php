@@ -114,11 +114,11 @@
 								<div class="eight columns">
 									<select type='text' class='full-width' name='value_type'>
 										<option value='currency'
-											 '<?php if($info['coupon_value_type']=='currnecy') echo 'selected';?>'
+											 <?php if($info['coupon_value_type']=='currnecy') echo 'selected';?>
 										>{currency_text}</option>
 
 										<option value='percent'
-											 '<?php if($info['coupon_value_type']=='percent') echo 'selected';?>'
+											 <?php if($info['coupon_value_type']=='percent') echo 'selected';?>
 										>{percent_text}</option>
 									</select>
 								</div>
