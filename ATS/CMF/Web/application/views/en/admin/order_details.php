@@ -311,7 +311,12 @@
 															<?php 
 																if($h['comment'])
 																	foreach($h['comment'] as $index => $value)
-																		echo ${'payment_comment_'.$index."_text"}.": ".$value."<br>";
+																	{
+																		if(isset(${'payment_comment_'.$index."_text"}))
+																			echo ${'payment_comment_'.$index."_text"}.": ".$value."<br>";
+																		else
+																			echo $index.": ".$value."<br>";
+																	}
 															?>
 														</span>
 													</div>
