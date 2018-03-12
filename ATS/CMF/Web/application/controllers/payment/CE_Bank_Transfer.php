@@ -129,7 +129,10 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 
 		$comment=$props;
 
-		$this->order_manager_model->set_order_payment_section_status($order_id, $ops_number, 'payed');
+		if($order_id)
+		{
+			$this->order_manager_model->set_order_payment_section_status($order_id, $ops_number, 'payed');
+		}
 
 		if($this->session->userdata("payment_".$payment_id."_coupon_id"))
 		{
