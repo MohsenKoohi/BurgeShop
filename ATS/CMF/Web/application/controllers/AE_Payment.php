@@ -83,7 +83,7 @@ class AE_Payment extends Burge_CMF_Controller {
 	{
 		$filter=array();
 
-		$pfnames=array("payment_id","order_id", "method","start_date","end_date","name");
+		$pfnames=array("payment_id","order_id", "method","start_date","end_date","name","description");
 		foreach($pfnames as $pfname)
 		{
 			if($this->input->get($pfname))

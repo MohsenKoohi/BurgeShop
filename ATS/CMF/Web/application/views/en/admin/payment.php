@@ -43,6 +43,11 @@
 				<div class="three columns half-col-margin ">
 					<label>{customer_name_text}</label>
 					<input type="text" name="name" class="full-width" />
+				</div>
+
+				<div class="three columns">
+					<label>{description_text}</label>
+					<input type="text" name="description" class="full-width" />
 				</div>			
 			</div>
 			<div clas="row">
@@ -151,34 +156,36 @@
 					<label>{payment_id_text}</label>
 					<span class=''><?php echo $p['payment_id'];?></span>
 				</div>
+				<?php if($p['payment_order_id']){ ?>
+					<div class="two columns">
+						<label>{order_id_text}</label>
+						<span class=""><?php echo $p['payment_order_id'];?></span>
+					</div>
+					<div class="two columns">
+						<label>{order_section_text}</label>
+						<span class=""><?php echo $p['payment_ops_number'];?></span>
+					</div>
+					<div class="two columns">
+						<label>{customer_name_text}</label>
+						<span >
+							<a href="<?php echo get_admin_customer_details_link($p['customer_id']);?>" target="_blank">
+								<?php 
+									echo $p['customer_name']."<br>";
+									if($p['customer_name'] !== $p['customer_email']) 
+										echo $p['customer_email'];
+								?>
+							</a>
+						</span>
+					</div>		
+				<?php }?>
 				<div class="two columns">
-					<label>{order_id_text}</label>
-					<span class=""><?php echo $p['payment_order_id'];?></span>
-				</div>
-				<div class="two columns">
-					<label>{order_section_text}</label>
-					<span class=""><?php echo $p['payment_ops_number'];?></span>
-				</div>
-				<div class="three columns">
 					<label>{date_text}</label>
 					<span class='date'><?php echo $p['payment_date'];?></span>
 				</div>
-				<div class="three columns">
+				<div class="two columns">
 					<label>{method_text}</label>
 					<span class='date'><?php echo ${'payment_method_'.$p['payment_method'].'_text'};?></span>
-				</div>
-				<div class="two columns">
-					<label>{customer_name_text}</label>
-					<span >
-						<a href="<?php echo get_admin_customer_details_link($p['customer_id']);?>" target="_blank">
-							<?php 
-								echo $p['customer_name']."<br>";
-								if($p['customer_name'] !== $p['customer_email']) 
-									echo $p['customer_email'];
-							?>
-						</a>
-					</span>
-				</div>				
+				</div>		
 				<div class="two columns">
 					<label>{total_text}</label>
 					<span><?php echo price_separator($p['payment_total'])." ".$currency_text;?></span>
@@ -195,17 +202,24 @@
 						<?php echo $p['payment_reference'];?>
 					</span>
 				</div>
-				<div class="two columns">
-					<span>
-						<label>&nbsp;</label>
-						<a target="_blank" 
-							href="<?php echo get_admin_order_details_link($p['payment_order_id']).'#payment'; ?>"
-							class="button button-primary sub-primary full-width"
-						>
-							{view_text}
-						</a>
-					</span>
-				</div>
+				<?php if($p['payment_order_id']){ ?>
+					<div class="two columns">
+						<span>
+							<label>&nbsp;</label>
+							<a target="_blank" 
+								href="<?php echo get_admin_order_details_link($p['payment_order_id']).'#payment'; ?>"
+								class="button button-primary sub-primary full-width"
+							>
+								{view_text}
+							</a>
+						</span>
+					</div>
+				<?php }else{?>
+					<div class="six columns">
+						<label>{guest_description_text}</label>
+						<span class=""><?php echo nl2br($p['payment_guest_description']);?></span>
+					</div>
+				<?php }?>
 			</div>
 		<?php
 				 } 

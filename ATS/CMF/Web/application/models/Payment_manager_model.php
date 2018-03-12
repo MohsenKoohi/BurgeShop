@@ -280,6 +280,9 @@ class Payment_manager_model extends CI_Model
 		if(isset($filter['name']))
 			$this->db->where("customer_name LIKE '%".str_replace(' ', '%', $filter['name'])."%'");
 
+		if(isset($filter['description']))
+			$this->db->where("payment_guest_description LIKE '%".str_replace(' ', '%', $filter['description'])."%'");
+
 		if(isset($filter['order_by']))
 			$this->db->order_by($filter['order_by']);
 
