@@ -76,7 +76,9 @@ $lang['coupon_is_not_valid']='Coupon is not valid.';
 $lang['coupon_discount']='Coupon';
 $lang['to_be_payed']='To be payed';
 $lang['coupons']='Coupons';
-$lang['']='';
+$lang['mobile']='Mobile';
+$lang['email']='Email';
+
 $lang['']='';
 $lang['']='';
 $lang['']='';

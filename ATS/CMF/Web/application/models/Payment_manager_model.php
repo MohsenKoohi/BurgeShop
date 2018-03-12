@@ -28,6 +28,7 @@ class Payment_manager_model extends CI_Model
 				,`payment_date`	CHAR(19)
 				,`payment_status` VARCHAR(63)
 				,`payment_reference` VARCHAR(63)
+				,`payment_guest_description` VARCHAR(1023) DEFAULT NULL
 				,PRIMARY KEY (payment_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -131,14 +132,15 @@ class Payment_manager_model extends CI_Model
 		return $sections;
 	}
 	
-	public function add_payment($order_id, $ops_number, $total, $method)
+	public function add_payment($order_id, $ops_number, $total, $method, $guest_description = NULL)
 	{
 		$props=array(
-			"payment_order_id"		=> $order_id
-			,"payment_ops_number"	=> $ops_number
-			,"payment_total"			=> $total
-			,"payment_method"			=> $method
-			,"payment_date"			=> get_current_time()
+			"payment_order_id"				=> $order_id
+			,"payment_ops_number"			=> $ops_number
+			,"payment_total"					=> $total
+			,"payment_method"					=> $method
+			,"payment_date"					=> get_current_time()
+			,"payment_guest_description"	=> $guest_description
 		);
 
 		$this->db->insert($this->payment_table_name,$props);

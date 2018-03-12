@@ -154,7 +154,11 @@ $route["order/(\d+)"]								= "CE_Order/details/$1";
 
 $route[ADMIN_URL_FOLDER."/payment"]						= "AE_Payment";
 $route["payment/pay/(\d+)/(\d+)"]						= "CE_Payment/pay/$1/$2";
+$route["payment/guest/?"]									= "CE_Payment/guest/0";
+$route["payment/guest/(\d+)"]								= "CE_Payment/guest/$1";
+
 $route["payment/pay/(\d+)/(\d+)/bank_transfer"]		= "payment/CE_Bank_Transfer/index/$1/$2";
+$route["payment/guest/(\d+)/bank_transfer"]			= "payment/CE_Bank_Transfer/guest/$1";
 
 $route[ADMIN_URL_FOLDER."/coupon"]										= "AE_Coupon/index";
 $route[ADMIN_URL_FOLDER."/coupon/(\d+)"]								= "AE_Coupon/details/$1";

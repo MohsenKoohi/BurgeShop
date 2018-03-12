@@ -121,8 +121,10 @@ function &get_links($just_common=FALSE)
 			,'customer_order_details_format'		=> HOME_SURL_LANG."/order/order_id"
 			
 			,'admin_payment'										=> ADMIN_SURL_LANG."/payment"
-			,'customer_payment_order_section_format'		=> HOME_URL_LANG."/payment/pay/order_id/ops_number"
-			,'customer_payment_method_format'				=> HOME_URL_LANG."/payment/pay/order_id/ops_number/payment_method"
+			,'customer_payment_order_section_format'		=> HOME_SURL_LANG."/payment/pay/order_id/ops_number"
+			,'customer_payment_method_format'				=> HOME_SURL_LANG."/payment/pay/order_id/ops_number/payment_method"
+			,'customer_payment_guest_format'					=> HOME_SURL_LANG."/payment/guest/total"
+			,'customer_payment_guest_method_format'		=> HOME_SURL_LANG."/payment/guest/total/payment_method"
 
 			,'admin_coupon'						=> ADMIN_SURL_LANG."/coupon"
 			,'admin_coupon_details_format'	=> ADMIN_SURL_LANG."/coupon/coupon_id"
@@ -152,6 +154,24 @@ function get_admin_order_details_link($order_id, $do_not_set_lang=FALSE)
 {
 	$format_link=get_link("admin_order_details_format",$do_not_set_lang);
 	return str_replace("order_id", $order_id, $format_link);
+}
+
+function get_customer_payment_guest_method_link($total, $payment_method, $do_not_set_lang=FALSE)
+{
+	return str_replace(
+		array("total", "payment_method")
+		,array($total, $payment_method)
+		,get_link("customer_payment_guest_method_format",$do_not_set_lang)
+	);
+}
+
+function get_customer_payment_guest_link($total, $do_not_set_lang=FALSE)
+{
+	return str_replace(
+		array("total")
+		,array($total)
+		,get_link("customer_payment_guest_format",$do_not_set_lang)
+	);
 }
 
 function get_customer_payment_method_link($order_id, $ops_number, $payment_method, $do_not_set_lang=FALSE)

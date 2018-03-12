@@ -71,6 +71,47 @@ class CE_Bank_Transfer extends Burge_CMF_Controller {
 		return;
 	}
 
+	public function guest($total)
+	{	
+		$order_id=0;
+		$ops_number=0;
+
+		if($this->input->post("post_type") == 'submit_payment')
+			return $this->submit_payment($order_id, $ops_number);
+		
+		$coupon_id=0;
+		$coupon_value=0;
+		$desc="";
+		if($this->session->userdata("guest_payment_desc"))
+		{
+			$desc=$this->session->userdata("guest_payment_desc");
+			$this->session->unset_userdata("guest_payment_desc");
+		}
+		else
+			return redirect(get_customer_payment_guest_link($total));
+
+		$payment_id=$this->payment_manager_model->add_payment($order_id, $ops_number, $total, "bank_transfer",$desc);
+		if($coupon_value)
+		{
+			$this->session->set_userdata("payment_".$payment_id."_coupon_value",$coupon_value);
+			$this->session->set_userdata("payment_".$payment_id."_coupon_id",$coupon_id);
+		}
+		$this->session->set_userdata("payment_bank_transfer_payment_id",$payment_id);		
+
+		$this->data['order_id']=$order_id;
+		$this->data['message']=get_message();
+		$this->data['order_total']=$total;
+
+		$this->data['lang_pages']=get_lang_pages(get_customer_order_section_payment_link($order_id, $ops_number, TRUE));
+		$this->data['header_title']=
+			$this->lang->line("payment_method_bank_transfer").$this->lang->line("header_separator")
+			.$this->data['header_title'];
+
+		$this->send_customer_output("payment/bank_transfer");
+		
+		return;
+	}
+
 	private function submit_payment($order_id, $ops_number)
 	{
 		$payment_id=(int)$this->session->userdata("payment_bank_transfer_payment_id");				
