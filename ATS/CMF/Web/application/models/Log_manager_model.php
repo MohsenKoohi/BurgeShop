@@ -109,6 +109,7 @@ class Log_manager_model extends CI_Model
 		,"NEWS_LETTER_TEMPLATE_DELETE"	=> 1203
 		,"NEWS_LETTER_TEMPLATE_SEND"		=> 1204
 		,"NEWS_LETTER_EMAIL_ADD"			=> 1205
+		,"NEWS_LETTER_EMAIL_REMOVE"		=> 1206
 		
 		//BurgeShop
 		,"PRODUCT_ADD"					=> 2001
@@ -142,6 +143,7 @@ class Log_manager_model extends CI_Model
 		,"COUPON_CHANGE"			=> 2172
 		,"COUPON_DELETE"			=> 2173
 		,"COUPON_USE"				=> 2174
+
 	);
 
 	// 2d logging constants

@@ -101,7 +101,7 @@ function &get_links($just_common=FALSE)
 
 			,'admin_news_letter'							=> ADMIN_SURL_LANG."/news_letter"
 			,'admin_news_letter_template_format'	=> ADMIN_SURL_LANG."/news_letter/template_id"
-			,'customer_news_letter'						=> "news_letter"
+			,'customer_news_letter'						=> HOME_SURL_LANG."/news_letter"
 
 			,'admin_product'									=> ADMIN_SURL_LANG."/product"
 			,'admin_product_details_format'				=> ADMIN_SURL_LANG."/product/product_id"
@@ -129,6 +129,7 @@ function &get_links($just_common=FALSE)
 			,'admin_coupon'						=> ADMIN_SURL_LANG."/coupon"
 			,'admin_coupon_details_format'	=> ADMIN_SURL_LANG."/coupon/coupon_id"
 			
+
 		));
 	}
 

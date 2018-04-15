@@ -30,6 +30,7 @@ class News_letter_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $tbl (
 				`nle_id` INT  NOT NULL AUTO_INCREMENT
 				,`nle_email` VARCHAR(128)
+				,`nle_active` BIT(1) DEFAULT 1 
 				,PRIMARY KEY (nle_id)	
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8"
 		);
@@ -108,12 +109,33 @@ class News_letter_manager_model extends CI_Model
 	{
 		$result=$this->db->get_where($this->email_table_name,array("nle_email"=>$props['email']))->row_array();
 		if($result)
+		{
+			$this->db
+				->where(array("nle_email"=>$props['email']))
+				->set("nle_active", 1)
+				->update($this->email_table_name);
 			return;
+		}
 
-		$this->db->insert($this->email_table_name, array("nle_email"=>$props['email']));
+		$this->db->insert($this->email_table_name, array(
+			"nle_email"=>$props['email']
+			,"nle_active"	=> 1
+		));
 		$props["nle_id"]=$this->db->insert_id();
 
 		$this->log_manager_model->info("NEWS_LETTER_EMAIL_ADD",$props);
+
+		return ;
+	}
+
+	public function remove_email($props)
+	{
+		$this->db
+			->where(array("nle_email"=>$props['email']))
+			->set("nle_active", 0)
+			->update($this->email_table_name);
+
+		$this->log_manager_model->info("NEWS_LETTER_EMAIL_REMOVE",$props);
 
 		return ;
 	}
@@ -168,6 +190,13 @@ class News_letter_manager_model extends CI_Model
 		return $result['nle_email'];
 	}
 
+	public function get_email_list()
+	{
+		return $this->db
+			->get($this->email_table_name)
+			->result_array();
+	}
+
 	public function get_email_subject_and_content($customer_id, $keyword)
 	{
 		$subject="";
@@ -189,6 +218,7 @@ class News_letter_manager_model extends CI_Model
 		$this->load->model("es_manager_model");
 
 		$emails=$this->db
+			->where("nle_active",1)
 			->get($this->email_table_name)
 			->result_array();
 
