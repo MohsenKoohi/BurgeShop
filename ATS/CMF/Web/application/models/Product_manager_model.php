@@ -40,7 +40,7 @@ class Product_manager_model extends CI_Model
 			"CREATE TABLE IF NOT EXISTS $product_table (
 				`product_id` INT  NOT NULL AUTO_INCREMENT
 				,`product_price` DOUBLE NOT NULL DEFAULT 0
-				,`product_date` DATETIME  
+				,`product_date` CHAR(20)  
 				,`product_creator_uid` INT NOT NULL DEFAULT 0
 				,`product_active` TINYINT NOT NULL DEFAULT 0
 				,`product_allow_comment` TINYINT NOT NULL DEFAULT 0
